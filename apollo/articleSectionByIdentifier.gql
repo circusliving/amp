@@ -1,0 +1,6 @@
+query articleSection($identifier: String!) {
+  articleSection(filter: { identifier: { eq: $identifier } }) {
+    name
+    identifier
+  }
+}
