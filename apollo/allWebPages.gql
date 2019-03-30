@@ -1,0 +1,12 @@
+{
+  allWebPages (
+    first:500,
+    orderBy: [path_ASC]
+  ){
+    name,
+    menuName,
+    path,
+    url,
+    order
+  }
+}

@@ -1,0 +1,13 @@
+{
+  allArticles(
+    first:100,
+    filter:{
+      articleSection: { eq: "https://site-api.datocms.com/items/377818" }
+    }
+  ){
+  name,
+  img,
+  identifier,
+  articleSection
+  }
+}

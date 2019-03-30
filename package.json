@@ -1,0 +1,37 @@
+{
+  "name": "amp",
+  "version": "1.0.0",
+  "description": "Circus Living AMP Format",
+  "author": "Randy Houlahan <randy@houlahan.ca>",
+  "private": true,
+  "dependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc1",
+    "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/proxy": "^1.2.4",
+    "amp-module": "^1.0.0-beta.3",
+    "bootstrap": "4.3.1",
+    "lodash.clone": "^4.5.0",
+    "nuxt": "^2.5.1",
+
+    "vue-apollo": "^3.0.0-beta.28"
+  },
+  "scripts": {
+    "dev": "rm -rf .nuxt && DEBUG='nuxt:amp' nuxt",
+    "build": "rm -rf .nuxt && nuxt build",
+    "start": "nuxt start"
+  },
+  "devDependencies": {
+    "@nuxtjs/style-resources": "^0.1.2",
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.15.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-html": "^2.0.0",
+    "eslint-plugin-promise": "^3.4.1",
+    "eslint-plugin-standard": "^2.0.1",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "to-amp": "^1.0.0-beta.1",
+    "nuxt-purgecss": "^0.2.1"
+  }
+}

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[1],{126:function(n,o,e){"use strict";e.r(o),o.default=function(){return new Promise(function(n){n({info:"Information",docs:"Documents",cal:"Calendrier",agenda:"Ordre du jour",home:"Maison"})})}}}]);

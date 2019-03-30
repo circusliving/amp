@@ -1,0 +1,105 @@
+[{
+    "name": "Big Top/Home",
+    "source": "/"
+  },
+  {
+    "name": "Sideshows",
+    "child": [{
+        "name": "Cabinet of Curiosities",
+        "source": "/sideshows/cabinet-of-curiosities"
+      },
+      {
+        "name": "Morbid Art Galleries",
+        "source": "/sideshows/morbid-art-galleries"
+      },
+      {
+        "name": "Macabre Artists",
+        "source": "/sideshows/macabre-artists"
+      },
+      {
+        "name": "Morbid Art Events",
+        "source": "/sideshows/morbid-art-events"
+      },
+      {
+        "name": "Spook Shows and Oddities",
+        "source": "/sideshows/spook-shows-and-oddities"
+      },
+      {
+        "name": "Mysterious Monster Marvels",
+        "source": "/sideshows/mysterious-monster-marvels"
+      },
+      {
+        "name": "Magical and Mystical Experiences",
+        "source": "/sideshows/magical-mystical-experiences"
+      },
+      {
+        "name": "Ghoulish Grub",
+        "source": "/concessions/ghoulish-grub"
+      },
+      {
+        "name": "The Art of Magic",
+        "source": "/sideshows/art-of-magic"
+      },
+      {
+        "name": "Memento Mori Art",
+        "source": "/sideshows/memento-mori"
+      }
+    ]
+  },
+  {
+    "name": "After Show",
+    "child": [{
+        "name": "Art Galleries Looking for Submissions",
+        "source": "/concessions/art-galleries-looking-for-submissions"
+      },
+      {
+        "name": "Where to Sell, Showcase, or Submit your Art",
+        "source": "/concessions/artist-opportunities"
+      }
+    ]
+  },
+  {
+    "name": "Back Yard",
+    "child": [{
+        "name": "Visiting Montreal with Kids",
+        "source": "/back-yard/montreal-visit-with-kids"
+      },
+      {
+        "name": "About Circus Living",
+        "source": "/back-yard/about-circus-living"
+      },
+      {
+        "name": "About Kiarra's Finds",
+        "source": "/back-yard/kiarras-finds"
+      },
+      {
+        "name": "About A Hooligan's Odyssey",
+        "source": "/back-yard/a-hooligans-odyssey"
+      },
+      {
+        "name": "About Fringe Science for Kids",
+        "source": "/back-yard/fringe-science-for-kids"
+      },
+      {
+        "name": "Influencer Network",
+        "source": "/back-yard/tbin"
+      }
+    ]
+  },
+  {
+    "name": "Contact",
+    "child": [{
+        "name": "Work with Us",
+        "source": "/contact/work-with-us"
+      },
+      {
+        "name": "Contact Us",
+        "source": "/contact/contact-us"
+      },
+      {
+        "name": "Julius & Bain Marketing",
+        "source": "/contact/partners"
+      }
+    ]
+  }
+]
