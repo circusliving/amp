@@ -6,9 +6,9 @@ module.exports = {
     { src: '@/assets/main.scss', lang: 'scss' },
     { src: '@/assets/main.css', lang: 'css' }
   ],
-  // router: {
-  //   base: '/'
-  // },
+  router: {
+    base: '/amp/'
+  },
   /*
   ** Build configuration
   */
@@ -43,6 +43,7 @@ module.exports = {
   */
   modules: [
     // ['@nuxtjs/proxy'],
+    ['nuxt-webfontloader'],
     ['nuxt-purgecss'],
     ['@nuxtjs/apollo'],
     ['@nuxtjs/axios'],
@@ -66,5 +67,10 @@ module.exports = {
   purgeCSS: {
     mode: 'postcss',
     enabled: true
+  },
+  webfontloader: {
+    google: {
+      families: ['Roboto+Slab:300','Roboto+Condensed:700'] //Loads Lato font with weights 400 and 700
+    }
   }
 }

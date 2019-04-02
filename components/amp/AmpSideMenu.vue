@@ -10,12 +10,12 @@
         </header>
         <div >
           <div :key="node.path" v-for="node in nodes" class="amp-dropdown-child" >
-            <nuxt-link  :to="`/amp${node.path}`" > {{node.name}}<br/></nuxt-link >
+            <nuxt-link  :to="`${node.path}`" > {{node.name}}<br/></nuxt-link >
           </div>
         </div>
       </section>
     </amp-accordion>
-    <nuxt-link  :to="`/amp${path}`" v-else> {{name}} </nuxt-link >
+    <nuxt-link  :to="`${path}`" v-else> {{name}} </nuxt-link >
   </section>
 </template>
 <script>

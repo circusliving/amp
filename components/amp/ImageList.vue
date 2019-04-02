@@ -4,7 +4,7 @@
 
        <div class="item" v-for="(col,index) in buildColums" :key="index">   
           <figure class="fig" v-for="(item,index) in col" :key="index">
-            <nuxt-link  :to="`/amp/${item.collection}/${item.identifier}`">
+            <nuxt-link  :to="getPath(item)">
                 <div class="text-overlay">
                   <div class="info" >{{item.name}}</div>
                 </div>
@@ -26,10 +26,12 @@
 </template>
 
 <script>
+    import {getPath} from '~/modules/helpers'
     export default {
         name   : 'ImageList',
         props  : ['items'],
-        computed: {buildColums}
+        computed: {buildColums},
+        methods:{getPath}
     }
 
     function buildColums () {

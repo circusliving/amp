@@ -1,8 +1,8 @@
 <template>
     <div v-if="text">
         <div class="container my-3">
-            <div class="section-title text-center">
-                <h3 >{{alternateName || name}}</h3>
+            <div class="section-title text-center" v-if="altName">
+                <h2 >{{altName}}</h2>
             </div>
             <div class="row">
                 <div class="col-sm-5">
@@ -17,10 +17,8 @@
                         </amp-img>
                     </figure>
                 </div>
-                <div class="col-sm-7" v-html="text">
-                  
+                <div class="col-sm-7" v-html="text">  
                 </div>
-
             </div>
         </div>
     </div>
@@ -45,7 +43,7 @@ import ImageService from '~/modules/ImageService'
                 type:String
             }
         },
-        computed:{width,height},
+        computed:{width,height,altName},
         methods:{getSrcSet}
     }
 
@@ -60,12 +58,21 @@ import ImageService from '~/modules/ImageService'
     function getSrcSet (src, percentage){
         return ImageService.getSrcSet(src, percentage)
     }
+    function altName (){
+        if(!this.alternateName) return ''
+        if(this.name === this.alternateName)
+        return ''
+        return this.alternateName
+    }
 </script>
 
 <style scoped>
-    .section-title h3{
+    .section-title h2{
         font-weight: 700;
         margin-bottom:1em;
+        display: inline-block;
+        text-transform: uppercase;
+        font-size: 24px;
     }
     .section-title h3:after, .section-title h3:before {
         display      : inline-block;
@@ -82,5 +89,12 @@ import ImageService from '~/modules/ImageService'
     }
     .section-title h3:after {
         right: -100px;
+    }
+    .body {
+        font-family: serif;
+        font-weight: 300;
+        color: #666;
+        font-size: 18px;
+        line-height: 28px;
     }
 </style>

@@ -12,7 +12,7 @@
     "bootstrap": "4.3.1",
     "lodash.clone": "^4.5.0",
     "nuxt": "^2.5.1",
-
+    "nuxt-webfontloader": "^1.0.0",
     "vue-apollo": "^3.0.0-beta.28"
   },
   "scripts": {
@@ -30,8 +30,8 @@
     "eslint-plugin-promise": "^3.4.1",
     "eslint-plugin-standard": "^2.0.1",
     "node-sass": "^4.11.0",
+    "nuxt-purgecss": "^0.2.1",
     "sass-loader": "^7.1.0",
-    "to-amp": "^1.0.0-beta.1",
-    "nuxt-purgecss": "^0.2.1"
+    "to-amp": "^1.0.0-beta.1"
   }
 }
