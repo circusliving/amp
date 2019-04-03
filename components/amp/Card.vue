@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body text-center">
       <h3 class="c-title">
-        <nuxt-link :to="getPath" :alt="name">{{name}}</nuxt-link>
+        <nuxt-link :to="getPath" >{{name}}</nuxt-link>
       </h3>
     </div>
     <div>
