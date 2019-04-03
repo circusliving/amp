@@ -16,7 +16,7 @@
                   :height="item.imageObj.height"
                   :src="item.image"
                   :srcset="item.imageObj.srcset"
-                  >
+                >
                 </amp-img>
             </nuxt-link >
           </figure>
@@ -28,10 +28,10 @@
 <script>
     import {getPath} from '~/modules/helpers'
     export default {
-        name   : 'ImageList',
-        props  : ['items'],
+        name     : 'ImageList',
+        props    : ['items'],
         computed: {buildColums},
-        methods:{getPath}
+        methods :{getPath}
     }
 
     function buildColums () {

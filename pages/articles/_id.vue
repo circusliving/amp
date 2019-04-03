@@ -7,40 +7,45 @@
 
 <script>
   import articleByIdentifier from '~/apollo/articleByIdentifier'
-  import AmpSectionHeader from '~/components/amp/AmpSectionHeader'
-  import HeroTitle from '~/components/amp/HeroTitle'  
-  import webPageMixin   from '~/modules/webPageMixin'
+  import AmpSectionHeader    from '~/components/amp/AmpSectionHeader'
+  import HeroTitle           from '~/components/amp/HeroTitle'
+  import webPageMixin        from '~/modules/webPageMixin'
+
   export default {
-    name: 'AmpArticle',
-    layout: 'amp',
-    mixins:[webPageMixin],    
+    name      : 'AmpArticle',
+    layout    : 'amp',
+    mixins    : [webPageMixin],
     components: { AmpSectionHeader, HeroTitle },
-    async asyncData ({ app, params, error}) {
-      let article = (await app.apolloProvider.defaultClient.query({
-        query: articleByIdentifier,
-        variables: { identifier: params.id }
-      })).data.article
+    asyncData
+  }
 
-      if(article===null) 
-        return error({ statusCode: 404, message: `/amp/articles/${params.id} not found` })
- 
-      app.$ToAMP.loadHtml(article.text)
-      await app.$ToAMP.loadImages()
-      console.log('app.$ToAMP.imgAttribs',app.$ToAMP.imgAttribs)
-      let addAttrbs = await getImageAttrs(app.$axios,app.$ToAMP.imgAttribs)
-      console.log('addAttrbs',addAttrbs)
-      app.$ToAMP.convertImages(addAttrbs)
-      article.text=app.$ToAMP.toHTML()
-      // article.text = await Ampy.images(article.text)
+  async function asyncData ({ app, params, error}) {
+console.log('params.id',params.id)
+    let article = (await app.apolloProvider.defaultClient.query({
+      query: articleByIdentifier,
+      variables: { identifier: params.id } 
+    })).data.article
+console.log('article',article)//`https://www.circusliving.com/articles/${params.id}`
 
-      return {
-        article      : article,
-        name         : article.name,
-        description  : article.description || '',
-        image        : article.image || article.coverImage,
-        alternateName: article.alternateName,
-        url          : article.url
-      }
+    if(article===null) 
+      return error({ statusCode: 404, message: `/amp/articles/${params.id} not found` })
+
+    app.$ToAMP.loadHtml(article.text)
+    await app.$ToAMP.loadImages()
+console.log('app.$ToAMP.imgAttribs',app.$ToAMP.imgAttribs)
+    let addAttrbs = await getImageAttrs(app.$axios,app.$ToAMP.imgAttribs)
+console.log('addAttrbs',addAttrbs)
+    app.$ToAMP.convertImages(addAttrbs)
+    article.text=app.$ToAMP.toHTML()
+    // article.text = await Ampy.images(article.text)
+
+    return {
+      article      : article,
+      name         : article.name,
+      description  : article.description || '',
+      image        : article.image || article.coverImage,
+      alternateName: article.alternateName,
+      url          : article.url
     }
   }
 
@@ -87,8 +92,6 @@
 </script>
 
 <style scoped>
-  .article-content p{
-    padding: 0 1em 0 1em;
-  }
+  .article-content p{ padding: 0 1em 0 1em; }
 </style>
 

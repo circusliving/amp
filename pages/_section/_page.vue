@@ -20,10 +20,10 @@
   import CardList       from '~/components/amp/CardList'
 
   export default {
-    name      : 'Page',
-    layout    : 'amp',
-    mixins:[webPageMixin],
-    components: { PageBody,ImageList,HeroTitle, CardList },
+    name       : 'Page',
+    layout     : 'amp',
+    mixins     : [webPageMixin],
+    components : { PageBody,ImageList,HeroTitle, CardList },
     asyncData
   } 
 
@@ -36,19 +36,21 @@
   
     await ImageService.setDimensions(webPage.image)
     await ImageService.setDimensions(webPage.coverImage)
-    
+console.log('items',items[0])    
+console.log('items',items[1])  
+console.log('items',items[2])  
     return  {
-              items:items,
-              count:count,
-              name:webPage.name,
-              description:webPage.description,
-              page:webPage,
-              name:webPage.name,
-              description:webPage.description,
-              image: webPage.image || webPage.coverImage,
-              alternateName:webPage.alternateName,
-              url:webPage.url,
-              widget:webPage.widget
+              items        : items,
+              count        : count,
+              name         : webPage.name,
+              description  : webPage.description,
+              page         : webPage,
+              name         : webPage.name,
+              description  : webPage.description,
+              image        : webPage.image || webPage.coverImage,
+              alternateName: webPage.alternateName,
+              url          : webPage.url,
+              widget       : webPage.widget
             }
   }
 
@@ -118,8 +120,7 @@
     let collObjs    = Object.values(await queryColls(apollo, collNames, tags))
 
     // merge items from diff collections into one array
-    for (const collection of collObjs) {
-
+    for (const collection of collObjs) 
       if(!Array.isArray(collection))    //add counts
         count += collection.count
       else{                             //add items
@@ -128,7 +129,7 @@
 
         items = items.concat(collMap)
       }
-    }
+    
 
     return {items, count}
   }
