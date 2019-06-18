@@ -7,16 +7,14 @@ const variableExpansion = require      ('dotenv-expand'                         
 const AWS = require('aws-sdk')
 const {resolve} = require('path')
 variableExpansion(dotenv.config({ path:resolve(process.cwd(), '.dev.env') }))
-
+variableExpansion(dotenv.config({ path:resolve(process.cwd(), '.dev.local') }))
 const config = {
 
   options:{simulate:false},
   // Required
   params: { Bucket: process.env.AWS_BUCKET_NAME},
-   accessKeyId: 'AKIATL2LUJBOT5QOEYYL',
-   secretAccessKey: '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',
-
-//   credentials: new AWS.SharedIniFileCredentials({ profile: 'circus-static-deploy' }),
+   accessKeyId: process.env.AWS_ID,
+   secretAccessKey: process.env.AWS_KEY,
   // Optional
   deleteOldVersions: true,                 // NOT FOR PRODUCTION
   distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
