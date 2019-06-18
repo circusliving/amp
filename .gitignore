@@ -10,6 +10,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .nuxt
+static/sw.js
 # Runtime data
 .DS_Store
 pids
