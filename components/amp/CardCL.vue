@@ -2,8 +2,8 @@
   <section>
     <div class="bordered">
       <figure>
-        <nuxt-link  :to="link" >
-          <amp-img :src="image" :alt="`${title} image`" width="338" height="222" layout="intrinsic" ></amp-img>
+        <nuxt-link  :to="link" :aria-label="title">
+          <amp-img :src="image.src" :alt="image.alt" :width="image.width" :height="image.height" layout="responsive" ></amp-img>
         </nuxt-link >
       </figure>
       <h3>{{title}}</h3>
@@ -38,15 +38,19 @@
     text-align: center;
     background-color: white;
     margin-bottom: 1em;
+    min-height: 470px;
 }
 .bordered h4{
-  font-style: italic;
-  font-weight: lighter;
+  font-size: 23px;
+  font-weight: 400;
   font-family: "Euphoria Script", cursive, serif;
+  margin: .75em 0 .75em 0;
 }
-.bordered p{
-  font-size: .8em;
-
+.bordered h3{
+  font-weight: 600;
+  font-size: 18px;
+  color: black;
+  font-family: "Roboto Slab", serif;
 }
 
 .bordered figure {

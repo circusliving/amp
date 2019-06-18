@@ -14,6 +14,7 @@
                   layout="responsive"
                   :width="item.imageObj.width"
                   :height="item.imageObj.height"
+                  :alt="item.imageObj.alt"
                   :src="item.image"
                   :srcset="item.imageObj.srcset"
                 >
@@ -90,10 +91,12 @@ figure a .text-overlay .info {
     left: 0;
     position: absolute;
     margin-top: -11px;
-    color: #fff;
-    font-size: 14px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
     font-weight: normal;
     text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 .paddingless{
   padding: 0 0 0 0;

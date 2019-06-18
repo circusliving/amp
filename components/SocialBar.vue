@@ -1,12 +1,12 @@
 <template>
     <div class="social-footer">
         <ul class="social">
-        <li><a href="https://www.facebook.com/CircusLiving"><i class="icon-facebook"><Icon  name="facebook"/></i></a></li>
-        <li><a href="https://twitter.com/cathoulahan"><i class="icon-twitter"><Icon  name="twitter"/></i></a></li>
-        <li><a href="https://plus.google.com/+CircusLiving"><i class="icon-gplus"><Icon  name="google-plus"/></i></a></li>
-        <li><a href="https://www.pinterest.com/catvelasco/pins/"><i class="icon-pinterest"><Icon  name="pinterest"/></i></a></li>
-        <li><a href="https://www.instagram.com/circus_living_blog/"><i class="icon-instagram"><Icon  name="instagram"/></i></a></li>
-        <li><a href="https://www.youtube.com/channel/UCVNe4ithtIPgIFjDmfugS7A"><i class="icon-youtube"><Icon  name="youtube"/></i></a></li>
+        <li><a href="https://www.facebook.com/CircusLiving" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="icon-facebook"><Icon  name="facebook"/></i></a></li>
+        <li><a href="https://twitter.com/cathoulahan" aria-label="Twitter" target="_blank" rel="noopener noreferrer"><i class="icon-twitter"><Icon  name="twitter"/></i></a></li>
+        <li><a href="https://plus.google.com/+CircusLiving" aria-label="Goole Plus" target="_blank" rel="noopener noreferrer"><i class="icon-gplus"><Icon  name="google-plus"/></i></a></li>
+        <li><a href="https://www.pinterest.com/catvelasco/pins/" aria-label="Pinterest" target="_blank" rel="noopener noreferrer"><i class="icon-pinterest"><Icon  name="pinterest"/></i></a></li>
+        <li><a href="https://www.instagram.com/circus_living_blog/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="icon-instagram"><Icon  name="instagram"/></i></a></li>
+        <li><a href="https://www.youtube.com/channel/UCVNe4ithtIPgIFjDmfugS7A" aria-label="Youtube" target="_blank" rel="noopener noreferrer"><i class="icon-youtube"><Icon  name="youtube"/></i></a></li>
         </ul>
     </div>
 </template>

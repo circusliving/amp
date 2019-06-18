@@ -56,7 +56,7 @@
 .amp-dropdown-child{
   padding-left: 1em;
   white-space: nowrap;
-  font-size: .7em;
+  font-size: 1em;
   cursor: pointer;
 }
 .amp-dropdown-header,.amp-dropdown-child a{

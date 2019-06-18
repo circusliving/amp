@@ -1,6 +1,7 @@
 import allWebPages    from '~/apollo/allWebPages'
 import clone          from 'lodash.clone'
 
+
 export const state = () => ({})
 
 export const actions = {

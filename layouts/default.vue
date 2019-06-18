@@ -1,53 +1,42 @@
 <template>
-  <div>
-    <nuxt/>
-  </div>
+  <amp-menu-container>
+    <amp-install-serviceworker src="/sw.js" layout="nodisplay" data-no-service-worker-fallback-url-match=".*" ></amp-install-serviceworker>
+    <main>
+      <CLIcons/>
+      <Header/>
+      <nuxt/>
+      <Footer/>
+    </main>
+    <SideBar :menu="allMenuItems"/>
+  </amp-menu-container>
 </template>
 
-<style>
-html
-{
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
-*, *:before, *:after
-{
-  box-sizing: border-box;
-  margin: 0;
-}
-.button--green
-{
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-.button--green:hover
-{
-  color: #fff;
-  background-color: #3b8070;
-}
-.button--grey
-{
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-.button--grey:hover
-{
-  color: #fff;
-  background-color: #35495e;
-}
-</style>
+<script>
+  import Header from '~/components/amp/Header'
+  import Footer from '~/components/amp/Footer'
+  import SideBar from '~/components/amp/SideBar'
+  import CLIcons from '~/components/CLIcons'
+
+  export default {
+    components: { Header, Footer, SideBar, CLIcons },
+    head,
+    data,
+    methods: { nonAmpPath }
+  }
+
+  function data() {
+    return { allMenuItems: this.$store.state.menu.items }
+  }
+
+  function head() {
+    return {
+      meta: [ { hid: 'viewport', name: 'viewport', content: 'width=device-width,initial-scale=1,minimum-scale=1' } ],
+      link: [ { hid: 'canonical', rel: 'canonical', href: this.nonAmpPath(`https://www.circusliving.com${this.$route.path}`) } ]
+    };
+  }
+
+  function nonAmpPath(path) {
+    return path.replace('/amp', '');
+  }
+</script>
+

@@ -1,7 +1,7 @@
 <template>
   <!-- card list -->
   <section>
-    <div class="container mx-2">
+    <div class="container ">
       <div class="card-columns">
         <Card v-for="(item,index) in items" :key="index" v-bind="item"/>
       </div>

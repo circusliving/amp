@@ -1,5 +1,5 @@
 
-/* @import url("bootstrap/dist/css/bootstrap.min.css"); */
+
 
 a{
   color: #666;
@@ -31,13 +31,17 @@ a:hover{
 body {
   margin:0;
   padding:0;
-  width:100%;
-  color:#666;
-  background-color:gray;
+  font-family: Roboto,-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: #666;
+  font-size: 14px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+
 }
 main {
   width:100%;
-  background-color:white;
+  background-color:#f9f9f9;
 }
 
 figure {

@@ -1,19 +1,19 @@
 <template>
   <section >
-    <div class="parallax-image-window" >
-      <amp-img amp-fx="parallax" media="(min-width: 650px)" data-parallax-factor="1.1" width="700" height="305" layout="responsive" src="https://images.circusliving.com/CircusLivingParallax.jpg"></amp-img>
-      <amp-img amp-fx="parallax" media="(max-width: 649px)" data-parallax-factor="1.1" width="700" height="605" layout="responsive" src="https://images.circusliving.com/CircusLivingParallax.jpg"></amp-img>
-      <!-- <h3 class="hidden-md">
-        <amp-img src="https://images.circusliving.com/title-decoration.svg" alt="title decoration" width="80" height="10" layout="fixed" ></amp-img>
-        Herald
-        <amp-img src="https://images.circusliving.com/title-decoration.svg" alt="title decoration" width="80" height="10" layout="fixed" ></amp-img>
-      </h3> -->
-      <amp-carousel type="slides"
-        media="(min-width: 650px)"
-        width="650"
-        height="200"
+    <div class="quotes">
+
+      <div class="parallax-image-window-float">
+        <div class="parallax-image-window">
+          <amp-img amp-fx="parallax" data-parallax-factor="1.15" class="cover" alt="houlagin clowns in a row" src="https://images.circusliving.com/CircusLivingParallax.jpg" layout="fill" ></amp-img>
+        </div> 
+      </div> 
+
+      <amp-carousel type="slides" class="caro"
+        height="350"
+        media="(min-width: 648px)"
         controls
         loop
+        autoplay
         data-next-button-aria-label="Go to next slide"
         data-previous-button-aria-label="Go to previous slide">
         <div>
@@ -26,15 +26,16 @@
           <slot name="quoteThree"/>
         </div>
       </amp-carousel>
-      <amp-carousel type="slides"
+
+<!-- <amp-img  media="(max-width: 649px)" amp-fx="parallax" alt="clowns in a row" data-parallax-factor="1.05"  height="200" layout="fixed-height" src="https://images.circusliving.com/500x200/CircusLivingParallax.min.jpg"></amp-img>    
+      <amp-carousel type="slides" class="caro"
         media="(max-width: 649px)"
-        width="320"
-        height="400"
+      
+        height="160"
         controls="true"
         loop
         data-next-button-aria-label="Go to next slide"
         data-previous-button-aria-label="Go to previous slide">
-
         <div>
           <slot name="quoteOne"/>
         </div>
@@ -44,40 +45,33 @@
         <div>
           <slot name="quoteThree"/>
         </div>
-      </amp-carousel>
+      </amp-carousel> -->
 
     </div>
   </section>
 </template>
+
 <script>
+  import Quote from '~/components/amp/AmpQuote.vue'
   export default {
     name: 'AmpQuotes'
   }
-
 </script>
-<style scoped>
-  .parallax-image-window {
-    overflow: hidden;
-    position: relative;
-  }
 
-  .parallax-image-window > amp-img {
-    margin: -10% 0 -10% 0;
-  }
-  .parallax-image-window amp-carousel{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    padding: 1.3em 1.3em 1.3em 1.3em;
-    text-align: center;
-  }
-  .parallax-image-window h3{
-    position: absolute;
-    color: white;
-    left:41%;
-    top: 1%;
-    font-size:1.5em;
+<style >
+  .parallax-image-window amp-img { margin: 0 0 -20% 0; }
+  .cover > img { object-fit: cover; }
+</style>
+
+<style scoped>
+
+  .quotes{ min-width: 350px; position: relative; overflow: hidden; }
+  .parallax-image-window-float { position:absolute; top:0; bottom:0; left:0; right:0; }
+  .parallax-image-window { overflow: hidden-x; position: relative; min-height: 350px; }
+  .caro{ z-index:99; }
+  .parallax-image-window amp-carousel{ margin:auto; position:fixed; top:0; bottom:0; left:0; right:0; }
+
+  @media screen and (min-width: 648px) {
+    .parallax-image-window amp-carousel{ margin-right:20%; margin-left:20%; }
   }
 </style>

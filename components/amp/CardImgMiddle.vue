@@ -5,7 +5,7 @@
       <h4>{{subTitle}}</h4>
       <figure>
         <nuxt-link  :to="link" >
-          <amp-img :src="image" :alt="`${title} image`" width="380" height="222" layout="intrinsic" ></amp-img>
+          <amp-img :src="image.src" :alt="image.alt" :width="image.width" :height="image.height" layout="responsive" ></amp-img>
         </nuxt-link >
       </figure>
       <p>

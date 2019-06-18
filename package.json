@@ -5,33 +5,47 @@
   "author": "Randy Houlahan <randy@houlahan.ca>",
   "private": true,
   "dependencies": {
-    "@nuxtjs/apollo": "^4.0.0-rc1",
-    "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/apollo": "4.0.0-rc6",
+    "@nuxtjs/axios": "5.5.4",
     "@nuxtjs/proxy": "^1.2.4",
-    "amp-module": "^1.0.0-beta.3",
+    "@nuxtjs/pwa": "3.0.0-beta.16",
+    "amp-module": "1.0.0-beta.4",
+    "aws-sdk": "2.477.0",
     "bootstrap": "4.3.1",
+    "core-js": "2.6.9",
     "lodash.clone": "^4.5.0",
-    "nuxt": "^2.5.1",
-    "nuxt-webfontloader": "^1.0.0",
-    "vue-apollo": "^3.0.0-beta.28"
+    "nuxt": "2.8.1",
+    "pluralize": "^8.0.0",
+    "vue-apollo": "3.0.0-beta.30"
   },
   "scripts": {
     "dev": "rm -rf .nuxt && DEBUG='nuxt:amp' nuxt",
     "build": "rm -rf .nuxt && nuxt build",
-    "start": "nuxt start"
+    "start": "nuxt start",
+    "gen": "rm -rf .nuxt && rm -rf dist && yarn nuxt generate",
+    "gen:dev": "rm -rf .nuxt &&  rm -rf dist && NODE_ENV=dev yarn nuxt generate",
+    "deploy:dev": "rm .awspublish  && gulp deploy"
   },
   "devDependencies": {
     "@nuxtjs/style-resources": "^0.1.2",
-    "babel-eslint": "^7.1.1",
-    "eslint": "^3.15.0",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-loader": "^1.6.1",
-    "eslint-plugin-html": "^2.0.0",
-    "eslint-plugin-promise": "^3.4.1",
-    "eslint-plugin-standard": "^2.0.1",
-    "node-sass": "^4.11.0",
+    "babel-eslint": "10.0.2",
+    "concurrent-transform": "^1.0.0",
+    "datocms-client": "2.0.1",
+    "dotenv": "8.0.0",
+    "dotenv-expand": "^5.1.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-html": "5.0.5",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "gulp": "4.0.2",
+    "gulp-awspublish": "^4.0.0",
+    "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
+    "node-sass": "4.12.0",
     "nuxt-purgecss": "^0.2.1",
     "sass-loader": "^7.1.0",
-    "to-amp": "^1.0.0-beta.1"
+    "string-strip-html": "4.0.16",
+    "to-amp": "1.0.0-beta.10"
   }
 }
