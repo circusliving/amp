@@ -18,10 +18,13 @@ In your terminal, cd to your projects folder and:
 
 # Generate static site
 ```bash
-  yarn 
+  yarn gen:dev
 ```
 
 # Deploy site
 ```bash
-  yarn 
+  yarn deploy:dev
 ```
+
+# Visit
+[dev.circusliving.com](https://dev.circusliving.com)
