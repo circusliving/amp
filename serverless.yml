@@ -1,0 +1,38 @@
+service: circusliving-amp-generate
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  logRetentionInDays: 14
+  memorySize: 256
+  usagePlan: # Optional usage plan configuration
+    quota:
+      limit: 1000
+      offset: 2
+      period: MONTH
+    throttle:
+      burstLimit: 200
+      rateLimit: 100
+
+  deploymentBucket:
+    name: sls.deploys # Overwrite the default deployment bucket, make your own name
+    serverSideEncryption: AES256
+functions:
+  generate:
+    handler: sls/index.main
+    events:
+     - http: POST /
+     - http: 'POST {proxy+}'
+
+custom:
+  customDomain:
+    domainName: deploy.dev.circusliving.com
+    stage: dev
+    basePath: /
+    certificateName: '*.circusliving.com'
+    createRoute53Record: true
+    endpointType: 'regional'
+
+plugins:
+  - serverless-offline
+  # - serverless-domain-manager

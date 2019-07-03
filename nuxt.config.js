@@ -1,12 +1,12 @@
-import apolloConfig from './modules/configs/apollo.js'
-import {getRoutes} from './modules/generate'
+const apolloConfig = require('./modules/configs/apollo.js')
+const {getRoutes} = require('./modules/generate')
 const path = require('path')
 
 let dotFile = '.env'
 
 if (['dev','stg'].includes(process.env.NODE_ENV))
   dotFile = `.${process.env.NODE_ENV}${dotFile}`
-
+console.log('--------------',process.cwd())
 require('dotenv').config({path: path.resolve(process.cwd(), dotFile)})
 
 console.info(`##### Building for NODE_ENV: ${process.env.NODE_ENV}`)  
@@ -20,7 +20,8 @@ module.exports = {
   env: {
     BASE_URL: process.env.BASE_URL,
     NODE_ENV:process.env.NODE_ENV,
-    BASE_PATH:process.env.BASE_PATH
+    BASE_PATH:process.env.BASE_PATH,
+    DATO_READ_ONLY:process.env.DATO_READ_ONLY
   },
   css: [
     { src: '@/assets/main.scss', lang: 'scss' },
@@ -47,7 +48,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name:'theme-color',content:'#000000'},
-      {name:'msapplication-TileColor', content:'#da532c'},
+      { name:'msapplication-TileColor', content:'#da532c'},
       { name: 'nativeUI', content:true },
       { name: 'apple-mobile-web-app-capable', content: 'yes' },
       { name: 'apple-mobile-web-app-status-bar-style', content: '#000000' }

@@ -5,18 +5,17 @@
   "author": "Randy Houlahan <randy@houlahan.ca>",
   "private": true,
   "dependencies": {
-    "@nuxtjs/apollo": "4.0.0-rc6",
+    "@nuxtjs/apollo": "4.0.0-rc7",
     "@nuxtjs/axios": "5.5.4",
     "@nuxtjs/proxy": "^1.2.4",
     "@nuxtjs/pwa": "3.0.0-beta.16",
     "amp-module": "1.0.0-beta.4",
-    "aws-sdk": "2.477.0",
     "bootstrap": "4.3.1",
     "core-js": "2.6.9",
     "lodash.clone": "^4.5.0",
     "nuxt": "2.8.1",
     "pluralize": "^8.0.0",
-    "vue-apollo": "3.0.0-beta.30"
+    "vue-apollo": "3.0.0-rc.1"
   },
   "scripts": {
     "dev": "rm -rf .nuxt && DEBUG='nuxt:amp' nuxt",
@@ -24,16 +23,21 @@
     "start": "nuxt start",
     "gen": "rm -rf .nuxt && rm -rf dist && yarn nuxt generate",
     "gen:dev": "rm -rf .nuxt &&  rm -rf dist && NODE_ENV=dev yarn nuxt generate",
-    "deploy:dev": "rm .awspublish  && gulp deploy"
+    "deploy:dev": "NODE_ENV=dev gulp deploy",
+    "offline": "NODE_ENV=dev serverless offline start --stage dev",
+    "sls:deploy:dev":"NODE_ENV=dev sls deploy --stage dev"
   },
   "devDependencies": {
+    "aws-sdk": "^2.480.0",
     "@nuxtjs/style-resources": "^0.1.2",
+    "express": "^4.17.1",
     "babel-eslint": "10.0.2",
     "concurrent-transform": "^1.0.0",
     "datocms-client": "2.0.1",
+    "gulp-rename": "^1.4.0",
     "dotenv": "8.0.0",
     "dotenv-expand": "^5.1.0",
-    "eslint": "^5.16.0",
+    "eslint": "6.0.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-html": "5.0.5",
@@ -45,7 +49,10 @@
     "node-sass": "4.12.0",
     "nuxt-purgecss": "^0.2.1",
     "sass-loader": "^7.1.0",
-    "string-strip-html": "4.0.16",
+    "serverless-domain-manager": "^3.2.2",
+    "serverless-http": "^2.0.2",
+    "serverless-offline": "^5.4.2",
+    "string-strip-html": "4.0.17",
     "to-amp": "1.0.0-beta.10"
   }
 }

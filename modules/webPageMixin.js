@@ -35,10 +35,10 @@ async function asyncData ({ app, params }) {
             description  : webPage.description,
             page         : webPage,
             description  : webPage.description,
-            image        : {},//ImageService.getDimensions(webPage.image),
+            image        : ImageService.getDimensions(webPage.image),
             alternateName: webPage.alternateName,
             widget       : webPage.widget,
-            coverImage   : {},//ImageService.getDimensions(webPage.coverImage)||ImageService.getDimensions(webPage.image),
+            coverImage   : ImageService.getDimensions(webPage.coverImage)||ImageService.getDimensions(webPage.image),
           }
 }
 
@@ -105,16 +105,19 @@ function capitalize (s) {
 }
 
 async function getWebPage( { apolloProvider }, path ){
-  
+ 
   let page = (await apolloProvider.defaultClient.query({
                 query    : webPageByPath,
                 variables: {path: path}
               })).data.webPage
+
   if(!page) console.error('no page found ----------------------------------------------------------------------------', path)
   if(!page) return null
   
   page.collectionsMap = page.widgetCollections.map((c)=>c.name)
   page.tagsMap        = page.widgetTags.map((c)=>c.id)
+
+
   return page
 }
 
@@ -134,6 +137,7 @@ async function getItems( app, collNamesArr, tags ){
 
   let items       = []
   let count       = 0
+
   let collObjs    = Object.values(await queryColls(apollo, collNames, tags))
 
   // merge items from diff collections into one array
@@ -146,8 +150,9 @@ async function getItems( app, collNamesArr, tags ){
 
       items = items.concat(collMap)
     }
-
+   
   await injectImageDimensions (app, items)
+
   return {items, count}
 }
 

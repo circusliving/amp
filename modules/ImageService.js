@@ -97,7 +97,7 @@ function getSrcSetLine (max,{name, ext, width}) {
 }
 
 function gueryDims (imageSrc) {
-  try{
+
     return axios.head(imageSrc).then(({headers}) => {
       let dims =  {
         width : Number  (headers['x-amz-meta-width']),
@@ -108,10 +108,8 @@ function gueryDims (imageSrc) {
 
       DIMENSIONS[imageSrc] = dims
       DIMENSIONS[imageSrc].srcSet= ImageService.getSrcSet(imageSrc)
-    })
-  }catch(e){
-    console.warn(e.message)
-  }
+    }).catch((e)=>{console.warn(e)})
+
 }
 
 

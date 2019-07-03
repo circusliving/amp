@@ -30,6 +30,7 @@ export default {
 };
 
 function src() {
+  
   if (!this.image.src) return ''
 
   let parsedUrl = url .parse   (`${this.image.src}`)
@@ -37,7 +38,7 @@ function src() {
   let baseName  = path.basename(parsedUrl.pathname,ext)
   let imgPath   = path.dirname(parsedUrl.pathname)
 
-  if(this.tint) imgPath = `/o:65${imgPath}`
+  if(this.tint && baseName!='CircusLiving-Header') imgPath = `/o:65${imgPath}`
 
   if (!~baseName.indexOf('.min'))
     imgPath = path.normalize(`${imgPath}/${baseName}.min${ext}`)

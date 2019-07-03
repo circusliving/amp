@@ -1,4 +1,4 @@
-export default {
+module.exports = exports  = {
   tokenName: 'circusApolloToken', // optional, default: apollo-token
   tokenExpires: 10, // optional, default: 7
   authenticationType: 'Bearer',

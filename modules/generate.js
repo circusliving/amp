@@ -1,12 +1,10 @@
 const SiteClient = require('datocms-client').SiteClient
-const client = new SiteClient('a42a32d7381a2815d35f013ce8d355')
+const client = new SiteClient(process.env.DATO_READ_ONLY)
 
 
-
-
-export const getRoutes = async function () {
+module.exports.getRoutes = async function () {
     try {
-      //return new Set(['/','/side-shows/cabinet-of-curiosities','/articles/ghoulish-bunny-studios'])
+
       let webpages =  client.items.all({ 'filter[type]': ['web_page'] }, { allPages: true })//.then((records) => console.log(records.length));
       let articles =  client.items.all({ 'filter[type]': ['article'] }, { allPages: true })//.then((records) => console.log(records.length))
 
