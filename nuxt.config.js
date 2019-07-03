@@ -1,12 +1,10 @@
-const apolloConfig = require('./modules/configs/apollo.js')
-const {getRoutes} = require('./modules/generate')
 const path = require('path')
 
 let dotFile = '.env'
 
 if (['dev','stg'].includes(process.env.NODE_ENV))
   dotFile = `.${process.env.NODE_ENV}${dotFile}`
-console.log('--------------',process.cwd())
+
 require('dotenv').config({path: path.resolve(process.cwd(), dotFile)})
 
 console.info(`##### Building for NODE_ENV: ${process.env.NODE_ENV}`)  
@@ -14,6 +12,8 @@ console.info(`#####   Reading dotenv file: ${dotFile}`)
 console.info(`#####              BASE_URL: ${process.env.BASE_URL}`)
 console.info(`#####             BASE_PATH: ${process.env.BASE_PATH}`)
 
+const apolloConfig = require('./modules/configs/apollo.js')
+const {getRoutes} = require('./modules/generate')
 
 
 module.exports = {

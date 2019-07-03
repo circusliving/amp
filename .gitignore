@@ -13,3 +13,4 @@ dist
 .nuxt
 .vscode
 .DS_Store
+*sw.js
