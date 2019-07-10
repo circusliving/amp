@@ -1,4 +1,4 @@
-# Circus Living Google AMP website
+# Circus Living Google AMP website 
 
 ## Setup
 In your terminal, cd to your projects folder and:
@@ -7,6 +7,7 @@ In your terminal, cd to your projects folder and:
   cd amp
   yarn
 ```
+
 
 # Start the local server
 ```bash
