@@ -1,6 +1,6 @@
 {
   allWebPages (
-    first:500,
+    first:100,
     orderBy: [path_ASC]
   ){
     name,
