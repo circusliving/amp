@@ -23,7 +23,7 @@
   
 
   export default {
-    components: {Logo},
+    components: {},
     data () {
       return {
         online: true

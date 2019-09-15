@@ -7,36 +7,35 @@
       <nuxt/>
       <Footer/>
     </main>
-    <SideBar :menu="allMenuItems"/>
+    <SideBar :menu="items"/>
   </amp-menu-container>
 </template>
 
 <script>
-  import Header from '~/components/amp/Header'
-  import Footer from '~/components/amp/Footer'
+  import Header  from '~/components/amp/Header'
+  import Footer  from '~/components/amp/Footer'
   import SideBar from '~/components/amp/SideBar'
   import CLIcons from '~/components/CLIcons'
 
   export default {
     components: { Header, Footer, SideBar, CLIcons },
+    methods   : { nonAmpPath },
     head,
-    data,
-    methods: { nonAmpPath }
+    data
   }
 
   function data() {
-    return { allMenuItems: this.$store.state.menu.items }
+    const  { items } = this.$store.state.menu
+    return { items }
   }
 
   function head() {
     return {
       meta: [ { hid: 'viewport', name: 'viewport', content: 'width=device-width,initial-scale=1,minimum-scale=1' } ],
       link: [ { hid: 'canonical', rel: 'canonical', href: this.nonAmpPath(`https://www.circusliving.com${this.$route.path}`) } ]
-    };
+    }
   }
 
-  function nonAmpPath(path) {
-    return path.replace('/amp', '');
-  }
+  function nonAmpPath(path) { return path.replace('/amp', '') }
 </script>
 

@@ -5,7 +5,7 @@ const MAXS = [2500,2000,1200,992,768,500,480,411,375,360,320]
 const BASE_URL = 'https://images.circusliving.com'
 const DIMENSIONS = {}
 const DEFAULTS = [
-  'https://images.circusliving.com/465x360/circuslivinglogo.min9.png'
+  'https://images.circusliving.com/465x360/circuslivinglogo.min9.webp'
 ]
 export default class ImageService {
 

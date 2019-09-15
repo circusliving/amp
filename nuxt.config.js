@@ -46,7 +46,6 @@ module.exports = {
   */
   head: {
     meta: [
-      { charset: 'utf-8' },
       { name:'theme-color',content:'#000000'},
       { name:'msapplication-TileColor', content:'#da532c'},
       { name: 'nativeUI', content:true },
@@ -84,9 +83,7 @@ module.exports = {
     ['amp-module']
   ],
   apollo: apolloConfig,
-  render: {
-    resourceHints: false
-  },
+  render: { resourceHints: false },
   toAmp: {
     version: 'v0',
     componentVersion: '0.1', 

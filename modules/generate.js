@@ -1,6 +1,7 @@
 const SiteClient = require('datocms-client').SiteClient
 const client = new SiteClient(process.env.DATO_READ_ONLY)
 
+///articles/magwire
 
 module.exports.getRoutes = async function () {
     try {
@@ -21,9 +22,8 @@ module.exports.getRoutes = async function () {
         routes.add(`/articles/${record.identifier}`)  
       }
       //routes.forEach((v1,v2,set) => console.log(`s[${v1}] = ${v2}`))
-      return routes
 
-      console.log()
+      return routes
     } catch (er) {
       console.error(er)
     }

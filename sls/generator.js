@@ -3,10 +3,6 @@ const   deploy    = require('./deploy'      )
 const   consola   = require('consola'       )
 
 async function generate () {
-  consola.info('=======================')
-  consola.info('Generating static files')
-  consola.info('=======================\n\n')
-
   const gen =  spawn('yarn',['gen:dev'])
 
   gen.stderr.on('data', (data) => consola.error(data.toString()))  

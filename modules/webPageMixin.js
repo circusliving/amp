@@ -81,8 +81,43 @@ function collectionsQuery(collections=['articles'], tags=['notag']){
 }
 
 function collectionsQueryPartial(col='Articles', tags){
+  if(['Articles','People','WebPages','Events'].includes(col)) return legacyQuery(tags)
 
   return `all${capitalize(col)}( first:100, filter: { tags: { anyIn: ${JSON.stringify(tags)} } })
+          {
+            name
+            alternateName
+            description
+            identifier {
+              name
+              value
+            },
+            image {
+              contentUrl
+              height {
+                value
+                name
+                unitText
+              }
+              width {
+                name
+                value
+                unitText
+              }
+              caption
+            }
+            url
+          }
+
+          _all${capitalize(col)}Meta {
+            count
+          }
+          `
+}
+
+function legacyQuery(tags){
+
+  return `allArticles( first:100, filter: { tags: { anyIn: ${JSON.stringify(tags)} } })
           {
             name,
             alternateName,
@@ -93,7 +128,7 @@ function collectionsQueryPartial(col='Articles', tags){
             url
           }
 
-          _all${capitalize(col)}Meta {
+          _allArticlesMeta {
             count
           }
           `

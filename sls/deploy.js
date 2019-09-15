@@ -49,7 +49,7 @@ const deploy = function () {
   let g = gulp.src('./' + config.distDir + '/**')
 
   if(config.params.Prefix)
-     g = g.pipe(rename((path) => { path.dirname = process.env.AWS_KEY_PREFIX+'/'+path.dirname }))
+    g = g.pipe(rename((path) => { path.dirname = process.env.AWS_KEY_PREFIX+'/'+path.dirname }))
         
   g = g.pipe(awspublish.gzip())
 
@@ -75,11 +75,14 @@ module.exports = deploy
 function loadEnvVars(){
   try {
 
-    variableExpansion(dotenv.config({ path:resolve(process.cwd(), `.${ENV}.env`) }))
+    if (fs.existsSync(resolve(process.cwd(), `.${ENV}.env.local`))) 
+      variableExpansion(dotenv.config({ path:resolve(process.cwd(), `.${ENV}.env`) }))
     
     if (fs.existsSync(resolve(process.cwd(), `.${ENV}.env.local`))) 
       variableExpansion(dotenv.config({ path:resolve(process.cwd(), `.${ENV}.env.local`) }))
-  
+    
+    variableExpansion(dotenv.config({ path:resolve(process.cwd(), `.env`) }))
+
   } catch(err) {
     consola.error(err)
   }
