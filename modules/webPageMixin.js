@@ -187,7 +187,7 @@ async function getItems( app, collNamesArr, tags ){
     }
    
   await injectImageDimensions (app, items)
-
+console.log(items[0])
   return {items, count}
 }
 
@@ -215,7 +215,8 @@ async function injectImageDimensions ({$axios}, items) {
     items[i].imageObj.width  = Number(images[i]['x-amz-meta-width'])
     items[i].imageObj.height = Number(images[i]['x-amz-meta-height'])
     items[i].imageObj.alt    = images[i]['x-amz-meta-alt'] || images[i]['x-amz-meta-tags']
-    items[i].imageObj.srcset = ImageService.getSrcSet(items[i].image)
+    items[i].imageObj.src    = items[i].image
+    items[i].imageObj.srcset = ImageService.getSrcSet(items[i].imageObj)
   }
 
   return images

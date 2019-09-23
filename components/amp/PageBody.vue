@@ -60,7 +60,9 @@
        return ImageService.alt(this.image)
     }
     function getSrcSet (src, percentage){
-        return ImageService.getSrcSet(src, percentage)
+        const {width,height, alt} = this
+        let img = {width,height, alt, src}
+        return ImageService.getSrcSet(img, percentage)
     }
 
     function altName (){

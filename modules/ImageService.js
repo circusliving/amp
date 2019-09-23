@@ -28,13 +28,15 @@ export default class ImageService {
     return gueryDims(imageSrc)
   }
 
-  static  getSrcSet (imageSrc, percentage = 1) {
-    let { name, ext } = path.parse(imageSrc)
+  static  getSrcSet ({src, width}, percentage = 1) {
+    let { name, ext } = path.parse(src)
     let srcSet = ''
-    for (let i = 0; i < MAXS.length; i++) {
-      let max     = MAXS[i]
-      let width   = getWidth (max,percentage)
-      let img     = {name, ext, width}
+ let maxs = MAXS.filter((n)=>n<=Number(width))
+
+    for (let i = 0; i < maxs.length; i++) {
+      let max     = maxs[i]
+      let dim   = getWidth (max,percentage)
+      let img     = {name, ext, width, dim}
 
       srcSet += getSrcSetLine (max,img)
     }
@@ -75,11 +77,11 @@ async function getImageAttrs (attrs) {
       let dims =  {
         width: Number(headers[i]['x-amz-meta-width']),
         height: Number(headers[i]['x-amz-meta-height']),
-
+        ...attrs[i]
       }
       // console.log(DIMENSIONS[attrs[i].src])
       DIMENSIONS[attrs[i].src] = dims
-      DIMENSIONS[attrs[i].src].srcSet= ImageService.getSrcSet(attrs[i].src)
+      DIMENSIONS[attrs[i].src].srcSet= ImageService.getSrcSet(attrs[i])
     }
 
     return ampAttrs
@@ -89,11 +91,12 @@ async function getImageAttrs (attrs) {
 }
 
 function getWidth (max,percentage) {
+
   return Math.floor((max * percentage))
 }
 
-function getSrcSetLine (max,{name, ext, width}) {
-  return `${BASE_URL}/${width}x${width}/${name}${ext} ${max}w, `
+function getSrcSetLine (max,{name, ext, dim}) {
+  return `${BASE_URL}/${dim}x${dim}/${name}${ext} ${max}w, `
 }
 
 function gueryDims (imageSrc) {
@@ -107,7 +110,7 @@ function gueryDims (imageSrc) {
       }
 
       DIMENSIONS[imageSrc] = dims
-      DIMENSIONS[imageSrc].srcSet= ImageService.getSrcSet(imageSrc)
+      DIMENSIONS[imageSrc].srcSet= ImageService.getSrcSet(dims)
     }).catch((e)=>{console.warn(e)})
 
 }

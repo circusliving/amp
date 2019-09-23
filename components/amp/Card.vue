@@ -1,22 +1,25 @@
 <template>
   <div class="card">
+
     <div class="card-body text-center">
       <h3 class="c-title">
         <nuxt-link :to="getPath" >{{name}}</nuxt-link>
       </h3>
     </div>
-    <div>
+   
       <figure class="position-relative">
         <nuxt-link :to="getPath" :aria-label="name">
           <div class="text-overlay">
-            <div class="info">name</div>
+            <div class="info">{{name}}</div>
           </div>
-          <amp-img :srcset="imageObj.srcset" :alt="imageObj.alt" :width="imageObj.width" :height="imageObj.height" layout="responsive" > </amp-img>
+          
+          <amp-img :src="imageObj.src" :alt="imageObj.alt" :width="imageObj.width" :height="imageObj.height" layout="responsive" > </amp-img>
         </nuxt-link>
       </figure>
-    </div>
+
+   
     <div class="card-body">
-      <p class="card-text">{{description}}</p>
+      <p class="card-text" v-html="description"></p>
       <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
     </div>
   </div>
@@ -47,7 +50,7 @@
   .bordered figure { margin-bottom: 20px; text-align: center; }
   .c-title a { font-size: 18px; color: #444; font-weight: normal; text-decoration: none; transition: all 200ms ease-in; -webkit-transition: all 200ms ease-in; font-weight: 700 !important; }
   .c-title a:hover { color: #28b8d8; }
-  figure a .text-overlay { opacity: 0; height: 100%; max-height: 222px; position: absolute; text-decoration: none; width: 100%; z-index: 100; padding: 20px; background: #28b8d8; background: rgba(40, 184, 216, 0.9); -webkit-transition: all 0.4s; -moz-transition: all 0.4s; -o-transition: all 0.4s; transition: all 0.4s; }
+  figure a .text-overlay { opacity: 0; height: 100%;  position: absolute; text-decoration: none; width: 100%; z-index: 100; padding: 20px; background: #28b8d8; background: rgba(40, 184, 216, 0.9); -webkit-transition: all 0.4s; -moz-transition: all 0.4s; -o-transition: all 0.4s; transition: all 0.4s; }
   figure a:hover .text-overlay { opacity: 1; }
   figure a .text-overlay:before { content: ""; display: block; position: absolute; z-index: -1; top: 10px; left: 10px; right: 10px; bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.3); }
   figure a .text-overlay .info { text-align: center; top: 50%; width: 100%; left: 0; position: absolute; margin-top: -11px; color: white; font-size: 16px; font-weight: 600; text-transform: uppercase; background-color: rgba(0, 0, 0, 0.6)}
