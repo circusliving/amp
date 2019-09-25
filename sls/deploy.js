@@ -10,6 +10,7 @@ const  fs                 = require ('fs'                                     )
 const  AWS                = require ('aws-sdk'                                )
 const {resolve          } = require ('path'                                   )
 const ENV = process.env.NODE_ENV || 'dev'
+const through = require('through2')
 loadEnvVars()
 
 
@@ -30,7 +31,7 @@ const config = {
   credentials: new AWS.SharedIniFileCredentials({ profile: 'default' }),
   // Sensible Defaults - gitignore these Files and Dirs
   distDir: 'dist',
-  indexRootPath: true,
+  indexRootPath: false,
   cacheFileName: `.awspublish-${ENV}`,
   concurrentUploads: 1,
   
@@ -40,7 +41,8 @@ const cfConfig = {
   distribution: process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
   indexRootPath: true,
   wait: false,  // wait for CloudFront invalidation to complete (about 30-60 seconds)
-  credentials: new AWS.SharedIniFileCredentials({ profile: 'default' })
+  credentials: new AWS.SharedIniFileCredentials({ profile: 'default' }),
+  indexRootPath: false
 }
 
 const deploy = function () {
@@ -54,7 +56,11 @@ const deploy = function () {
   g = g.pipe(awspublish.gzip())
 
   g = g.pipe(parallelize(publisher.publish(config.headers,config.options), config.concurrentUploads))
-
+  g = g.pipe(through.obj(function (chunk, enc, cb) {
+    if(chunk.path.includes('/index.html'))
+      chunk.path = chunk.path.replace('/index.html','')
+    cb(null, chunk)
+  }))
   // Invalidate CDN
   if (cfConfig.distribution) 
     g = g.pipe(cloudfront(cfConfig))
