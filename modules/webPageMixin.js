@@ -187,7 +187,7 @@ async function getItems( app, collNamesArr, tags ){
     }
    
   await injectImageDimensions (app, items)
-console.log(items[0])
+
   return {items, count}
 }
 
