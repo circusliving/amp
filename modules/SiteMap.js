@@ -4,6 +4,7 @@ const Dato        = require('./Dato')
 
 const saveRoutes = (processor) => (routes) => {
   const aSet = []
+
   routes.forEach(route => aSet.push( processor(route) ))
   return aSet
 }
@@ -11,8 +12,9 @@ const saveRoutes = (processor) => (routes) => {
 //legacy identifier TODO handle identifier object
 const typeProcessor    = (route) => (type) => `/${type}/${route.identifier}`
 const articleProcessor = (route) => typeProcessor(route)('articles')
+const webPageProcessor = (route) => route.path
 
-function webPages() { return Dato.webPages().then(saveRoutes(articleProcessor)) }
+function webPages() { return Dato.webPages().then(saveRoutes(webPageProcessor)) }
 function articles() { return Dato.articles().then(saveRoutes(articleProcessor)) }
 
 async function all() {
@@ -25,5 +27,3 @@ async function all() {
 }
 
 module.exports = { default:all, articles, webPages, all }
-
-

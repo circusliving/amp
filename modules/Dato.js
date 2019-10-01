@@ -5,7 +5,7 @@ const ALL_PAGES   = { allPages: true }
 function queryType(type){ return { 'filter[type]': [type] } }
 function query(type)    { return client.items.all( queryType(type) , ALL_PAGES) }
 
-const articles =  () => query('web_page')
-const webPages =  () => query('article')
+const articles =  () => query('article')
+const webPages =  () => query('web_page')
 
 module.exports = { articles, webPages }

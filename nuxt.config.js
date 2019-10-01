@@ -1,11 +1,11 @@
 const path = require('path')
 
 let dotFile = '.env'
-
 if (['dev','stg'].includes(process.env.NODE_ENV))
   dotFile = `.${process.env.NODE_ENV}${dotFile}`
-
 require('dotenv').config({path: path.resolve(process.cwd(), dotFile)})
+
+const { all } = require('./modules/SiteMap')
 
 console.info(`##### Building for NODE_ENV: ${process.env.NODE_ENV}`)  
 console.info(`#####   Reading dotenv file: ${dotFile}`)
@@ -13,37 +13,23 @@ console.info(`#####              BASE_URL: ${process.env.BASE_URL}`)
 console.info(`#####             BASE_PATH: ${process.env.BASE_PATH}`)
 
 const apolloConfig = require('./modules/configs/apollo.js')
-const {getRoutes} = require('./modules/generate')
-
 
 module.exports = {
+  generate: { routes: all, interval: 2000 }, 
   env: {
-    BASE_URL: process.env.BASE_URL,
-    NODE_ENV:process.env.NODE_ENV,
-    BASE_PATH:process.env.BASE_PATH,
-    DATO_READ_ONLY:process.env.DATO_READ_ONLY
+    BASE_URL      : process.env.BASE_URL,
+    NODE_ENV      : process.env.NODE_ENV,
+    BASE_PATH     : process.env.BASE_PATH,
+    DATO_READ_ONLY: process.env.DATO_READ_ONLY
   },
   css: [
     { src: '@/assets/main.scss', lang: 'scss' },
     { src: '@/assets/main.css', lang: 'css' }
   ],
-  // router: {
-  //   base: '/gamp'
-  // },
-  /*
-  ** Build configuration
-  */
   build: {
-    // cache: true
+    cache: true,
     parallel: true
-    // routes: [
-    //   '/'
-    // ]
   },
-  /*
-  ** Headers
-  ** Common headers are already provided by @nuxtjs/pwa preset
-  */
   head: {
     meta: [
       { name:'theme-color',content:'#000000'},
@@ -60,21 +46,15 @@ module.exports = {
     ]
   },
   manifest: {
-    name: 'Circus Living',
-    short_name: 'Circus',
-    description: 'We are a family of five composed of three morbid young children.  Art, travel, and technology form significant aspects of our daily lives.',
-    theme_color: '#000000',
-    display: 'standalone',
-    background_color: "#000000",
-    lang:'en'
+    name            : 'Circus Living'                                                                                                                             ,
+    short_name      : 'Circus'                                                                                                                                    ,
+    description     : 'We are a family of five composed of three morbid young children.  Art, travel, and technology form significant aspects of our daily lives.',
+    theme_color     : '#000000'                                                                                                                                   ,
+    display         : 'standalone'                                                                                                                                ,
+    background_color: "#000000"                                                                                                                                   ,
+    lang            : 'en'
   },
-  /*
-  ** Customize the progress-bar color
-  */
   loading: { color: '#3B8070' },
-  /*
-  ** Modules
-  */
   modules: [
     ['@nuxtjs/pwa'],
     ['nuxt-purgecss'],
@@ -83,28 +63,21 @@ module.exports = {
     ['amp-module']
   ],
   apollo: apolloConfig,
-  render: { resourceHints: false },
+  render: { resourceHints: true },
   toAmp: {
-    version: 'v0',
-    componentVersion: '0.1', 
-    components: ['amp-carousel', 'amp-sidebar', 'amp-accordion', 'amp-instagram', 'amp-youtube', 'amp-social-share', 'amp-fx-collection','amp-install-serviceworker'],
-    pathFilter: false,
-    hostFilter: false,
-    minify: true
+    version         : 'v0',
+    componentVersion: '0.1',
+    components      : ['amp-carousel', 'amp-sidebar', 'amp-accordion', 'amp-instagram', 'amp-youtube', 'amp-social-share', 'amp-fx-collection','amp-install-serviceworker'],
+    pathFilter      : false,
+    hostFilter      : false,
+    minify          : true
   },
   axios: {
     retry: { retries: 0 }
   },
-  generate: {
-    routes:getRoutes,
-    interval:2000
-  },
   purgeCSS: {
-    mode: 'postcss',
+    mode   : 'postcss',
     enabled: true
   },
-  workbox:{
-    dev:false
-  }
-
+  workbox: { dev:false }
 }

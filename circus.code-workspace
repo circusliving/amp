@@ -4,11 +4,18 @@
 			"path": "."
 		},
 		{
-			"path": "/Users/randyhoulahan/projects/my-bk/to-amp"
+			"path": "/Users/randyhoulahan/projects/circus/dato-cms-migration/src/organizations"
 		},
 		{
-			"path": "/Users/randyhoulahan/projects/my-bk/amp-module"
+			"path": "/Users/randyhoulahan/projects/circus/dato-cms-migration/src/SchemaDotOrg"
+		},
+		{
+			"path": "/Users/randyhoulahan/projects/circus/dato-cms-migration"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.words": [
+			"nuxtjs"
+		]
+	}
 }

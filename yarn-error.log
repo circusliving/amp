@@ -1,0 +1,88 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.16.0/libexec/bin/yarn.js
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/3.6/bin:/Users/randyhoulahan/Library/Python/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/anaconda3/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Users/randyhoulahan/Library/Python/3.7/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin
+
+Yarn version: 
+  1.16.0
+
+Node version: 
+  12.4.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:60:26)
+
+npm manifest: 
+  {
+    "name": "amp",
+    "version": "1.0.0",
+    "description": "Circus Living AMP Format",
+    "author": "Randy Houlahan <randy@houlahan.ca>",
+    "private": true,
+    "dependencies": {
+      "@nuxtjs/apollo": "4.0.0-rc7",
+      "@nuxtjs/axios": "5.6.0",
+      "@nuxtjs/proxy": "^1.2.4",
+      "@nuxtjs/pwa": "3.0.0-beta.19",
+      "amp-module": "1.0.0-beta.7",
+      "body-parser": "^1.19.0",
+      "bootstrap": "4.3.1",
+      "lodash.clone": "^4.5.0",
+      "nuxt": "2.9.2",
+      "pluralize": "^8.0.0",
+      "vue-apollo": "3.0.0-rc.4",
+      "serverless-http": "^2.3.0"
+    },
+    "scripts": {
+      "dev": "rm -rf .nuxt && DEBUG='nuxt:amp' nuxt",
+      "build": "rm -rf .nuxt && nuxt build",
+      "start": "nuxt start",
+      "gen": "rm -rf .nuxt && rm -rf dist && yarn nuxt generate",
+      "gen:dev": "rm -rf .nuxt &&  rm -rf dist && NODE_ENV=dev yarn nuxt generate",
+      "gen:stg": "NODE_ENV=stg node ./sls/generator.js ['/back-yard/quebec-road-trips','/articles/chocolate-maple-frogs']",
+      "deploy:dev": "NODE_ENV=dev gulp deploy",
+      "deploy": "NODE_ENV=production gulp deploy",
+      "offline": "NODE_ENV=dev serverless offline start --stage dev",
+      "sls:deploy:dev": "NODE_ENV=dev sls deploy --stage dev",
+      "upgrade": "yarn upgrade-interactive --latest",
+      "od": "yarn outdated"
+    },
+    "devDependencies": {
+      "@nuxtjs/style-resources": "^1.0.0",
+      "aws-sdk": "^2.528.0",
+      "babel-eslint": "10.0.3",
+      "concurrent-transform": "^1.0.0",
+      "core-js": "2.6.9",
+      "datocms-client": "2.0.9",
+      "dotenv": "8.1.0",
+      "dotenv-expand": "^5.1.0",
+      "eslint": "6.4.0",
+      "eslint-config-standard": "^14.1.0",
+      "eslint-loader": "^3.0.0",
+      "eslint-plugin-html": "6.0.0",
+      "eslint-plugin-promise": "^4.1.1",
+      "eslint-plugin-standard": "^4.0.0",
+      "express": "^4.17.1",
+      "gulp": "4.0.2",
+      "gulp-awspublish": "^4.0.0",
+      "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
+      "gulp-rename": "^1.4.0",
+      "node-sass": "4.12.0",
+      "nuxt-generate-cluster": "^2.6.0",
+      "nuxt-purgecss": "^0.2.1",
+      "sass-loader": "^8.0.0",
+      "serverless-offline": "^5.11.0",
+      "string-strip-html": "4.2.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,30 +1,44 @@
-const { spawn   } = require('child_process' )
-const   deploy    = require('./deploy'      )
-const   consola   = require('consola'       )
+//TODO
+// refactor 
+//   - modules genertae to sitemap
+//   - modules generate.getRoutes to all routes
+// route to fail on image 404
+// create list of failed routes
+const   config                      = require('../nuxt.config')
+const { Nuxt, Generator,  Builder } = require('nuxt')
+const { all }                       = require('../modules/SiteMap')
+const   consola                     = require('consola')
+const   hooks                       = { generate: { done, routeFailed } }
+const   configOverride              = { 
+                                        
+                                        generate: { routes: all, interval: 2000 }, 
+                                        dev     :   false
+                                      }
+
+const aNuxt    = new Nuxt   ({ ...config, ...configOverride,  hooks })
+const aBuilder = new Builder(aNuxt)
 
 async function generate () {
-  const gen =  spawn('yarn',['gen:dev'])
+  const aGenerator = new Generator(aNuxt, aBuilder)
 
-  gen.stderr.on('data', (data) => consola.error(data.toString()))  
-  gen.stderr.on('close', () => deployToS3())
-
-  return true
+  return aGenerator.generate({ build: false, init: false})
 }
 
-async function deployToS3(){
-  consola.success('=======================')
-  consola.success('Generated')
-  consola.success('=======================\n\n')
+module.exports = generate()
 
-  consola.info('=======================')
-  consola.info('Deploying to S3')
-  consola.info('=======================')
+function done(nuxt, errors){
 
-  await deploy()
-  
-  consola.success('=======================')
-  consola.success('Deployed')
-  consola.success('=======================\n\n')
+  if(errors.length) process.exit(0)
+  console.log('\n')
+  consola.success('====================================')
+  consola.success('Generation of static routes complete')
+  consola.success('====================================')
 }
 
-module.exports = generate
+function routeFailed(nuxt, errors){ 
+  consola.error('route failed', errors) 
+}
+
+function paths(){
+  consola.error('process.argv[2]', Array.isArray(process.argv[2]))
+}

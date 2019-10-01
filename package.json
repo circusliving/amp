@@ -10,12 +10,13 @@
     "@nuxtjs/proxy": "^1.2.4",
     "@nuxtjs/pwa": "3.0.0-beta.19",
     "amp-module": "1.0.0-beta.7",
+    "body-parser": "^1.19.0",
     "bootstrap": "4.3.1",
-    "core-js": "2.6.9",
     "lodash.clone": "^4.5.0",
     "nuxt": "2.9.2",
     "pluralize": "^8.0.0",
-    "vue-apollo": "3.0.0-rc.4"
+    "vue-apollo": "3.0.0-rc.4",
+    "serverless-http": "^2.3.0"
   },
   "scripts": {
     "dev": "rm -rf .nuxt && DEBUG='nuxt:amp' nuxt",
@@ -23,6 +24,7 @@
     "start": "nuxt start",
     "gen": "rm -rf .nuxt && rm -rf dist && yarn nuxt generate",
     "gen:dev": "rm -rf .nuxt &&  rm -rf dist && NODE_ENV=dev yarn nuxt generate",
+    "gen:stg": "NODE_ENV=stg node ./sls/generator.js ['/back-yard/quebec-road-trips','/articles/chocolate-maple-frogs']",
     "deploy:dev": "NODE_ENV=dev gulp deploy",
     "deploy": "NODE_ENV=production gulp deploy",
     "offline": "NODE_ENV=dev serverless offline start --stage dev",
@@ -35,6 +37,7 @@
     "aws-sdk": "^2.528.0",
     "babel-eslint": "10.0.3",
     "concurrent-transform": "^1.0.0",
+    "core-js": "2.6.9",
     "datocms-client": "2.0.9",
     "dotenv": "8.1.0",
     "dotenv-expand": "^5.1.0",
@@ -50,10 +53,9 @@
     "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
     "gulp-rename": "^1.4.0",
     "node-sass": "4.12.0",
+    "nuxt-generate-cluster": "^2.6.0",
     "nuxt-purgecss": "^0.2.1",
     "sass-loader": "^8.0.0",
-    "serverless-domain-manager": "^3.2.2",
-    "serverless-http": "^2.0.2",
     "serverless-offline": "^5.11.0",
     "string-strip-html": "4.2.2"
   }
