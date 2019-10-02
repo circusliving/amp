@@ -13,10 +13,10 @@ console.info(`#####              BASE_URL: ${process.env.BASE_URL}`)
 console.info(`#####             BASE_PATH: ${process.env.BASE_PATH}`)
 
 const apolloConfig = require('./modules/configs/apollo.js')
-const { getRoutes } = require('./modules/generate')
+const SiteMap = require('./modules/SiteMap')
 
 module.exports = {
-  generate: { routes: all, interval: 2000 }, 
+  generate: { routes: SiteMap.all, interval: 2000 }, 
   env: {
     BASE_URL: process.env.BASE_URL,
     NODE_ENV:process.env.NODE_ENV,
