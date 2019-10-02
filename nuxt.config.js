@@ -13,14 +13,16 @@ console.info(`#####              BASE_URL: ${process.env.BASE_URL}`)
 console.info(`#####             BASE_PATH: ${process.env.BASE_PATH}`)
 
 const apolloConfig = require('./modules/configs/apollo.js')
+const { getRoutes } = require('./modules/generate')
 
 module.exports = {
   generate: { routes: all, interval: 2000 }, 
   env: {
-    BASE_URL      : process.env.BASE_URL,
-    NODE_ENV      : process.env.NODE_ENV,
-    BASE_PATH     : process.env.BASE_PATH,
-    DATO_READ_ONLY: process.env.DATO_READ_ONLY
+    BASE_URL: process.env.BASE_URL,
+    NODE_ENV:process.env.NODE_ENV,
+    BASE_PATH:process.env.BASE_PATH,
+    DATO_READ_ONLY:process.env.DATO_READ_ONLY,
+    CACONICAL_BASE_URL:process.env.CACONICAL_BASE_URL
   },
   css: [
     { src: '@/assets/main.scss', lang: 'scss' },

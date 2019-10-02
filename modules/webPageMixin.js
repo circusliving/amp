@@ -20,9 +20,9 @@ function genRoute({ section, page }) {
 }
 
 async function asyncData ({ app, params }) {
-  
-  let webPage           = await getWebPage ( app, genRoute(params) ) || {}
-  
+
+  const   webPage    = await getWebPage ( app, genRoute(params) ) || {} 
+
   let { items, count }  = await getItems   ( app, webPage.collectionsMap, webPage.tagsMap )
 
   if(webPage)
@@ -39,15 +39,16 @@ async function asyncData ({ app, params }) {
             alternateName: webPage.alternateName,
             widget       : webPage.widget,
             coverImage   : ImageService.getDimensions(webPage.coverImage)||ImageService.getDimensions(webPage.image),
+            redirect     : webPage.redirect
           }
 }
 
 function head () {
-  return {
+  const header=  {
     title: this.alternateName || this.name,
     link: [
       // We use $route.path since we don't use query parameters
-      { hid: 'canonical'             , rel: 'canonical' , href:  path.normalize(`https://${process.env.BASE_URL}${process.env.BASE_PATH}${this.$route.path}`) },
+      { hid: 'canonical'             , rel: 'canonical' , href:  path.normalize(`https://${process.env.CACONICAL_BASE_URL}${process.env.BASE_PATH}${this.$route.path}`) },
       { hid: 'stylesheet-roboto-slab', rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto+Slab:300,700'                    },
       { hid: 'stylesheet-roboto'     , rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400'                             }
     ],
@@ -66,6 +67,10 @@ function head () {
       { hid: 'twitter:image:alt'  , name: 'twitter:image:alt'  , content: this.alternateName || this.name}
     ]
   }
+  console.log('this.redirectthis.redirect',this.redirect)
+  if(this.redirect)
+    header.meta = [ { hid: 'http-equiv', 'http-equiv':'refresh', content:`0;url=https://${process.env.BASE_URL}${this.redirect}`} ]
+  return header
 }
 
 

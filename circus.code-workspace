@@ -4,6 +4,7 @@
 			"path": "."
 		},
 		{
+<<<<<<< Updated upstream
 			"path": "/Users/randyhoulahan/projects/circus/dato-cms-migration/src/organizations"
 		},
 		{
@@ -11,6 +12,15 @@
 		},
 		{
 			"path": "/Users/randyhoulahan/projects/circus/dato-cms-migration"
+=======
+			"path": "/Users/randyhoulahan/projects/my/to-amp"
+		},
+		{
+			"path": "/Users/randyhoulahan/projects/my/amp-module"
+		},
+		{
+			"path": "/Users/randyhoulahan/projects/circus/perm-redirect"
+>>>>>>> Stashed changes
 		}
 	],
 	"settings": {
