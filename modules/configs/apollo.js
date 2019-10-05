@@ -1,6 +1,6 @@
-module.exports = exports  = {
-  tokenName: 'circusApolloToken', // optional, default: apollo-token
-  tokenExpires: 10, // optional, default: 7
+const config = {
+  tokenName         : 'circusApolloToken', // optional, default: apollo-token
+  tokenExpires      : 10, // optional, default: 7
   authenticationType: 'Bearer',
   // optional
   // errorHandler (error) {
@@ -8,7 +8,11 @@ module.exports = exports  = {
   //   console.log('###################', error)
   // },
   // required
-  clientConfigs: {
+  clientConfigs     : {
     default: '~/apollo/config.js'
-  }
+  },
+  includeNodeModules: true
 }
+
+
+module.exports = exports  = config

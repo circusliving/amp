@@ -1,9 +1,13 @@
-export default function (context) {
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+const cache = new InMemoryCache()
+
+export default function (context){
   return {
     // required
 
-    httpEndpoint: 'https://graphql.datocms.com',
-    getAuth: () => `6a99e149fb6b91bbc8b101e86fe7de`,
+    httpEndpoint  : 'https://graphql.datocms.com',
+    getAuth       : () => '6a99e149fb6b91bbc8b101e86fe7de',
     // optional
     // See https://www.apollographql.com/docs/link/links/http.html#options
     // httpLinkOptions: {
@@ -13,12 +17,13 @@ export default function (context) {
     // Use `null` to disable subscriptions
     // wsEndpoint: 'ws://localhost:4000', // optional
     // LocalStorage token
-    tokenName: 'apollo-token', // optional
+    tokenName     : 'apollo-token', // optional
     // Enable Automatic Query persisting with Apollo Engine
-    persisting: false, // Optional
+    persisting    : false, // Optional
     // Use websockets for everything (no HTTP)
     // You need to pass a `wsEndpoint` for this to work
-    websocketsOnly: false // Optional,
+    websocketsOnly: false, // Optional,
+    cache
 
   }
   // test: {

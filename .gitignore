@@ -14,3 +14,4 @@ dist
 .vscode
 .DS_Store
 *sw.js
+circus.code-workspace

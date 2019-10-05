@@ -116,7 +116,7 @@
   // import AmpCardImgMiddle   from '~/components/amp/CardImgMiddle'
   import AmpQuotes          from '~/components/amp/AmpQuotes'
   import AmpQuote           from '~/components/amp/AmpQuote'
-  import CardList       from '~/components/amp/CardList'
+  import CardList           from '~/components/amp/CardList'
 
   export default {
     name:       'index',

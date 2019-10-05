@@ -1,4 +1,6 @@
-query webPage($path: String!) {
+import gql from 'graphql-tag'
+
+export default gql`query webPage($path: String!) {
   webPage(filter: { path: { eq: $path } }) {
     url,
     name,
@@ -18,4 +20,4 @@ query webPage($path: String!) {
       },
     redirect
   }
-}
+}`

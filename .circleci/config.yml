@@ -1,11 +1,44 @@
 
 version: 2
+
+_defaults: &defaults
+  docker:
+    - image: circleci/node:latest
+  working_directory: ~/circus/amp
+  parallelism: 1
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:latest
+    <<: *defaults
     steps:
-    - run: # test what branch we're on.
-        name: "What CIRCLE_WORKING_DIRECTORY?"
-        command: echo ${CIRCLE_WORKING_DIRECTORY}
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install deps
+          command: yarn install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules         
+      - run:
+          name: gen
+          command: |
+            if [ $CIRCLE_BRANCH == 'dev' ] || [ $CIRCLE_BRANCH == 'stg' ]
+            then
+              yarn gen:$CIRCLE_BRANCH
+            else
+              yarn gen
+            fi
+      - run:
+          name: peek
+          command: ls -al dist
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: /^(master|dev|stg)$/

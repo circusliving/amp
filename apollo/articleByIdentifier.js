@@ -1,4 +1,6 @@
-query article($identifier: String!) {
+import gql from 'graphql-tag'
+
+export default gql`query article($identifier: String!) {
   article(filter: { identifier: { eq: $identifier } }) {
     name
     alternateName
@@ -6,4 +8,4 @@ query article($identifier: String!) {
     image,
     coverImage
   }
-}
+}`
