@@ -17,7 +17,7 @@ const apolloConfig = require('./modules/configs/apollo.js')
 const SiteMap = require('./modules/SiteMap')
 
 module.exports = {
-  generate: { routes: SiteMap.all, interval: 2000 },
+  generate: { routes: SiteMap.all, interval: 3000 },
   env     : {
     BASE_URL          : process.env.BASE_URL,
     NODE_ENV          : process.env.NODE_ENV,
