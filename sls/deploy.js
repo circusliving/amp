@@ -27,9 +27,9 @@ const config = {
   // Optional
   deleteOldVersions: true,                 // NOT FOR PRODUCTION
 
-  region           : process.env.AWS_DEFAULT_REGION,
+  //region           : process.env.AWS_DEFAULT_REGION,
   headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip'  },
-  credentials      : new AWS.SharedIniFileCredentials({ profile: 'default' }),
+  //credentials      : new AWS.SharedIniFileCredentials({ profile: 'default' }),
   // Sensible Defaults - gitignore these Files and Dirs
   distDir          : 'dist',
   indexRootPath    : false,
