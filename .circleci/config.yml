@@ -1,4 +1,3 @@
-
 version: 2
 
 _defaults: &defaults
@@ -31,8 +30,14 @@ jobs:
               yarn gen
             fi
       - run:
-          name: peek
-          command: ls -al dist
+          name: deploy
+          command: |
+            if [ $CIRCLE_BRANCH == 'dev' ] || [ $CIRCLE_BRANCH == 'stg' ]
+            then
+              yarn deploy:$CIRCLE_BRANCH
+            else
+              yarn deploy
+            fi 
 
 workflows:
   version: 2
