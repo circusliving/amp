@@ -41,7 +41,6 @@ const config = {
 const cfConfig = {
   distribution : process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
   wait         : false,  // wait for CloudFront invalidation to complete (about 30-60 seconds)
-  credentials  : new AWS.SharedIniFileCredentials({ profile: 'default' }),
   indexRootPath: false
 }
 
