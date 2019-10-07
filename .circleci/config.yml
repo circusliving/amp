@@ -50,10 +50,10 @@ workflows:
   build_and_deploy:
     jobs:
       - aws:
-        context: aws
+          context: aws
       - build:
-        requires:
-          - aws
-        filters:
-          branches:
-            only: /^(master|dev|stg)$/
+          requires:
+            - aws
+          filters:
+            branches:
+              only: /^(master|dev|stg)$/
