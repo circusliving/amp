@@ -6,7 +6,6 @@ _defaults: &defaults
   docker:
     - image: circleci/node:latest
   working_directory: ~/circus/amp
-  executor: aws-cli/default
   parallelism: 1
 
 jobs:
