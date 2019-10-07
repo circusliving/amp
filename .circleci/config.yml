@@ -9,6 +9,7 @@ _defaults: &defaults
 jobs:
   aws:
     <<: *defaults
+    executor: aws-cli/default
     steps:
       - aws-cli/setup
   build:
