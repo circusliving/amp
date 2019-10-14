@@ -6,76 +6,106 @@ const  parallelize        = require('concurrent-transform')
 const  dotenv             = require('dotenv')
 const  variableExpansion  = require('dotenv-expand')
 const  consola            = require('consola')
+const through             = require('through2')
 const  fs                 = require('fs')
-const  AWS                = require('aws-sdk')
-const { resolve          } = require('path')
-const ENV = process.env.NODE_ENV || 'dev'
-const through = require('through2')
+const { resolve         } = require('path')
+
+const ENV    = process.env.NODE_ENV || 'dev'
+const Bucket = process.env.AWS_BUCKET_NAME
+const Prefix = process.env.AWS_KEY_PREFIX
 
 loadEnvVars()
 
-
 const config = {
-
-  options: { simulate: false },
-  // Required
-  params : {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Prefix: process.env.AWS_KEY_PREFIX
-  },
-
-  // Optional
-  deleteOldVersions: true,                 // NOT FOR PRODUCTION
-
-  //region           : process.env.AWS_DEFAULT_REGION,
+  options          : { simulate: false },
+  params           : { Bucket, Prefix },
+  deleteOldVersions: true,
   headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip'  },
-  //credentials      : new AWS.SharedIniFileCredentials({ profile: 'default' }),
-  // Sensible Defaults - gitignore these Files and Dirs
-  distDir          : 'dist',
+  distDir          : '/tmp',
   indexRootPath    : false,
   cacheFileName    : `.awspublish-${ENV}`,
   concurrentUploads: 50
-  
 }
 
 const cfConfig = {
   distribution : process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
   wait         : false,  // wait for CloudFront invalidation to complete (about 30-60 seconds)
-  indexRootPath: false
+  indexRootPath: true,
+  originPath   : `/circusliving.com/${ENV}/`
 }
 
-const deploy = () => {
+const deploy = (isLambda = false) => {
+  consola.info(`Deploy started to: ${Bucket}/${Prefix}`)
+  console.time('deploy')
+
+  if(isLambda)
+    config.cacheFileName = `/tmp/.awspublish-${ENV}`
+    
+  let   g         = readFiles()
   const publisher = awspublish.create(config, config)
 
-  let g = gulp.src('./' + config.distDir + '/**')
-
-  if(config.params.Prefix)
-    g = g.pipe(rename((path) => { path.dirname = process.env.AWS_KEY_PREFIX+'/'+path.dirname }))
-        
-  g = g.pipe(awspublish.gzip())
-
-  g = g.pipe(parallelize(publisher.publish(config.headers, config.options), config.concurrentUploads))
-  g = g.pipe(through.obj((chunk, enc, cb) => {
-    if(chunk.path.includes('/index.html'))
-      chunk.path = chunk.path.replace('/index.html', '')
-    cb(null, chunk)
-  }))
-  // Invalidate CDN
-  if (cfConfig.distribution)
-    g = g.pipe(cloudfront(cfConfig))
-
-  // Delete removed files
-  if (config.deleteOldVersions)
-    g = g.pipe(publisher.sync(process.env.AWS_KEY_PREFIX))
-  // create a cache file to speed up consecutive uploads
-  g = g.pipe(publisher.cache())
-  // print upload updates to console
-  g = g.pipe(awspublish.reporter())
-  g.on('end', () => gulp.src('./' + config.distDir + '/**').pipe(cloudfront(cfConfig)))
-  return g
+  g = setBucketPrefix(g)
+  g = gzip(g)
+  g = createCacheFile(g, publisher)
+  g = setConcurrentUpload(g, publisher)
+  g = deleteRemovedFiles(g, publisher, isLambda)
+  g = invalidCDN(g)
+  g = reportUpdatesToConsole(g, isLambda)
+  
+  return new Promise((resolve, reject) => {
+    g.on('end',   ()  => { console.timeEnd('deploy'); done(); return resolve(g); })
+    g.on('error', (e) => { console.timeEnd('deploy'); return reject(e); })
+  })
 }
 
 module.exports = deploy
+
+// create a cache file to speed up consecutive uploads
+function setConcurrentUpload(g, publisher){
+  return g.pipe(parallelize(publisher.publish(config.headers, config.options), config.concurrentUploads))
+}
+
+// create a cache file to speed up consecutive uploads
+function createCacheFile(g, publisher){ return g.pipe(publisher.cache()) }
+
+function readFiles(){ return gulp.src('./' + config.distDir + '/**') }
+
+function gzip(g){ return g.pipe(awspublish.gzip()) }
+
+function setBucketPrefix(g){
+  if(!config.params.Prefix) return g
+
+  return g.pipe(rename((path) => { path.dirname = process.env.AWS_KEY_PREFIX+'/'+path.dirname }))
+}
+
+function reportUpdatesToConsole(g, isLambda){
+  if(isLambda) return g
+  
+  return g.pipe(awspublish.reporter())
+}
+
+function pathFixForInvalidation(g){
+  return g.pipe(through.obj((chunk, enc, cb) => {
+    if(chunk.s3.path.includes('/index.html'))
+      chunk.s3.path = chunk.s3.path.replace('/index.html', '')
+    cb(null, chunk)
+  }))
+}
+
+function invalidCDN(g){
+  if (!cfConfig.distribution) return g
+
+  g = pathFixForInvalidation(g)
+  
+  return g.pipe(cloudfront(cfConfig))
+}
+
+function deleteRemovedFiles(g, publisher, isLambda){
+  if (config.deleteOldVersions && !isLambda)
+    return g.pipe(publisher.sync(process.env.AWS_KEY_PREFIX))
+
+  return g
+}
 
 function loadEnvVars(){
   try {
@@ -90,4 +120,11 @@ function loadEnvVars(){
   catch(err){
     consola.error(err)
   }
+}
+
+function done(){
+  console.log('\n')
+  consola.success('====================================')
+  consola.success('          Deploy complete')
+  consola.success('====================================')
 }
