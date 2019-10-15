@@ -10,10 +10,10 @@ const   through            = require('through2')
 const   fs                 = require('fs')
 const { resolve         }  = require('path')
 const   path               = require('path')
+const ENV    = process.env.NODE_ENV || 'dev'
 
 loadEnvVars()
 
-const ENV    = process.env.NODE_ENV || 'dev'
 const Bucket = process.env.AWS_BUCKET_NAME
 const Prefix = process.env.AWS_KEY_PREFIX
 
