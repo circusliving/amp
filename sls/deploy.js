@@ -1,20 +1,21 @@
-const  gulp               = require('gulp')
-const  rename             = require('gulp-rename')
-const  awspublish         = require('gulp-awspublish')
-const  cloudfront         = require('gulp-cloudfront-invalidate-aws-publish')
-const  parallelize        = require('concurrent-transform')
-const  dotenv             = require('dotenv')
-const  variableExpansion  = require('dotenv-expand')
-const  consola            = require('consola')
-const through             = require('through2')
-const  fs                 = require('fs')
-const { resolve         } = require('path')
+const   gulp               = require('gulp')
+const   rename             = require('gulp-rename')
+const   awspublish         = require('gulp-awspublish')
+const   cloudfront         = require('gulp-cloudfront-invalidate-aws-publish')
+const   parallelize        = require('concurrent-transform')
+const   dotenv             = require('dotenv')
+const   variableExpansion  = require('dotenv-expand')
+const   consola            = require('consola')
+const   through            = require('through2')
+const   fs                 = require('fs')
+const { resolve         }  = require('path')
+const   path               = require('path')
+
+loadEnvVars()
 
 const ENV    = process.env.NODE_ENV || 'dev'
 const Bucket = process.env.AWS_BUCKET_NAME
 const Prefix = process.env.AWS_KEY_PREFIX
-
-loadEnvVars()
 
 const config = {
   options          : { simulate: false },
