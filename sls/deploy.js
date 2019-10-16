@@ -9,7 +9,6 @@ const   consola            = require('consola')
 const   through            = require('through2')
 const   fs                 = require('fs')
 const { resolve         }  = require('path')
-const   path               = require('path')
 
 const ENV    = process.env.NODE_ENV || 'dev'
 
@@ -23,7 +22,7 @@ const config = {
   params           : { Bucket, Prefix },
   deleteOldVersions: true,
   headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip'  },
-  distDir          : '/tmp',
+  distDir          : 'dist',
   indexRootPath    : false,
   cacheFileName    : `.awspublish-${ENV}`,
   concurrentUploads: 50
@@ -36,14 +35,14 @@ const cfConfig = {
   originPath   : `/circusliving.com/${ENV}/`
 }
 
-const deploy = (isLambda = false) => {
-  consola.info(`Deploy started to: ${Bucket}/${Prefix}`)
+const deploy = (cb, isLambdaEnv = false) => {
+  consola.info(`Deploy started to: ${Bucket}/${Prefix}`, `isLambdaEnv:${isLambdaEnv}`)
   console.time('deploy')
 
-  if(isLambda)
-    config.cacheFileName = `/tmp/.awspublish-${ENV}`
-  
-  console.log('read files')
+  if(isLambdaEnv) lambdaConfig()
+
+
+  console.log('read files', config)
   let   g         = readFiles()
 
   console.log('create publisher')
@@ -53,9 +52,9 @@ const deploy = (isLambda = false) => {
   g = gzip(g)
   g = createCacheFile(g, publisher)
   g = setConcurrentUpload(g, publisher)
-  g = deleteRemovedFiles(g, publisher, isLambda)
+  g = deleteRemovedFiles(g, publisher, isLambdaEnv)
   g = invalidCDN(g)
-  g = reportUpdatesToConsole(g, isLambda)
+  g = reportUpdatesToConsole(g, isLambdaEnv)
   
   return new Promise((resolve, reject) => {
     g.on('end',   ()  => { console.timeEnd('deploy'); done(); return resolve(g); })
@@ -132,4 +131,11 @@ function done(){
   consola.success('====================================')
   consola.success('          Deploy complete')
   consola.success('====================================')
+  console.log('\n')
+  console.log('\n')
+}
+
+function lambdaConfig(){
+  config.cacheFileName = `/tmp/.awspublish-${ENV}`
+  config.distDir       = '/tmp'
 }
