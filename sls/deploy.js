@@ -10,6 +10,7 @@ const   through            = require('through2')
 const   fs                 = require('fs')
 const { resolve         }  = require('path')
 const   path               = require('path')
+
 const ENV    = process.env.NODE_ENV || 'dev'
 
 loadEnvVars()
@@ -41,8 +42,11 @@ const deploy = (isLambda = false) => {
 
   if(isLambda)
     config.cacheFileName = `/tmp/.awspublish-${ENV}`
-    
+  
+  console.log('read files')
   let   g         = readFiles()
+
+  console.log('create publisher')
   const publisher = awspublish.create(config, config)
 
   g = setBucketPrefix(g)
