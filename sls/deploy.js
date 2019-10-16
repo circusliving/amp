@@ -10,7 +10,7 @@ const   through            = require('through2')
 const   fs                 = require('fs')
 const { resolve         }  = require('path')
 
-const ENV    = process.env.NODE_ENV || 'dev'
+const ENV    = getEnv()
 
 loadEnvVars()
 
@@ -20,19 +20,19 @@ const Prefix = process.env.AWS_KEY_PREFIX
 const config = {
   options          : { simulate: false },
   params           : { Bucket, Prefix },
-  deleteOldVersions: true,
-  headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip'  },
+  headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip' },
+  cacheFileName    : `.awspublish-${ENV}`,
   distDir          : 'dist',
   indexRootPath    : false,
-  cacheFileName    : `.awspublish-${ENV}`,
+  deleteOldVersions: true,
   concurrentUploads: 50
 }
 
 const cfConfig = {
   distribution : process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
+  originPath   : `/circusliving.com/${ENV}/`,
   wait         : false,  // wait for CloudFront invalidation to complete (about 30-60 seconds)
-  indexRootPath: true,
-  originPath   : `/circusliving.com/${ENV}/`
+  indexRootPath: true
 }
 
 const deploy = (cb, isLambdaEnv = false) => {
@@ -109,6 +109,11 @@ function deleteRemovedFiles(g, publisher, isLambda){
     return g.pipe(publisher.sync(process.env.AWS_KEY_PREFIX))
 
   return g
+}
+
+function getEnv(){
+  if(process.env.NODE_ENV === 'production') return 'prod'
+  return process.env.NODE_ENV || 'dev'
 }
 
 function loadEnvVars(){
