@@ -17,6 +17,7 @@ jobs:
             sudo apt-get -y install python-pip
             sudo pip install awscli
             sudo pip install awscli --upgrade
+            sudo npm i -g serverless
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -43,7 +44,16 @@ jobs:
               yarn deploy:$CIRCLE_BRANCH
             else
               yarn deploy
-            fi 
+            fi
+      - run: 
+          name: sls aws lambda deploy generate route
+          command: |
+            if [ $CIRCLE_BRANCH == 'dev' ] || [ $CIRCLE_BRANCH == 'stg' ]
+            then
+              yarn sls:deploy:$CIRCLE_BRANCH
+            else
+              yarn sls:deploy
+            fi
 
 workflows:
   version: 2
