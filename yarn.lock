@@ -2135,13 +2135,13 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
-amp-module@1.0.0-beta.9:
-  version "1.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/amp-module/-/amp-module-1.0.0-beta.9.tgz#367956053b44fa7377d42bfaea92901a1fb5ecac"
-  integrity sha512-+LzNcl378JUFebESYGnbMeA1EP6zl+rnSPFibYbhe6WSFQyjXAu63bSvDBn5SPVZF3IxAMihpd2g6iAnQRFQkQ==
+amp-module@1.0.0-beta.10:
+  version "1.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/amp-module/-/amp-module-1.0.0-beta.10.tgz#5c0f4f23e806aae40fc69cece9dd6ac066f89c40"
+  integrity sha512-KYqfKIN501XRt2kPv3PXrh0tAkHa1dKFoFgvhEvq+ygFPazngfA4ZFnKiqryuJPI8uNchh7nMrITsLJFpV0sZA==
   dependencies:
     nuxt "^2.10.0"
-    to-amp "1.0.0-beta.13"
+    to-amp "1.0.0-beta.14"
     vue "^2.6.10"
 
 ansi-align@^2.0.0:
@@ -12228,10 +12228,10 @@ to-absolute-glob@^2.0.0:
     is-absolute "^1.0.0"
     is-negated-glob "^1.0.0"
 
-to-amp@1.0.0-beta.13:
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/to-amp/-/to-amp-1.0.0-beta.13.tgz#6ea851002336311d2a4bf2a647654ab6b766744b"
-  integrity sha512-Fn7TbyEftoplNsbDv9NR/QotXiIEFSRFL40FwwW8n4F0vBMMbQTBo1NSJddR9knvlnb52VwPFjEP3b4RaGU/+A==
+to-amp@1.0.0-beta.14:
+  version "1.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/to-amp/-/to-amp-1.0.0-beta.14.tgz#82c7979de483ddc09b9e5f32eb66c47400d83c52"
+  integrity sha512-+mTHF1yz4RbOneds5Ri9oWcKkhlW+veNtURy3ePtkW8xKBwF6xjrmt0Mix5HF5OMpQMDAG2/DbyNStzIvtJneg==
   dependencies:
     cherio "^1.0.0-rc.2"
     consola "^2.4.0"

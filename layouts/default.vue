@@ -5,7 +5,7 @@
       <script type="application/json">
       {
         "vars" : {
-          "gtag_id": "UA-54605225-1"
+          "gtag_id": "{{gaTagId}}"
         }
       }
       </script>
@@ -28,6 +28,7 @@
 
   export default {
     components: { Header, Footer, SideBar, CLIcons },
+    computed  : { gaTagId },
     methods   : { nonAmpPath },
     head,
     data
@@ -45,6 +46,9 @@
     }
   }
 
+  function gaTagId(){
+    return process.env.GA_TAG_ID
+  }
   function nonAmpPath(path) { return path.replace('/amp', '') }
 </script>
 

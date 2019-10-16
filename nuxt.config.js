@@ -23,7 +23,8 @@ module.exports = {
     NODE_ENV          : process.env.NODE_ENV,
     BASE_PATH         : process.env.BASE_PATH,
     DATO_READ_ONLY    : process.env.DATO_READ_ONLY,
-    CACONICAL_BASE_URL: process.env.CACONICAL_BASE_URL
+    CACONICAL_BASE_URL: process.env.CACONICAL_BASE_URL,
+    GA_TAG_ID         : process.env.GA_TAG_ID
   },
   css: [
     { src: '@/assets/main.scss', lang: 'scss' },
@@ -70,7 +71,7 @@ module.exports = {
   toAmp : {
     version         : 'v0',
     componentVersion: '0.1',
-    components      : [ 'amp-carousel', 'amp-sidebar', 'amp-accordion', 'amp-instagram', 'amp-youtube', 'amp-social-share', 'amp-fx-collection', 'amp-install-serviceworker' ],
+    components      : [ 'amp-carousel', 'amp-sidebar', 'amp-accordion', 'amp-instagram', 'amp-youtube', 'amp-social-share', 'amp-fx-collection', 'amp-install-serviceworker', 'amp-analytics' ],
     pathFilter      : false,
     hostFilter      : false,
     minify          : true
@@ -82,5 +83,6 @@ module.exports = {
     mode   : 'postcss',
     enabled: true
   },
-  workbox: { dev: false }
+  workbox: { dev: false },
+  watch  : [ 'amp-module', 'to-amp' ]
 }
