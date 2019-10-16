@@ -1,6 +1,15 @@
 <template>
   <amp-menu-container>
     <amp-install-serviceworker src="/sw.js" layout="nodisplay" data-no-service-worker-fallback-url-match=".*" ></amp-install-serviceworker>
+    <amp-analytics type="gtag" data-credentials="include">
+      <script type="application/json">
+      {
+        "vars" : {
+          "gtag_id": "UA-54605225-1"
+        }
+      }
+      </script>
+    </amp-analytics>
     <main>
       <CLIcons/>
       <Header/>
