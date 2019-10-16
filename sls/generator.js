@@ -1,5 +1,5 @@
 //TODO
-// refactor 
+// refactor
 //   - modules genertae to sitemap
 //   - modules generate.getRoutes to all routes
 // route to fail on image 404
@@ -9,25 +9,25 @@ const { Nuxt, Generator,  Builder } = require('nuxt')
 const { all }                       = require('../modules/SiteMap')
 const   consola                     = require('consola')
 const   hooks                       = { generate: { done, routeFailed } }
-const   configOverride              = { 
-                                        
-                                        generate: { routes: all, interval: 2000 }, 
-                                        dev     :   false
-                                      }
-
-const aNuxt    = new Nuxt   ({ ...config, ...configOverride,  hooks })
-const aBuilder = new Builder(aNuxt)
-
-async function generate () {
-  const aGenerator = new Generator(aNuxt, aBuilder)
-
-  return aGenerator.generate({ build: false, init: false})
+const   configOverride              = {
+  generate: { routes: all, interval: 2000, dir: '/tmp' },
+  dev     : false
 }
 
-module.exports = generate()
+async function generate (route){
+  console.time('route:generate')
+  configOverride.generate.routes = [ route ]
+  const aNuxt    = new Nuxt({ ...config, ...configOverride,  hooks })
+  const aBuilder = new Builder(aNuxt)
+  const aGenerator = new Generator(aNuxt, aBuilder)
+
+  await aGenerator.generate({ build: false, init: false })
+  console.timeEnd('route:generate')
+}
+
+module.exports = generate
 
 function done(nuxt, errors){
-
   if(errors.length) process.exit(0)
   console.log('\n')
   consola.success('====================================')
@@ -35,10 +35,6 @@ function done(nuxt, errors){
   consola.success('====================================')
 }
 
-function routeFailed(nuxt, errors){ 
-  consola.error('route failed', errors) 
-}
-
-function paths(){
-  consola.error('process.argv[2]', Array.isArray(process.argv[2]))
+function routeFailed(nuxt, errors){
+  consola.error('route failed', errors)
 }

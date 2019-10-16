@@ -1,17 +1,22 @@
-
 version: 2
 
 _defaults: &defaults
-  docker:
-    - image: circleci/node:latest
   working_directory: ~/circus/amp
   parallelism: 1
 
 jobs:
   build:
     <<: *defaults
+    docker:
+      - image: circleci/node:latest
     steps:
       - checkout
+      - run:
+          name: aws cli
+          command: |
+            sudo apt-get -y install python-pip
+            sudo pip install awscli
+            sudo pip install awscli --upgrade
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -20,7 +25,7 @@ jobs:
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - ./node_modules         
+            - ./node_modules   
       - run:
           name: gen
           command: |
@@ -31,8 +36,14 @@ jobs:
               yarn gen
             fi
       - run:
-          name: peek
-          command: ls -al dist
+          name: deploy
+          command: |
+            if [ $CIRCLE_BRANCH == 'dev' ] || [ $CIRCLE_BRANCH == 'stg' ]
+            then
+              yarn deploy:$CIRCLE_BRANCH
+            else
+              yarn deploy
+            fi 
 
 workflows:
   version: 2
