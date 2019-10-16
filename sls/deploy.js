@@ -90,8 +90,13 @@ function reportUpdatesToConsole(g, isLambda){
 
 function pathFixForInvalidation(g){
   return g.pipe(through.obj((chunk, enc, cb) => {
-    if(chunk.s3.path.includes('/index.html'))
+    const { s3 } = chunk
+
+    if(!s3 || !s3.path) return cb(null, chunk)
+
+    if(s3.path.includes('/index.html'))
       chunk.s3.path = chunk.s3.path.replace('/index.html', '')
+    
     cb(null, chunk)
   }))
 }
