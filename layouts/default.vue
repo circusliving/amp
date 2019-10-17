@@ -2,12 +2,8 @@
   <amp-menu-container>
     <amp-install-serviceworker src="/sw.js" layout="nodisplay" data-no-service-worker-fallback-url-match=".*" ></amp-install-serviceworker>
     <amp-analytics type="gtag" data-credentials="include">
-      <script type="application/json">
-      {
-        "vars" : {
-          "gtag_id": "{{gaTagId}}"
-        }
-      }
+      <script type="application/json" v-html="gaTagId">
+    
       </script>
     </amp-analytics>
     <main>
@@ -47,7 +43,11 @@
   }
 
   function gaTagId(){
-    return process.env.GA_TAG_ID
+    return `{
+        "vars" : {
+          "gtag_id": "${process.env.GA_TAG_ID}"
+        }
+      }`
   }
   function nonAmpPath(path) { return path.replace('/amp', '') }
 </script>

@@ -8,7 +8,7 @@
     "@nuxtjs/apollo": "^4.0.0-rc14",
     "@nuxtjs/axios": "5.6.0",
     "@nuxtjs/pwa": "3.0.0-beta.19",
-    "amp-module": "1.0.0-beta.10",
+    "amp-module": "1.0.0-beta.11",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.0.0",
     "apollo-link": "^1.0.0",
