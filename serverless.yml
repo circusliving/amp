@@ -26,12 +26,27 @@ functions:
   generate:
     handler: sls/index.main
     events:
-     - http: POST /
-     - http: 'POST {proxy+}'
+      - http: POST /
+      - http: 'POST {proxy+}'
 
-# package:
-#   exclude:
-#     - dist/**
+package:
+  exclude:
+    - .vscode
+    - circus.code-workspace
+    - TODO*
+    - .circleci
+    - appolo
+    - assets
+    - components
+    - layouts
+    - locales
+    - plugins
+    - pages
+    - static
+    - store
+    - LICENSE
+    - README.md
+    - yarn*
 
 custom:
     serverless-offline:

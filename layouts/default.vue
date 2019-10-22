@@ -2,9 +2,7 @@
   <amp-menu-container>
     <amp-install-serviceworker src="/sw.js" layout="nodisplay" data-no-service-worker-fallback-url-match=".*" ></amp-install-serviceworker>
     <amp-analytics type="gtag" data-credentials="include">
-      <script type="application/json" v-html="gaTagId">
-    
-      </script>
+      <script type="application/json" v-html="gaTagId"></script>
     </amp-analytics>
     <main>
       <CLIcons/>

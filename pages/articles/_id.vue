@@ -28,24 +28,21 @@
   import stripHtml           from 'string-strip-html'
 
   export default {
-    name:       'AmpArticle',
-    head,
-    components: { HeroTitle },
+    name       : 'AmpArticle',
+    head       ,
+    components : { HeroTitle },
     scrollToTop: true,
-    asyncData,
-    computed:   { hasAlternateName, width, height, alt },
-    methods:    { genDescription }
+    asyncData  ,
+    computed   : { hasAlternateName, width, height, alt },
+    methods    : { genDescription }
   }
 
-  async function asyncData ({ app, params, error }) {
-
-    let article = (await app.apolloProvider.defaultClient.query({
-      query: articleByIdentifier,
-      variables: { identifier: params.id } 
-    })).data.article
+  async function asyncData ({ app, params, error, payload }) {
+    
+    const article = payload? payload : await query( app, params.id )
 
     if(article===null) 
-      return error({ statusCode: 404, message: `/amp/articles/${params.id} not found` })
+      return error({ statusCode: 404, message: `/articles/${params.id} not found` })
 
     app.$ToAMP.loadHtml(article.text)
     await Promise.all([ImageService.setDimensions(article.image),ImageService.setDimensions(article.coverImage),app.$ToAMP.loadImages()])
@@ -66,6 +63,12 @@
     }
   }
 
+async function query(app, identifier){
+  return (await app.apolloProvider.defaultClient.query({
+      query: articleByIdentifier,
+      variables: { identifier } 
+    })).data.article
+}
   function width(){
       return ImageService.width(this.image)
   }

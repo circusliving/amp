@@ -19,8 +19,8 @@ function genRoute({ section, page }){
   return '/'
 }
 
-async function asyncData ({ app, params }){
-  const   webPage    = await getWebPage(app, genRoute(params)) || {}
+async function asyncData ({ app, params, payload }){
+  const webPage = payload? payload : await getWebPage(app, genRoute(params)) || {}
 
   const { items, count }  = await getItems(app, webPage.collectionsMap, webPage.tagsMap)
 
@@ -33,7 +33,6 @@ async function asyncData ({ app, params }){
     name         : webPage.name,
     description  : webPage.description,
     page         : webPage,
-    description  : webPage.description,
     image        : ImageService.getDimensions(webPage.image),
     alternateName: webPage.alternateName,
     widget       : webPage.widget,
@@ -67,7 +66,6 @@ function head (){
     ]
   }
 
-  console.log('this.redirectthis.redirect', this.redirect)
   if(this.redirect)
     header.meta = [ { hid: 'http-equiv', 'http-equiv': 'refresh', content: `0;url=https://${process.env.BASE_URL}${this.redirect}` } ]
   return header

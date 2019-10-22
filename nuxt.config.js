@@ -1,23 +1,23 @@
-const path = require('path')
+const consola   = require('consola')
+const dotenv    = require('dotenv')
+const nodePath  = require('path')
+const isProd    = ![ 'dev', 'stg' ].includes(process.env.NODE_ENV)
+const ENV       = process.env.NODE_ENV
+const dotFile   = (!isProd)? `.${ENV}.env` : '.env'
+const path      = nodePath.resolve(process.cwd(), dotFile)
 
-let dotFile = '.env'
+dotenv.config({ path }) // read .env
 
-if ([ 'dev', 'stg' ].includes(process.env.NODE_ENV))
-  dotFile = `.${process.env.NODE_ENV}${dotFile}`
-require('dotenv').config({ path: path.resolve(process.cwd(), dotFile) })
-
-const { all } = require('./modules/SiteMap')
-
-console.info(`##### Building for NODE_ENV: ${process.env.NODE_ENV}`)
-console.info(`#####   Reading dotenv file: ${dotFile}`)
-console.info(`#####              BASE_URL: ${process.env.BASE_URL}`)
-console.info(`#####             BASE_PATH: ${process.env.BASE_PATH}`)
+consola.info(`      Building for NODE_ENV: ${process.env.NODE_ENV}`)
+consola.info(`        Reading dotenv file: ${dotFile}`)
+consola.info(`                   BASE_URL: ${process.env.BASE_URL}`)
+consola.info(`                  BASE_PATH: ${process.env.BASE_PATH}`)
 
 const apolloConfig = require('./modules/configs/apollo.js')
-const SiteMap = require('./modules/SiteMap')
+const SiteMap      = require('./modules/SiteMap')
 
 module.exports = {
-  generate: { routes: SiteMap.all, interval: 3000 },
+  generate: { routes: SiteMap.all, interval: 2000 },
   env     : {
     BASE_URL          : process.env.BASE_URL,
     NODE_ENV          : process.env.NODE_ENV,
@@ -28,13 +28,10 @@ module.exports = {
   },
   css: [
     { src: '@/assets/main.scss', lang: 'scss' },
-    { src: '@/assets/main.css', lang: 'css' }
+    { src: '@/assets/main.css',  lang: 'css' }
   ],
-  build: {
-    cache   : false,
-    parallel: false
-  },
-  head: {
+  build: { cache: false, parallel: false },
+  head : {
     meta: [
       { name: 'theme-color', content: '#000000' },
       { name: 'msapplication-TileColor', content: '#da532c' },
@@ -83,6 +80,6 @@ module.exports = {
     mode   : 'postcss',
     enabled: true
   },
-  workbox: { dev: false },
-  watch  : [ 'amp-module', 'to-amp' ]
+  workbox: { dev: false }
+  // watch  : [ 'amp-module', 'to-amp' ]
 }

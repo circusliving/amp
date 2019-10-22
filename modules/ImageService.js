@@ -70,7 +70,7 @@ async function getImageAttrs (attrs){
     
       headers = await Promise.all(headers)
     }
-catch(e){
+    catch(e){
       console.warn(e.message)
     }
     for (let i = 0; i < headers.length; i++){
@@ -82,14 +82,13 @@ catch(e){
         ...attrs[i]
       }
 
-      // console.log(DIMENSIONS[attrs[i].src])
       DIMENSIONS[attrs[i].src] = dims
       DIMENSIONS[attrs[i].src].srcSet= ImageService.getSrcSet(attrs[i])
     }
 
     return ampAttrs
   }
-catch(e){
+  catch(e){
     console.error(e.toString())
   }
 }
