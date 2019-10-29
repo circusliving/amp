@@ -30,7 +30,7 @@ module.exports = {
     { src: '@/assets/main.scss', lang: 'scss' },
     { src: '@/assets/main.css',  lang: 'css' }
   ],
-  build: { cache: false, parallel: false },
+  build: { cache: true, parallel: true },
   head : {
     meta: [
       { name: 'theme-color', content: '#000000' },

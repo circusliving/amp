@@ -1,12 +1,9 @@
 
-function setMenu (state, payLoad) {
-  state.items = payLoad
+function setMenu (state, payLoad){
+  if(!state.items.length)
+    state.items = payLoad
 }
 
-export const state = () => ({
-  items: []
-})
+export const state = () => ({ items: [] })
 
-export const mutations = {
-  set: setMenu
-}
+export const mutations = { set: setMenu }

@@ -167,7 +167,7 @@ async function getItems(app, collNamesArr, tags){
   const apollo      = app.apolloProvider
   const collNames   = clone(collNamesArr)
 
-  if(!collNames || !collNames.length || !collNames.length) return { items: '', count: '' }
+  if(!collNames || !collNames.length) return { items: '', count: '' }
 
   let items       = []
   let count       = 0
