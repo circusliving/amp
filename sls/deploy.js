@@ -23,7 +23,7 @@ const config = {
   params           : { Bucket, Prefix },
   deleteOldVersions: true,
   headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip'  },
-  distDir          : '/dist',
+  distDir          : 'dist',
   indexRootPath    : false,
   cacheFileName    : `.awspublish-${ENV}`,
   concurrentUploads: 50
@@ -40,7 +40,6 @@ const deploy = (cb, isLambdaEnv = false) => {
   if(isLambdaEnv) lambdaConfig()
 
   consola.info(`Deploy started to: ${Bucket}/${Prefix}`)
-
   let   g  = gulp.src('./' + config.distDir + '/**')
 
   const publisher = awspublish.create(config, config)
