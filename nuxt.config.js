@@ -27,7 +27,7 @@ module.exports = {
     GA_TAG_ID         : process.env.GA_TAG_ID
   },
   css: [
-    { src: '@/assets/main.scss', lang: 'scss' },
+    { src: 'bootstrap/dist/css/bootstrap.min.css', lang: 'css' },
     { src: '@/assets/main.css',  lang: 'css' }
   ],
   build: { cache: true, parallel: true },
@@ -81,5 +81,8 @@ module.exports = {
     enabled: true
   },
   workbox: { dev: false }
+  // styleResources : {
+  //   scss: []
+  // }
   // watch  : [ 'amp-module', 'to-amp' ]
 }

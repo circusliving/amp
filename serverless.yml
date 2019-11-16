@@ -1,4 +1,4 @@
-service: circusliving-amp-generate
+service: circus-amp-generate
 
 provider:
   name: aws
@@ -47,10 +47,3 @@ package:
     - LICENSE
     - README.md
     - yarn*
-
-custom:
-    serverless-offline:
-        port: 4000
-
-plugins:
-  - serverless-offline

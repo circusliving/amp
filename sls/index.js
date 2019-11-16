@@ -45,12 +45,16 @@ function getPath({ relationships, attributes }){
   return `/${schemaMap[schemaId]}/${identifier}`
 }
 
+// copies generated site included in SLS package to tmp dir as cache
+// so no regenerated everey time.  then generated route in tmp
 function initDist(req, res, next){
   const DIST_SIZE   = (fs.readdirSync('/var/task/dist')).length
   const TEMP_SIZE   = (fs.readdirSync('/tmp')).length
 
-  if(TEMP_SIZE == DIST_SIZE+1)
-    return console.info(`No Init Dist: TEMP_SIZE:${TEMP_SIZE} == DIST_SIZE:${DIST_SIZE+1}`)
+  if(TEMP_SIZE == DIST_SIZE+1){ 
+    console.info(`No Init Dist: TEMP_SIZE:${TEMP_SIZE} == DIST_SIZE:${DIST_SIZE+1}`)
+    return next()
+  }
 
   console.time('initDist')
   const options = { overwrite: true, preserveTimestamps: true }

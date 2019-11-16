@@ -22,7 +22,7 @@ const config = {
   options          : { simulate: false },
   params           : { Bucket, Prefix },
   deleteOldVersions: true,
-  headers          : { 'Cache-Control': 'max-age=315360000, no-transform, public', 'content-encoding': 'gzip'  },
+  headers          : { 'Cache-Control': 'max-age=60, no-transform, public', 'content-encoding': 'gzip'  },
   distDir          : 'dist',
   indexRootPath    : false,
   cacheFileName    : `.awspublish-${ENV}`,

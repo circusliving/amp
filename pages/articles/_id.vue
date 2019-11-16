@@ -1,5 +1,5 @@
 <template>
-  <section >
+  <article >
     <HeroTitle :title="article.name" :image="coverImage" :tint="true" />
     <div class="container">
       <div class="row">
@@ -12,25 +12,30 @@
             <div class="container-fluid" v-html="article.text"></div>
           </div>
         </div>
-        <div class="col-sm-4">
-          &nbsp;vvv
-        </div>
+        
+          <div class="col-sm-4 aside-cont">
+            <aside >
+              <PopularPosts />
+            </aside>
+          </div>
+        
       </div>
     </div>
-  </section>
+  </article>
 </template>
 
 <script>
   import articleByIdentifier from '~/apollo/articleByIdentifier'
   import ImageService        from '~/modules/ImageService'
   import HeroTitle           from '~/components/amp/HeroTitle'
+  import PopularPosts        from '~/components/amp/PopularPosts'
   import path                from 'path'
   import stripHtml           from 'string-strip-html'
 
   export default {
     name       : 'AmpArticle',
     head       ,
-    components : { HeroTitle },
+    components : { HeroTitle, PopularPosts },
     scrollToTop: true,
     asyncData  ,
     computed   : { hasAlternateName, width, height, alt },
@@ -198,6 +203,16 @@ function genDescription (){
       margin-inline-start: 0px;
       margin-inline-end: 0px;
   }
-
+  .debug{
+  border-color:red;
+  border-style: solid;
+  border-width: 1px;
+}
+.debugB {
+  border: 1px solid blue;
+}
+  .aside-cont{
+   padding-top: 3em;
+  }
 </style>
 

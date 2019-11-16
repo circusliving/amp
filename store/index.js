@@ -1,4 +1,5 @@
 import allWebPages    from '~/apollo/allWebPages'
+import latestArticles from '../apollo/latestArticles'
 
 let tree
 
@@ -6,8 +7,9 @@ let tree
 export const state = () => ({})
 
 export const actions = {
-  async nuxtServerInit ({ commit }, { app }){
+  async nuxtServerInit ({ commit, dispatch }, { app }){
     commit('menu/set', await getPages(app))
+    await dispatch('article/latest')
   }
 }
 
