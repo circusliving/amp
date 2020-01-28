@@ -43,7 +43,16 @@
   function gaTagId(){
     return `{
         "vars" : {
-          "gtag_id": "${process.env.GA_TAG_ID}"
+          "gtag_id": "${process.env.GA_TAG_ID}",
+              "config" : {
+              "${process.env.GA_TAG_ID}": {
+                "groups": "default",
+                "page_title": "${this.alternateName || this.name}",
+                "page_location": "https://www.circusliving.com${this.$route.path}",
+                "linker": { "domains": ["circusliving.com", "circusliving.ca"] },
+                "site_speed_sample_rate": 100
+              }
+            }
         }
       }`
   }
