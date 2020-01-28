@@ -4,7 +4,7 @@ const bodyParser  = require('body-parser')
 const generate    = require('./generator')
 const deploy      = require('./deploy')
 const consola     = require('consola')
-const schemaMap   = { 42132: 'articles' }
+const schemaMap   = { 42132: 'articles', 42133:'webPages' }
 const fs          = require('fs')
 const fse         = require('fs-extra')
 
@@ -39,10 +39,12 @@ function authorize (req, res, next){
 }
 
 function getPath({ relationships, attributes }){
-  const schemaId       = relationships.item_type.data.id
-  const { identifier } = attributes
+  const schemaId             = relationships.item_type.data.id
+  const { identifier, path } = attributes
 
-  return `/${schemaMap[schemaId]}/${identifier}`
+  if(path && schemaId === '42133') return  path
+
+  if(schemaMap[schemaId]) return `/${schemaMap[schemaId]}/${identifier}`
 }
 
 // copies generated site included in SLS package to tmp dir as cache

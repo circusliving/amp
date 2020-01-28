@@ -29,11 +29,12 @@ const config = {
   concurrentUploads: 50
 }
 
+const envShort = (ENV==='production')? 'prod' : ENV
 const cfConfig = {
   distribution : process.env.AWS_CLOUDFRONT, // CloudFront distribution ID
   wait         : false,  // wait for CloudFront invalidation to complete (about 30-60 seconds)
   indexRootPath: true,
-  originPath   : `/circusliving.com/${ENV}/`
+  originPath   : `/circusliving.com/${envShort}/`
 }
 
 const deploy = (cb, isLambdaEnv = false) => {
