@@ -1,30 +1,67 @@
+const AWS        = require('aws-sdk')
 const serverless  = require('serverless-http')
 const app         = require('express')()
 const bodyParser  = require('body-parser')
 const generate    = require('./generator')
-const deploy      = require('./deploy')
 const consola     = require('consola')
 const schemaMap   = { 42132: 'articles', 42133:'webPages' }
 const fs          = require('fs')
-const fse         = require('fs-extra')
+
+const { gzipAtomic, readFile, writeFileAtomic } = require('fs-nextra')
+const { resolve              } = require('path')
+const { NODE_ENV             } = process.env
+
+const Bucket = process.env.AWS_BUCKET_NAME
+const Prefix = process.env.AWS_KEY_PREFIX
 
 app.use(bodyParser.json({ strict: false }))
 
 const post = async (req, res) => {
   const route = getPath(req.body.entity)
+  const dist = '/tmp/dist'
+
+  try{
+    await generate(route, dist)
+    await deploy({ dist, route })
+
+    res.status(200).send('ok \n')
+  }catch(e){
+    console.error(e)
+    res.status(500).send('error \n')
+  }
   
-  await generate(route, '/tmp')
-  await deploy(() => {}, true)
-  
-  res.status(200).send('ok \n')
 }
 
-app.post('/', authorize, initDist, post)
+app.post('/', authorize, post)
 app.post('/local', authorize, post)
 
 app.use((req, res) => res.status(404).send({ code: 'notFound', statusCode: 404 }))
 
 module.exports.main = serverless(app)
+
+async function deploy({dist, route}){
+  const S3              = new AWS.S3({signatureVersion: 'v4'})
+  const filePath        = dist + route +'/index.html.gz'
+  const ContentEncoding = 'gzip'
+  const CacheControl    = 'max-age=60, no-transform, public'
+  const s3ObjectOptions = { Bucket, ContentEncoding, CacheControl  }
+
+  await gzipAtomic(filePath, dist + route +'/index.html') 
+
+
+  s3ObjectOptions.Metadata    = { poyyo:'poyyo'}
+  s3ObjectOptions.Key         = Prefix + route + '/index.html'
+
+  s3ObjectOptions.Body        = await readFile(filePath)
+  s3ObjectOptions.ContentType = 'text/html; charset=utf-8'
+  s3ObjectOptions.ACL         = 'public-read'
+
+  
+
+    return S3.putObject(s3ObjectOptions).promise()
+  
+}
+
 
 function authorize (req, res, next){
   let auth = req.headers.authorization || ' '
@@ -61,7 +98,7 @@ function initDist(req, res, next){
   console.time('initDist')
   const options = { overwrite: true, preserveTimestamps: true }
 
-  fse.copySync('/var/task/dist', '/tmp', options)
+  //fse.copySync('/var/task/dist', '/tmp', options)
 
   console.timeEnd('initDist')
 
