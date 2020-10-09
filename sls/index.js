@@ -48,20 +48,15 @@ async function deploy({dist, route}){
 
   await gzipAtomic(filePath, dist + route +'/index.html') 
 
-
-  s3ObjectOptions.Metadata    = { poyyo:'poyyo'}
   s3ObjectOptions.Key         = Prefix + route + '/index.html'
 
   s3ObjectOptions.Body        = await readFile(filePath)
   s3ObjectOptions.ContentType = 'text/html; charset=utf-8'
   s3ObjectOptions.ACL         = 'public-read'
 
-  
-
-    return S3.putObject(s3ObjectOptions).promise()
+  return S3.putObject(s3ObjectOptions).promise()
   
 }
-
 
 function authorize (req, res, next){
   let auth = req.headers.authorization || ' '
