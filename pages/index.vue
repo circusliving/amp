@@ -129,7 +129,7 @@
     return {
       title: this.alternateName || this.name,
       link: [
-        // We use $route.path since we don't use query parameters
+    
         { hid: 'canonical'             , rel: 'canonical' , href:  path.normalize(`https://${process.env.BASE_URL}${process.env.BASE_PATH}${this.$route.path}`) },
         { hid: 'stylesheet-roboto-slab', rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto+Slab:300,700'                    },
         { hid: 'stylesheet-roboto'     , rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto:400'                             },
