@@ -100,7 +100,6 @@
           link="/articles/mahlimae"
         />
         </AmpThreeCards> -->
-    
     <!-- </div> -->
   </section>
 </template>
