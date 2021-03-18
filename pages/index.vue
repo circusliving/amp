@@ -73,34 +73,7 @@
       <div class="wagon">
         <CardList  :items="items"  v-if="!widget" />
       </div>
-      <!-- <AmpSectionHeader title="(A Pass) From the Wagon"/>
-      <AmpThreeCards>
-        <AmpCardImgMiddle
-          slot="first"
-          title="Bodyworlds: Animal Inside Out Exhibit"
-          subTitle="01.02.2017 Spookshows"
-          description="What is it about death and its perceived connection with a being’s physical form that influences how one reacts to corpses on display?"
-          :image="{ src:'https://images.circusliving.com/375x222/animalinsideout.min.jpg', alt:'ostrich inside out', width:375, height:222 }"          
-          link="/articles/when-dead-animals-teach"
-        />
-        <AmpCardImgMiddle
-          slot="second"
-          title="Chocolate Maple Frogs"
-          subTitle="03.18.2017 kiarrasfinds, ghoulishgrubs"
-          description="Perfect for Harry Potter and Halloween themed get-togethers, 6 year old Kiarra made some chocolate maple frogs!"
-          :image="{ src:'https://images.circusliving.com/375x222/chocolatemaplefrogs3.min.jpg', alt:'Kiarra\'s chocolate frog', width:375, height:222 }"
-          link="/articles/chocolate-maple-frogs"
-        />
-        <AmpCardImgMiddle
-          slot="third"
-          title="Mahlimae"
-          subTitle="05.06.2015 cabinetofcuriosities,macabreartist"
-          description="An Interview with Nicole Watt. The power of simplicity, understanding mankind's darkness and light, and the wild unknown."
-          :image="{ src:'https://images.circusliving.com/375x222/mahlimaethumbnail.min.jpg', alt:'Mahlimae doll', width:375, height:222 }"
-          link="/articles/mahlimae"
-        />
-        </AmpThreeCards> -->
-    <!-- </div> -->
+
   </section>
 </template>
 
