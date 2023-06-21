@@ -27,7 +27,7 @@
     "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
     "gulp-rename": "^2.0.0",
     "lodash.clone": "^4.5.0",
-    "nuxt": "^2.11.0",
+    "nuxt": "^3.4.3",
     "nuxt-purgecss": "^0.2.1",
     "serverless-http": "^2.3.0",
     "string-strip-html": "4.3.16",
