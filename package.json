@@ -6,7 +6,7 @@
   "private": true,
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc14",
-    "@nuxtjs/axios": "5.9.5",
+    "@nuxtjs/axios": "5.13.6",
     "@nuxtjs/pwa": "3.0.0-beta.20",
     "add": "^2.0.6",
     "amp-module": "1.0.0-beta.12",
@@ -60,7 +60,7 @@
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "babel-eslint": "^10.0.1",
-    "core-js": "2",
+    "core-js": "63.31.1",
     "eslint": "^6.1.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.0",

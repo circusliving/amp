@@ -43,6 +43,7 @@
   function gaTagId(){
     return `{
         "vars" : {
+          'ampHost': 'https://www.circusliving.com',
           "gtag_id": "${process.env.GA_TAG_ID}",
               "config" : {
               "${process.env.GA_TAG_ID}": {
