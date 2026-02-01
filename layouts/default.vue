@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import Header  from '~/components/amp/Header'
+  import Header  from '~/components/amp/Header'  
   import Footer  from '~/components/amp/Footer'
   import SideBar from '~/components/amp/SideBar'
   import CLIcons from '~/components/CLIcons'
