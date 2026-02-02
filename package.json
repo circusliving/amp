@@ -60,7 +60,7 @@
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
     "babel-eslint": "^10.0.1",
-    "core-js": "63.31.1",
+    "core-js": "^3.31.1",
     "eslint": "^6.1.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-loader": "^3.0.0",
