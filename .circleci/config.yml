@@ -14,9 +14,9 @@ jobs:
       - run:
           name: aws cli
           command: |
-            sudo apt-get -y install python3-pip
-            sudo pip3 install awscli
-            sudo pip3 install awscli --upgrade
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
