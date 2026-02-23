@@ -1,9 +1,9 @@
 # Checkpoint
 
-**Current phase:** Phase 02 in progress
-**Last completed:** `phase-02/p02-04-api-menus-images`
-**Next task:** `phase-02/p02-05-pinia-stores.md`
-**Updated:** 2026-02-23T15:10:00Z
+**Current phase:** Phase 02 complete
+**Last completed:** `phase-02/p02-05-pinia-stores`
+**Next task:** `phase-03/p03-01-use-seo-head.md`
+**Updated:** 2026-02-23T15:15:00Z
 
 ## State
 
@@ -12,10 +12,11 @@
 - Phase 02 task 2 complete (DatoCMS client + typed fetch functions)
 - Phase 02 task 3 complete (Nitro API routes for articles + web pages + HTML processor)
 - Phase 02 task 4 complete (Nitro API routes for menus, images, places, identifiers)
+- Phase 02 task 5 complete (Pinia stores: menu, article, navigation)
 - Nuxt 4 dev server boots successfully
 - `pnpm typecheck` passes with zero errors
-- `pnpm test` passes — 66 tests across 13 test files
-- Committed on branch `p02-04-api-menus-images`
+- `pnpm test` passes — 82 tests across 16 test files
+- Committed on branch `p02-05-pinia-stores`
 
 ## Notes
 
@@ -38,3 +39,9 @@
 - Article `[id].get.ts` passes body HTML through `processArticleHtml` before returning
 - `store/index.js`, `store/article.js`, `store/menu.js` deleted (Vuex stores no longer needed)
 - `fetchPlaceByIdentifier` and `fetchIdentifierByValue` added to `dato-fetch.ts`
+- `app/stores/menu.ts` — `useMenuStore` with `isOpen`, `toggle()`, `open()`, `close()`; replaces Vuex `store/menu.js`
+- `app/stores/article.ts` — `useArticleStore` with `latestArticles` + `fetchLatest(limit?)`; calls `useFetch('/api/articles/latest')`
+- `app/stores/navigation.ts` — `useNavigationStore` with `menuItems` + `fetchMenu()`; calls `useFetch('/api/menu')`; replaces Vuex `nuxtServerInit` menu fetch
+- `~~/shared/types/*` alias used in `app/stores/` files — `~~` resolves to rootDir (project root) in Nuxt 4 where `~` resolves to srcDir (`app/`)
+- `vitest.setup.ts` extended with `useFetch` global stub returning `{ data: ref(null), error: ref(null), pending: ref(false), refresh: vi.fn() }`; individual store tests override per scenario via `vi.stubGlobal`
+- No Vuex references remain in any `.ts`, `.vue`, or `.js` file outside `.old` suffixed files
