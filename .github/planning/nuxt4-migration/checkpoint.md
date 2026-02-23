@@ -1,9 +1,9 @@
 # Checkpoint
 
 **Current phase:** Phase 03 in progress
-**Last completed:** `phase-03/p03-01-use-seo-head`
-**Next task:** `phase-03/p03-02-use-web-page.md`
-**Updated:** 2026-02-23T15:50:00Z
+**Last completed:** `phase-03/p03-02-use-web-page`
+**Next task:** `phase-03/p03-03-use-image-attrs.md`
+**Updated:** 2026-02-23T16:00:00Z
 
 ## State
 
@@ -14,8 +14,9 @@
 - Phase 02 task 4 complete (Nitro API routes for menus, images, places, identifiers)
 - Phase 02 task 5 complete (Pinia stores: menu, article, navigation)
 - Phase 03 task 1 complete (useSeoHead composable)
-- `pnpm test` passes — 106 tests across 17 test files
-- Committed on branch `p03-01-use-seo-head`
+- Phase 03 task 2 complete (useWebPage composable + router.options.ts)
+- `pnpm test` passes — 122 tests across 18 test files
+- Committed on branch `p03-02-use-web-page`
 
 ## Notes
 
@@ -46,3 +47,6 @@
 - No Vuex references remain in any `.ts`, `.vue`, or `.js` file outside `.old` suffixed files
 - `app/composables/use-seo-head.ts` — `useSeoHead(options: MaybeRefOrGetter<SeoHeadOptions>)` composable; uses `useSeoMeta()` for all meta tags + `useHead()` for canonical link; reads `canonicalBaseUrl` from `useRuntimeConfig().public`; supports `website` and `article` og types; article-specific tags (`articlePublishedTime`, `articleModifiedTime`) only rendered when `type === 'article'`; fully reactive via getter functions passed to `useSeoMeta`
 - 24 unit tests for `useSeoHead` cover basic meta, canonical URL construction, image tags, article-specific tags, and reactive getter behaviour
+- `app/composables/use-web-page.ts` — `useWebPage()` composable; replaces `webPageMixin.js`; uses `useFetch(() => \`/api/web-pages${path}\`)` with reactive URL getter; passes `alternateName || name` as title to `useSeoHead`; throws `createError({ statusCode: 404 })` when fetch errors; returns `{ webPage, error, status }`
+- `app/router.options.ts` — global scroll-to-top on navigation (replaces per-component `scrollToTop: true`); restores saved position for browser back/forward
+- 16 unit tests for `useWebPage` cover URL construction, SEO option derivation (title fallback, image, description, canonicalPath), return value, and 404 error handling; `useSeoHead` is module-mocked to isolate the unit

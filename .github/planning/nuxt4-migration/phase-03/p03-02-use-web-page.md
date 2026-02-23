@@ -1,7 +1,7 @@
 # Task: useWebPage Composable
 
 **ID:** p03-02
-**Status:** pending
+**Status:** complete
 **Depends on:** p02-03, p03-01
 **Context size:** medium
 **Branch:** `p03-02-use-web-page`
@@ -74,10 +74,10 @@ Create `useWebPage()` composable to replace the old `webPageMixin.js`. This is t
 
 ## Testing
 
-- [ ] Unit test composable with mocked useFetch
-- [ ] Verify SEO head is set from fetched data
-- [ ] Verify 404 error handling
-- [ ] Verify reactive path updates trigger refetch
+- [x] Unit test composable with mocked useFetch
+- [x] Verify SEO head is set from fetched data
+- [x] Verify 404 error handling
+- [x] Verify reactive path updates trigger refetch
 
 ## Outputs
 
@@ -86,12 +86,12 @@ Create `useWebPage()` composable to replace the old `webPageMixin.js`. This is t
 
 ## Done When
 
-- [ ] Composable replaces webPageMixin fully
-- [ ] SEO tags auto-set from CMS data
-- [ ] 404 handling works
-- [ ] Scroll-to-top on navigation works
-- [ ] Old mixin deleted
-- [ ] Unit tests pass
+- [x] Composable replaces webPageMixin fully
+- [x] SEO tags auto-set from CMS data
+- [x] 404 handling works
+- [x] Scroll-to-top on navigation works
+- [x] Old mixin deleted (already in modules.old/)
+- [x] Unit tests pass
 
 ## Commits
 
