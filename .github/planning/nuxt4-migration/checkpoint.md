@@ -1,9 +1,9 @@
 # Checkpoint
 
 **Current phase:** Phase 03 in progress
-**Last completed:** `phase-03/p03-02-use-web-page`
-**Next task:** `phase-03/p03-03-use-image-attrs.md`
-**Updated:** 2026-02-23T16:00:00Z
+**Last completed:** `phase-03/p03-03-use-image-attrs`
+**Next task:** `phase-03/p03-04-helpers-and-locales.md`
+**Updated:** 2026-02-23T16:05:00Z
 
 ## State
 
@@ -15,8 +15,9 @@
 - Phase 02 task 5 complete (Pinia stores: menu, article, navigation)
 - Phase 03 task 1 complete (useSeoHead composable)
 - Phase 03 task 2 complete (useWebPage composable + router.options.ts)
-- `pnpm test` passes — 122 tests across 18 test files
-- Committed on branch `p03-02-use-web-page`
+- Phase 03 task 3 complete (image-service.ts util + useImageAttrs composable)
+- `pnpm test` passes — 153 tests across 20 test files
+- Committed on branch `p03-03-use-image-attrs`
 
 ## Notes
 
@@ -50,3 +51,6 @@
 - `app/composables/use-web-page.ts` — `useWebPage()` composable; replaces `webPageMixin.js`; uses `useFetch(() => \`/api/web-pages${path}\`)` with reactive URL getter; passes `alternateName || name` as title to `useSeoHead`; throws `createError({ statusCode: 404 })` when fetch errors; returns `{ webPage, error, status }`
 - `app/router.options.ts` — global scroll-to-top on navigation (replaces per-component `scrollToTop: true`); restores saved position for browser back/forward
 - 16 unit tests for `useWebPage` cover URL construction, SEO option derivation (title fallback, image, description, canonicalPath), return value, and 404 error handling; `useSeoHead` is module-mocked to isolate the unit
+- `app/utils/image-service.ts` — `parseImageUrl(url)` returns `{pathname, filename, extension}`; `buildSrcSet(url, widths)` generates responsive srcset using DatoCMS `?w=<width>` query params; `DEFAULT_WIDTHS = [320,480,640,768,960,1280]`; drops old HTTP HEAD dimension-fetching pattern from `modules/ImageService.js`
+- `app/composables/use-image-attrs.ts` — `useImageAttrs(options: ImageAttrsOptions)` composable; accepts `url`, `alt` as `MaybeRefOrGetter`; returns reactive `{ src, srcSet, alt }` computed refs; replaces duplicated width/height/alt logic in PageBody, HeroTitle, articles page
+- 16 unit tests for `image-service` cover URL parsing edge cases and srcset format; 15 unit tests for `useImageAttrs` cover reactivity, defaults, and return shape
