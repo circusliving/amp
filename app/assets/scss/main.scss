@@ -1,0 +1,22 @@
+// Bootstrap 5 variable overrides
+@import 'variables';
+
+// Bootstrap 5 core
+@import 'bootstrap/scss/bootstrap';
+
+// App-specific global styles
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+main {
+  width: 100%;
+  background-color: #f9f9f9;
+}
+
+figure {
+  margin: 0;
+}
