@@ -1,9 +1,9 @@
 # Checkpoint
 
-**Current phase:** Phase 02 complete
-**Last completed:** `phase-02/p02-05-pinia-stores`
-**Next task:** `phase-03/p03-01-use-seo-head.md`
-**Updated:** 2026-02-23T15:15:00Z
+**Current phase:** Phase 03 in progress
+**Last completed:** `phase-03/p03-01-use-seo-head`
+**Next task:** `phase-03/p03-02-use-web-page.md`
+**Updated:** 2026-02-23T15:50:00Z
 
 ## State
 
@@ -13,10 +13,9 @@
 - Phase 02 task 3 complete (Nitro API routes for articles + web pages + HTML processor)
 - Phase 02 task 4 complete (Nitro API routes for menus, images, places, identifiers)
 - Phase 02 task 5 complete (Pinia stores: menu, article, navigation)
-- Nuxt 4 dev server boots successfully
-- `pnpm typecheck` passes with zero errors
-- `pnpm test` passes — 82 tests across 16 test files
-- Committed on branch `p02-05-pinia-stores`
+- Phase 03 task 1 complete (useSeoHead composable)
+- `pnpm test` passes — 106 tests across 17 test files
+- Committed on branch `p03-01-use-seo-head`
 
 ## Notes
 
@@ -45,3 +44,5 @@
 - `~~/shared/types/*` alias used in `app/stores/` files — `~~` resolves to rootDir (project root) in Nuxt 4 where `~` resolves to srcDir (`app/`)
 - `vitest.setup.ts` extended with `useFetch` global stub returning `{ data: ref(null), error: ref(null), pending: ref(false), refresh: vi.fn() }`; individual store tests override per scenario via `vi.stubGlobal`
 - No Vuex references remain in any `.ts`, `.vue`, or `.js` file outside `.old` suffixed files
+- `app/composables/use-seo-head.ts` — `useSeoHead(options: MaybeRefOrGetter<SeoHeadOptions>)` composable; uses `useSeoMeta()` for all meta tags + `useHead()` for canonical link; reads `canonicalBaseUrl` from `useRuntimeConfig().public`; supports `website` and `article` og types; article-specific tags (`articlePublishedTime`, `articleModifiedTime`) only rendered when `type === 'article'`; fully reactive via getter functions passed to `useSeoMeta`
+- 24 unit tests for `useSeoHead` cover basic meta, canonical URL construction, image tags, article-specific tags, and reactive getter behaviour

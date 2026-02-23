@@ -1,7 +1,7 @@
 # Task: useSeoHead Composable
 
 **ID:** p03-01
-**Status:** pending
+**Status:** complete
 **Depends on:** p02-01
 **Context size:** small
 **Branch:** `p03-01-use-seo-head`
