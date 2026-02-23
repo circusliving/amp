@@ -1,0 +1,15 @@
+.git
+.github
+.nuxt
+.output
+node_modules
+.env
+.env.*
+!.env.example
+*.md
+.vscode
+.idea
+tasks/
+*.old
+modules.old/
+sls/

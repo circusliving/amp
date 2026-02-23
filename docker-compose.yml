@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      - NUXT_DATO_API_TOKEN=${NUXT_DATO_API_TOKEN}
+      - NUXT_PUBLIC_BASE_URL=${NUXT_PUBLIC_BASE_URL}
+      - NUXT_PUBLIC_CANONICAL_BASE_URL=${NUXT_PUBLIC_CANONICAL_BASE_URL}
+      - NUXT_PUBLIC_GA_TAG_ID=${NUXT_PUBLIC_GA_TAG_ID}
