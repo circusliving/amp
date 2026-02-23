@@ -1,9 +1,9 @@
 # Checkpoint
 
-**Current phase:** Phase 03 in progress
-**Last completed:** `phase-03/p03-03-use-image-attrs`
-**Next task:** `phase-03/p03-04-helpers-and-locales.md`
-**Updated:** 2026-02-23T16:05:00Z
+**Current phase:** Phase 03 complete / Phase 04 starting
+**Last completed:** `phase-03/p03-04-helpers-and-locales`
+**Next task:** `phase-04/p04-01-layout.md`
+**Updated:** 2026-02-23T16:10:00Z
 
 ## State
 
@@ -16,8 +16,9 @@
 - Phase 03 task 1 complete (useSeoHead composable)
 - Phase 03 task 2 complete (useWebPage composable + router.options.ts)
 - Phase 03 task 3 complete (image-service.ts util + useImageAttrs composable)
-- `pnpm test` passes — 153 tests across 20 test files
-- Committed on branch `p03-03-use-image-attrs`
+- Phase 03 task 4 complete (helpers.ts, date-format.ts, locale JS files deleted)
+- `pnpm test` passes — 178 tests across 22 test files
+- Committed on branch `p03-04-helpers-and-locales`
 
 ## Notes
 
@@ -54,3 +55,7 @@
 - `app/utils/image-service.ts` — `parseImageUrl(url)` returns `{pathname, filename, extension}`; `buildSrcSet(url, widths)` generates responsive srcset using DatoCMS `?w=<width>` query params; `DEFAULT_WIDTHS = [320,480,640,768,960,1280]`; drops old HTTP HEAD dimension-fetching pattern from `modules/ImageService.js`
 - `app/composables/use-image-attrs.ts` — `useImageAttrs(options: ImageAttrsOptions)` composable; accepts `url`, `alt` as `MaybeRefOrGetter`; returns reactive `{ src, srcSet, alt }` computed refs; replaces duplicated width/height/alt logic in PageBody, HeroTitle, articles page
 - 16 unit tests for `image-service` cover URL parsing edge cases and srcset format; 15 unit tests for `useImageAttrs` cover reactivity, defaults, and return shape
+- `app/utils/helpers.ts` — `truncateText(text, maxLength?)` truncates at Unicode code point boundaries (emoji-safe, spreads to `[...text]`); `getPath(item)` extracts URL pathname, replaces `modules/helpers.js`
+- `app/utils/date-format.ts` — `formatDate(isoDate, format?)` wraps Luxon `DateTime.fromISO`; returns empty string for invalid dates; replaces Vue 2 `filters.dateFormat`
+- `locales/en.js` and `locales/fr.js` deleted — `locales/en.ts` and `locales/fr.ts` already existed with ESM default exports; `nuxt.config.ts` references `.ts` files
+- 14 unit tests for `helpers` cover truncation, edge cases, emoji safety, and URL path extraction; 11 unit tests for `date-format` cover default/custom formats, edge cases, and invalid inputs
