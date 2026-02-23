@@ -19,6 +19,6 @@
   export default {
     name       : 'Page',
     mixins     : [ webPageMixin ],
-    components : { PageBody, ImageList, HeroTitle, CardList }
+    components : { PageBody, ImageList, HeroTitle, CardList } 
   } 
 </script>

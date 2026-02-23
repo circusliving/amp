@@ -24,7 +24,7 @@
     "fs-nextra": "^0.4.7",
     "gulp": "4.0.2",
     "gulp-awspublish": "^4.0.0",
-    "gulp-cloudfront-invalidate-aws-publish": "^1.0.0",
+    "gulp-cloudfront-invalidate-aws-publish": "1.0.0",
     "gulp-rename": "^2.0.0",
     "lodash.clone": "^4.5.0",
     "nuxt": "^2.11.0",
