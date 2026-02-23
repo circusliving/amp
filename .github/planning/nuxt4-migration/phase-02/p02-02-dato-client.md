@@ -1,7 +1,7 @@
 # Task: DatoCMS Client & Server Utils
 
 **ID:** p02-02
-**Status:** pending
+**Status:** complete
 **Depends on:** p02-01
 **Context size:** small
 **Branch:** `p02-02-dato-client`
