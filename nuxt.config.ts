@@ -35,7 +35,6 @@ export default defineNuxtConfig({
       { code: 'fr', file: 'fr.ts' },
     ],
     defaultLocale: 'en',
-    lazy: true,
     langDir: '../locales/',
     strategy: 'prefix_except_default',
   },
