@@ -1,7 +1,7 @@
 # Task: Shared Types & GraphQL Queries
 
 **ID:** p02-01
-**Status:** pending
+**Status:** complete
 **Depends on:** p01-02
 **Context size:** medium
 **Branch:** `p02-01-types-and-queries`
@@ -76,10 +76,10 @@ Define TypeScript interfaces for all data models and consolidate all GraphQL que
 
 ## Done When
 
-- [ ] All DatoCMS data models have TypeScript interfaces
-- [ ] All GraphQL queries consolidated in one file
-- [ ] Types compile in strict mode
-- [ ] Old `apollo/` directory deleted
+- [x] All DatoCMS data models have TypeScript interfaces
+- [x] All GraphQL queries consolidated in one file
+- [x] Types compile in strict mode
+- [x] Old `apollo/` directory deleted
 
 ## Commits
 

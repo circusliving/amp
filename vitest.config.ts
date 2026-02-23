@@ -5,6 +5,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
+    setupFiles: ['./vitest.setup.ts'],
     include: ['**/__tests__/**/*.test.ts', '**/*.test.ts'],
     exclude: ['node_modules', '.nuxt', 'e2e/**', 'tests/e2e/**'],
     coverage: {
