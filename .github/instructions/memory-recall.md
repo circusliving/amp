@@ -230,6 +230,27 @@ Use this format:
 
 ---
 
+## Troubleshooting: `search_memories` / `read_graph` Validation Errors
+
+If `search_memories` or `read_graph` returns:
+```
+Error: 1 validation error for Entity
+type
+  String should match pattern '^[A-Za-z_][A-Za-z0-9_]*$'
+```
+
+This means the graph contains **at least one entity whose `type` field has spaces or special characters** (e.g. `"Technical Issue"`, `"file system"`, `"Vehicle/Equipment"`). A single bad entity poisons **all** graph-wide queries until fixed.
+
+**Immediate action:**
+1. Do NOT retry `search_memories` or `read_graph` — they will keep failing.
+2. Use `find_memories_by_name` with specific known entity names — it still works for individual lookups.
+3. Fix bad entities via direct Cypher (see the fix script in `memory-creation.md` → "Fixing invalid-type entities" section).
+4. After fixing, both tools work again immediately — no restart needed.
+
+**Prevention:** always use `snake_case` for entity `type`. See `memory-creation.md` for the full type constraint and correct tool call shapes.
+
+---
+
 ## If the `memory-recall` agent is unavailable
 
 1. Read this file and apply the rules above.

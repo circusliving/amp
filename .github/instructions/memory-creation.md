@@ -260,3 +260,117 @@ When delegating to `memory-maker`, pass as much relevant context as fits:
 - Commands run and important outputs/errors
 - Decisions made and tradeoffs
 - TODOs/unresolved items
+
+---
+
+## Neo4j Memory Tool API Reference
+
+**Package:** `mcp-neo4j-memory@0.4.5` (pinned in `~/Library/Application Support/Code/User/mcp.json`)
+**Tested:** 2026-02-23
+
+### CRITICAL: Entity `type` constraint
+
+The `type` field on all entities **MUST** match `^[A-Za-z_][A-Za-z0-9_]*$`:
+- ✅ Valid: `project`, `person`, `Technical_Issue`, `file_system`
+- ❌ Invalid: `"Technical Issue"`, `"file system"`, `"Documentation Project"`, `"Vehicle/Equipment"`
+
+**Why it matters:** A single entity with an invalid type **poisons all queries globally**. `search_memories` and `read_graph` will return a Pydantic validation error for every call until the bad entity is fixed — regardless of whether that entity was directly requested. This is a known bug in `mcp-neo4j-memory` ≤ 0.4.5.
+
+**Rule:** always use `snake_case` for entity types. Never use spaces, slashes, hyphens, or other special characters.
+
+### Correct tool call shapes (verified 2026-02-23)
+
+#### `create_entities`
+```json
+{
+  "entities": [
+    { "name": "my_entity", "type": "project", "observations": ["fact 1", "fact 2"] }
+  ]
+}
+```
+
+#### `add_observations`
+```json
+{
+  "observations": [
+    { "entityName": "my_entity", "observations": ["new fact 1", "new fact 2"] }
+  ]
+}
+```
+⚠️ Both outer and inner fields are named `observations` — the outer array items each contain `entityName` + a nested `observations` array.
+
+#### `create_relations`
+```json
+{
+  "relations": [
+    { "source": "entity_a", "target": "entity_b", "relationType": "RELATED_TO" }
+  ]
+}
+```
+⚠️ Use `source`/`target` — **not** `from_`/`to_` (those will fail with "must have required property 'source'").
+
+#### `find_memories_by_name`
+```json
+{ "names": ["entity_name_1", "entity_name_2"] }
+```
+⚠️ `names` is a **required array** — passing a single string returns "must have required property 'names'".
+
+#### `delete_entities`
+```json
+{ "entityNames": ["entity_one", "entity_two"] }
+```
+
+#### `delete_relations`
+```json
+{
+  "relations": [
+    { "source": "entity_a", "target": "entity_b", "relationType": "RELATED_TO" }
+  ]
+}
+```
+
+#### `delete_observations`
+```json
+{
+  "deletions": [
+    { "entityName": "my_entity", "observations": ["exact observation text to remove"] }
+  ]
+}
+```
+
+### Fixing invalid-type entities (emergency workaround)
+
+When `search_memories` or `read_graph` returns a Pydantic `Entity.type` validation error, run this one-liner to find and fix all bad entities directly via the Neo4j Python driver:
+
+```bash
+uvx --from neo4j python3 /path/to/fix_neo4j_types.py
+```
+
+Script content:
+
+```python
+import re, sys
+with open('/Users/randyhoulahan/Library/Application Support/Code/User/mcp.json') as f:
+    content = f.read()
+start = content.find('"neo4j-memory"')
+args = re.findall(r'"([^"]+)"', content[start:start+700])
+params = {}
+for i, a in enumerate(args):
+    if a.startswith('--') and i + 1 < len(args):
+        params[a] = args[i + 1]
+from neo4j import GraphDatabase
+driver = GraphDatabase.driver(params['--db-url'], auth=(params['--username'], params['--password']))
+with driver.session(database=params['--database']) as session:
+    bad = session.run(
+        "MATCH (e) WHERE e.type IS NOT NULL "
+        "AND (e.type =~ '.*[^A-Za-z0-9_].*' OR NOT e.type =~ '^[A-Za-z_].*') "
+        "RETURN e.name AS name, e.type AS type"
+    )
+    for r in bad:
+        fixed = re.sub(r'[^A-Za-z0-9_]', '_', r['type']).strip('_') or 'unknown'
+        session.run("MATCH (e {name: $n}) SET e.type = $t", n=r['name'], t=fixed)
+        print(f"Fixed: {r['name']!r} [{r['type']!r}] -> [{fixed!r}]")
+driver.close()
+```
+
+Delete the script after running (it reads credentials from `mcp.json`).
