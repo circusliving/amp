@@ -1,8 +1,8 @@
 # Checkpoint
 
 **Current phase:** Phase 02 in progress
-**Last completed:** `phase-02/p02-02-dato-client`
-**Next task:** `phase-02/p02-03-api-articles-webpages.md`
+**Last completed:** `phase-02/p02-03-api-articles-webpages`
+**Next task:** `phase-02/p02-04-api-menus-images.md`
 **Updated:** 2026-02-23T15:00:00Z
 
 ## State
@@ -10,10 +10,11 @@
 - Phase 01 fully implemented (all 4 tasks)
 - Phase 02 task 1 complete (types + queries)
 - Phase 02 task 2 complete (DatoCMS client + typed fetch functions)
+- Phase 02 task 3 complete (Nitro API routes for articles + web pages + HTML processor)
 - Nuxt 4 dev server boots successfully
 - `pnpm typecheck` passes with zero errors
-- `pnpm test` passes — 16 tests across 2 test files
-- Committed on branch `p02-02-dato-client`
+- `pnpm test` passes — 42 tests across 8 test files
+- Committed on branch `p02-03-api-articles-webpages`
 
 ## Notes
 
@@ -29,3 +30,7 @@
 - `server/utils/dato-fetch.ts` — 7 typed async fetch functions; explicitly imports `useDatoClient` for testability
 - `LATEST_ARTICLES_WITH_LIMIT_QUERY` added to `graphql-queries.ts` to support variable `limit` in `fetchLatestArticles`
 - `vitest.config.ts` created with `node` environment and path alias resolution
+- `vitest.setup.ts` stubs Nitro auto-imports (`defineEventHandler`, `getQuery`, `getRouterParam`, `createError`) so API route files can be imported and tested directly in vitest without the Nitro runtime
+- `server/utils/html-processor.ts` — adds `loading="lazy"` to `<img>` tags in article body HTML (AMP `<amp-img>` conversion dropped)
+- API routes use Nitro auto-import style (no explicit h3 imports in route files)
+- Article `[id].get.ts` passes body HTML through `processArticleHtml` before returning
