@@ -1,7 +1,7 @@
 # Task: Server API Routes — Articles & Web Pages
 
 **ID:** p02-03
-**Status:** pending
+**Status:** done
 **Depends on:** p02-02
 **Context size:** medium
 **Branch:** `p02-03-api-articles-webpages`

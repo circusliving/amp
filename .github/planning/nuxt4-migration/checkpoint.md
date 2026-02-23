@@ -1,9 +1,9 @@
 # Checkpoint
 
 **Current phase:** Phase 02 in progress
-**Last completed:** `phase-02/p02-03-api-articles-webpages`
-**Next task:** `phase-02/p02-04-api-menus-images.md`
-**Updated:** 2026-02-23T15:00:00Z
+**Last completed:** `phase-02/p02-04-api-menus-images`
+**Next task:** `phase-02/p02-05-pinia-stores.md`
+**Updated:** 2026-02-23T15:10:00Z
 
 ## State
 
@@ -11,10 +11,11 @@
 - Phase 02 task 1 complete (types + queries)
 - Phase 02 task 2 complete (DatoCMS client + typed fetch functions)
 - Phase 02 task 3 complete (Nitro API routes for articles + web pages + HTML processor)
+- Phase 02 task 4 complete (Nitro API routes for menus, images, places, identifiers)
 - Nuxt 4 dev server boots successfully
 - `pnpm typecheck` passes with zero errors
-- `pnpm test` passes — 42 tests across 8 test files
-- Committed on branch `p02-03-api-articles-webpages`
+- `pnpm test` passes — 66 tests across 13 test files
+- Committed on branch `p02-04-api-menus-images`
 
 ## Notes
 
@@ -27,10 +28,13 @@
 - Duplicate import warnings in typecheck are from Nuxt's auto-import scanning `shared/types/index.ts` alongside individual files; harmless
 - `modules.old/Dato.js` and `modules.old/configs/apollo.js` are neutralised (already in `.old` directory); originals preserved in git history
 - `server/utils/dato-client.ts` — singleton `GraphQLClient` factory; reads `datoApiToken` from `runtimeConfig`; exports `_resetDatoClient()` for test isolation
-- `server/utils/dato-fetch.ts` — 7 typed async fetch functions; explicitly imports `useDatoClient` for testability
+- `server/utils/dato-fetch.ts` — 9 typed async fetch functions; explicitly imports `useDatoClient` for testability
 - `LATEST_ARTICLES_WITH_LIMIT_QUERY` added to `graphql-queries.ts` to support variable `limit` in `fetchLatestArticles`
 - `vitest.config.ts` created with `node` environment and path alias resolution
 - `vitest.setup.ts` stubs Nitro auto-imports (`defineEventHandler`, `getQuery`, `getRouterParam`, `createError`) so API route files can be imported and tested directly in vitest without the Nitro runtime
 - `server/utils/html-processor.ts` — adds `loading="lazy"` to `<img>` tags in article body HTML (AMP `<amp-img>` conversion dropped)
+- `server/utils/menu-builder.ts` — pure `buildMenuTree(items)` function; ports the legacy Vuex `store/index.js` `makeTree` algorithm; supports one level of nesting
 - API routes use Nitro auto-import style (no explicit h3 imports in route files)
 - Article `[id].get.ts` passes body HTML through `processArticleHtml` before returning
+- `store/index.js`, `store/article.js`, `store/menu.js` deleted (Vuex stores no longer needed)
+- `fetchPlaceByIdentifier` and `fetchIdentifierByValue` added to `dato-fetch.ts`

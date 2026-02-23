@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { Article } from '../../../shared/types/article';
 import type { WebPage } from '../../../shared/types/web-page';
 import type { ImageObject } from '../../../shared/types/image-object';
-import type { MenuItem } from '../../../shared/types/menu';
+import type { MenuItem, Place, IdentifierRecord } from '../../../shared/types/menu';
 
 // ─── Mock dato-client so tests never hit the network ─────────────────────────
 
@@ -21,6 +21,8 @@ const {
   fetchAllWebPages,
   fetchImageObject,
   fetchMenuItems,
+  fetchPlaceByIdentifier,
+  fetchIdentifierByValue,
 } = await import('../dato-fetch');
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
@@ -162,5 +164,41 @@ describe('fetchMenuItems', () => {
 
     expect(item).not.toHaveProperty('text');
     expect(item).not.toHaveProperty('image');
+  });
+});
+
+describe('fetchPlaceByIdentifier', () => {
+  it('passes identifierId and returns the place', async () => {
+    const placeFixture: Place = { name: 'Paris', text: 'City of Lights' };
+    mockRequest.mockResolvedValue({ place: placeFixture });
+
+    const result = await fetchPlaceByIdentifier('paris');
+
+    expect(result).toEqual(placeFixture);
+    expect(mockRequest).toHaveBeenCalledWith(expect.any(String), { identifierId: 'paris' });
+  });
+
+  it('returns null when the place is not found', async () => {
+    mockRequest.mockResolvedValue({ place: null });
+
+    expect(await fetchPlaceByIdentifier('missing')).toBeNull();
+  });
+});
+
+describe('fetchIdentifierByValue', () => {
+  it('passes value and returns the identifier record', async () => {
+    const identifierFixture: IdentifierRecord = { id: 'abc123' };
+    mockRequest.mockResolvedValue({ identifier: identifierFixture });
+
+    const result = await fetchIdentifierByValue('some-slug');
+
+    expect(result).toEqual(identifierFixture);
+    expect(mockRequest).toHaveBeenCalledWith(expect.any(String), { value: 'some-slug' });
+  });
+
+  it('returns null when no identifier matches', async () => {
+    mockRequest.mockResolvedValue({ identifier: null });
+
+    expect(await fetchIdentifierByValue('missing')).toBeNull();
   });
 });

@@ -1,7 +1,13 @@
 import type { Article, AllArticlesResponse, ArticleResponse } from '../../shared/types/article';
 import type { WebPage, AllWebPagesResponse, WebPageResponse } from '../../shared/types/web-page';
 import type { ImageObject, ImageObjectResponse } from '../../shared/types/image-object';
-import type { MenuItem } from '../../shared/types/menu';
+import type {
+  MenuItem,
+  Place,
+  PlaceResponse,
+  IdentifierRecord,
+  IdentifierByValueResponse,
+} from '../../shared/types/menu';
 import { useDatoClient } from './dato-client';
 import {
   ALL_ARTICLES_QUERY,
@@ -10,6 +16,8 @@ import {
   ALL_WEB_PAGES_QUERY,
   WEB_PAGE_BY_PATH_QUERY,
   IMAGE_OBJECT_BY_IDENTIFIER_QUERY,
+  PLACE_BY_IDENTIFIER_QUERY,
+  IDENTIFIER_BY_VALUE_QUERY,
 } from './graphql-queries';
 
 /**
@@ -85,4 +93,26 @@ export async function fetchMenuItems(): Promise<MenuItem[]> {
     menuName,
     order,
   }));
+}
+
+/**
+ * Fetches a single place by its identifier.
+ * Returns `null` when no matching place is found.
+ */
+export async function fetchPlaceByIdentifier(id: string): Promise<Place | null> {
+  const data = await useDatoClient().request<PlaceResponse>(PLACE_BY_IDENTIFIER_QUERY, {
+    identifierId: id,
+  });
+  return data.place;
+}
+
+/**
+ * Resolves an identifier record by its value string.
+ * Returns `null` when no matching identifier is found.
+ */
+export async function fetchIdentifierByValue(value: string): Promise<IdentifierRecord | null> {
+  const data = await useDatoClient().request<IdentifierByValueResponse>(IDENTIFIER_BY_VALUE_QUERY, {
+    value,
+  });
+  return data.identifier;
 }
