@@ -1,9 +1,9 @@
 # Checkpoint
 
-**Current phase:** Phase 03 complete / Phase 04 starting
-**Last completed:** `phase-03/p03-04-helpers-and-locales`
-**Next task:** `phase-04/p04-01-layout.md`
-**Updated:** 2026-02-23T16:10:00Z
+**Current phase:** Phase 04 in progress
+**Last completed:** `phase-04/p04-02-header-footer-sidebar`
+**Next task:** `phase-04/p04-03-card-components.md`
+**Updated:** 2026-02-24T09:45:00Z
 
 ## State
 
@@ -17,8 +17,10 @@
 - Phase 03 task 2 complete (useWebPage composable + router.options.ts)
 - Phase 03 task 3 complete (image-service.ts util + useImageAttrs composable)
 - Phase 03 task 4 complete (helpers.ts, date-format.ts, locale JS files deleted)
+- Phase 04 task 1 complete (app.vue verified, error.vue, app/layouts/default.vue, analytics.client.ts plugin; old layouts/default.vue deleted)
+- Phase 04 task 2 complete (header-bar.vue, footer-bar.vue, social-bar.vue, side-bar.vue, side-menu.vue; old AMP components deleted)
 - `pnpm test` passes — 178 tests across 22 test files
-- Committed on branch `p03-04-helpers-and-locales`
+- Committed on branch `p04-02-header-footer-sidebar`
 
 ## Notes
 
@@ -59,3 +61,13 @@
 - `app/utils/date-format.ts` — `formatDate(isoDate, format?)` wraps Luxon `DateTime.fromISO`; returns empty string for invalid dates; replaces Vue 2 `filters.dateFormat`
 - `locales/en.js` and `locales/fr.js` deleted — `locales/en.ts` and `locales/fr.ts` already existed with ESM default exports; `nuxt.config.ts` references `.ts` files
 - 14 unit tests for `helpers` cover truncation, edge cases, emoji safety, and URL path extraction; 11 unit tests for `date-format` cover default/custom formats, edge cases, and invalid inputs
+- `app/error.vue` — `NuxtError` prop; `clearError({ redirect: '/' })` on button click; scoped SCSS
+- `app/layouts/default.vue` — SSR navigation fetch via `useAsyncData`+`$fetch`; wraps `<HeaderBar />`, `<SideBar />`, `<FooterBar />`; `useSeoHead()` for default meta; `site-wrapper--menu-open` class bound to `menuStore.isOpen`; scoped SCSS flexbox shell
+- `app/plugins/analytics.client.ts` — injects `gtag.js` + inline init script when `config.public.gaTagId` is set; client-only (`.client.ts` suffix)
+- `layouts/default.vue` deleted — all AMP elements (`<amp-menu-container>`, `<amp-analytics>`, `<amp-install-serviceworker>`) removed
+- `app/components/header-bar.vue` — fixed header; `useMenuStore().toggle()` replaces `on="tap:header-sidebar.toggle"`; `<NuxtImg>` logo; accessible hamburger with `aria-expanded`/`aria-controls`
+- `app/components/footer-bar.vue` — copyright year via `new Date().getFullYear()`; `<SocialBar>` auto-imported; Options API `data()` removed
+- `app/components/social-bar.vue` — migrated from Vue 2 Options API; manual `Icon` import removed (Nuxt auto-import); links as const array; scoped SCSS
+- `app/components/side-bar.vue` — `<aside id="sidebar">` replaces `<amp-sidebar>`; CSS `translateX(-100%) → translateX(0)` transition; backdrop overlay; `Escape` key handler; `useMenuStore()` for open/close state; contains `<SideMenu>` and `<SocialBar>`
+- `app/components/side-menu.vue` — `<details>/<summary>` accordion replaces `<amp-accordion>`; `<NuxtLink>` replaces `<nuxt-link>`; `useNavigationStore()` for items; `item.menuName ?? item.name` for display; calls `menuStore.close()` on link click
+- `components/SocialBar.vue`, `components/amp/Header.vue`, `components/amp/Footer.vue`, `components/amp/SideBar.vue`, `components/amp/AmpSideMenu.vue` deleted
