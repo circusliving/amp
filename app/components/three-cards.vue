@@ -2,23 +2,18 @@
   <section class="container">
     <div class="row">
       <div class="col-sm-4">
-        <slot name="first"/>
+        <slot name="first" />
       </div>
-      <!-- /col -->
       <div class="col-sm-4">
-        <slot name="second"/>
+        <slot name="second" />
       </div>
-      <!-- /col -->
       <div class="col-sm-4">
-        <slot name="third"/>
+        <slot name="third" />
       </div>
-      <!-- /col -->
     </div>
   </section>
 </template>
-<script>
-  export default {
-    name: 'AmpThreeCards'
-  }
 
+<script setup lang="ts">
+// No props — layout shell with three named slots.
 </script>
