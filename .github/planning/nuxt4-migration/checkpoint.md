@@ -1,9 +1,9 @@
 # Checkpoint
 
 **Current phase:** Phase 04 in progress
-**Last completed:** `phase-04/p04-02-header-footer-sidebar`
-**Next task:** `phase-04/p04-03-card-components.md`
-**Updated:** 2026-02-24T09:45:00Z
+**Last completed:** `phase-04/p04-03-card-components`
+**Next task:** `phase-04/p04-04-content-components.md`
+**Updated:** 2026-02-24T09:55:00Z
 
 ## State
 
@@ -19,8 +19,9 @@
 - Phase 03 task 4 complete (helpers.ts, date-format.ts, locale JS files deleted)
 - Phase 04 task 1 complete (app.vue verified, error.vue, app/layouts/default.vue, analytics.client.ts plugin; old layouts/default.vue deleted)
 - Phase 04 task 2 complete (header-bar.vue, footer-bar.vue, social-bar.vue, side-bar.vue, side-menu.vue; old AMP components deleted)
+- Phase 04 task 3 complete (card.vue, card-cl.vue, card-img-middle.vue, card-list.vue, three-cards.vue; old AMP card components deleted)
 - `pnpm test` passes — 178 tests across 22 test files
-- Committed on branch `p04-02-header-footer-sidebar`
+- Committed on branch `p04-03-card-components`
 
 ## Notes
 
@@ -71,3 +72,9 @@
 - `app/components/side-bar.vue` — `<aside id="sidebar">` replaces `<amp-sidebar>`; CSS `translateX(-100%) → translateX(0)` transition; backdrop overlay; `Escape` key handler; `useMenuStore()` for open/close state; contains `<SideMenu>` and `<SocialBar>`
 - `app/components/side-menu.vue` — `<details>/<summary>` accordion replaces `<amp-accordion>`; `<NuxtLink>` replaces `<nuxt-link>`; `useNavigationStore()` for items; `item.menuName ?? item.name` for display; calls `menuStore.close()` on link click
 - `components/SocialBar.vue`, `components/amp/Header.vue`, `components/amp/Footer.vue`, `components/amp/SideBar.vue`, `components/amp/AmpSideMenu.vue` deleted
+- `app/components/card.vue` — `{ article: Article }` prop; `useImageAttrs()` for responsive `<img loading="lazy">`; `getPath()` for NuxtLink path; scoped SCSS with hover overlay
+- `app/components/card-cl.vue` — `{ article: Article }` prop; `truncateText(description, 152)` replaces `needsSpace()` method; min-height 470px from CSS (no `<br>` padding elements); scoped SCSS
+- `app/components/card-img-middle.vue` — `{ article: Article }` prop; `truncateText(description, 130)` replaces `needsSpace()` method; image rendered between title and text; scoped SCSS
+- `app/components/card-list.vue` — `{ articles: Article[] }` prop; `Card` auto-imported (no manual import); keyed by `article.identifier`
+- `app/components/three-cards.vue` — three named slots (`#first`, `#second`, `#third`); Vue 3 `<script setup>`; no props
+- `components/amp/Card.vue`, `components/amp/CardCL.vue`, `components/amp/CardImgMiddle.vue`, `components/amp/CardList.vue`, `components/amp/ThreeCards.vue` deleted
