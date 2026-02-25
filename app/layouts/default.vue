@@ -17,9 +17,10 @@ useSeoHead({
 
 <template>
   <div class="site-wrapper" :class="{ 'site-wrapper--menu-open': menuStore.isOpen }">
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
     <HeaderBar />
     <SideBar />
-    <main class="site-wrapper__main">
+    <main id="main-content" class="site-wrapper__main">
       <slot />
     </main>
     <FooterBar />
@@ -27,6 +28,22 @@ useSeoHead({
 </template>
 
 <style scoped lang="scss">
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  padding: 0.5rem 1rem;
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+
+  &:focus {
+    top: 0;
+  }
+}
+
 .site-wrapper {
   display: flex;
   flex-direction: column;

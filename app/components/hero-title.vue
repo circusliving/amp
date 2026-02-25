@@ -37,7 +37,7 @@ const { src, srcSet, alt } = useImageAttrs({
     </div>
 
     <div class="hero__content">
-      <h1 class="hero__title">{{ title }}</h1>
+      <h1 v-if="title.trim()" class="hero__title">{{ title }}</h1>
     </div>
   </header>
 </template>

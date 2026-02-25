@@ -61,9 +61,9 @@ onBeforeUnmount(() => {
         </button>
       </div>
 
-      <nav class="side-bar__nav">
+      <div class="side-bar__nav">
         <SideMenu />
-      </nav>
+      </div>
 
       <div class="side-bar__social">
         <SocialBar />
