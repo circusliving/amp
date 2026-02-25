@@ -1,9 +1,9 @@
 # Checkpoint
 
-**Current phase:** Phase 04 complete
-**Last completed:** `phase-04/p04-05-utility-components`
-**Next task:** `phase-05/p05-01-index-page.md`
-**Updated:** 2026-02-25T01:00:00Z
+**Current phase:** Phase 05 in progress
+**Last completed:** `phase-05/p05-01-index-page`
+**Next task:** `phase-05/p05-02-article-page.md`
+**Updated:** 2026-02-25T09:00:00Z
 
 ## State
 
@@ -22,9 +22,10 @@
 - Phase 04 task 3 complete (card.vue, card-cl.vue, card-img-middle.vue, card-list.vue, three-cards.vue; old AMP card components deleted)
 - Phase 04 task 4 complete (hero-title.vue, page-body.vue, quote-block.vue, quotes-carousel.vue, section-header-h2.vue, section-header-h3.vue; old AMP content components deleted)
 - Phase 04 task 5 complete (cl-icons.vue, icon.vue, popular-posts.vue, image-list.vue; old components/CLIcons.vue, components/Icon.vue, components/README.md deleted; components/ directory now gone)
+- Phase 05 task 1 complete (app/pages/index.vue migrated; old pages/index.vue deleted)
 - Phase 04 fully complete — all components migrated to Vue 3 + TypeScript, no AMP, no duplication, old components/ directory deleted
 - `pnpm test` passes — 178 tests across 22 test files
-- Committed on branch `p04-05-utility-components`
+- Committed on branch `p05-01-index-page`
 
 ## Notes
 
@@ -88,6 +89,7 @@
 - `app/components/section-header-h2.vue` — `{ title: string, subtitle?: string }` props; `<h2>` + optional `<p>`; scoped SCSS
 - `app/components/section-header-h3.vue` — `{ title: string, subtitle?: string }` props; `<h3>` + optional `<p>`; scoped SCSS
 - `components/amp/AmpQuote.vue`, `components/amp/AmpQuotes.vue`, `components/amp/AmpSectionHeaderH2.vue`, `components/amp/AmpSectionHeaderH3.vue`, `components/amp/HeroTitle.vue`, `components/amp/ImageList.vue`, `components/amp/PageBody.vue`, `components/amp/PopularPosts.vue` deleted
+- `app/pages/index.vue` — `<script setup lang="ts">`; `useWebPage()` for SEO (replaces mixin + head()); `useFetch('/api/articles/latest')` for article feed; static sideshow cards typed as `[Article, Article, Article]` tuple to avoid `Article | undefined` index access; `HeroTitle` receives `{ url: coverImage }` image object; `ThreeCards` with `#first/#second/#third` slots holding `<CardCl>`; `QuotesCarousel` with named `#quoteOne/#quoteTwo/#quoteThree` slots (3 of original 4 quotes — carousel supports 3 slides); `CardList` shown when `!webPage?.widget`
 - `app/components/cl-icons.vue` — hidden SVG sprite container; `aria-hidden="true"` positioned off-screen; all 6 brand icon symbols (youtube, google-plus, facebook, instagram, twitter, pinterest); `<script setup lang="ts">` with no props; `.icon` CSS removed (single source now in icon.vue)
 - `app/components/icon.vue` — `defineProps<{ name: string; size?: number }>()`; uses SVG 2 `href` (not deprecated `xlink:href`); scoped `.icon` base styles; `:global(.icon-youtube)` for non-square viewBox override; replaces `components/Icon.vue`
 - `app/components/popular-posts.vue` — `useArticleStore()` replaces Vuex mapGetters; `formatDate()` replaces Vue 2 `filters.dateFormat`; dead `src()` function removed; `v-bind:key` bug fixed → `:key="article.identifier"`; `<NuxtLink>` replaces `<nuxt-link>`; `<img loading="lazy">` replaces `<amp-img>`; `articleStore.fetchLatest()` called non-blocking in setup body; `imgAttrs()` helper builds src/srcset/alt per article
