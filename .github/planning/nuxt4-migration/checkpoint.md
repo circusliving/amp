@@ -1,9 +1,9 @@
 # Checkpoint
 
-**Current phase:** Phase 04 in progress
-**Last completed:** `phase-04/p04-03-card-components`
-**Next task:** `phase-04/p04-04-content-components.md`
-**Updated:** 2026-02-24T09:55:00Z
+**Current phase:** Phase 04 complete
+**Last completed:** `phase-04/p04-05-utility-components`
+**Next task:** `phase-05/p05-01-index-page.md`
+**Updated:** 2026-02-25T01:00:00Z
 
 ## State
 
@@ -20,8 +20,11 @@
 - Phase 04 task 1 complete (app.vue verified, error.vue, app/layouts/default.vue, analytics.client.ts plugin; old layouts/default.vue deleted)
 - Phase 04 task 2 complete (header-bar.vue, footer-bar.vue, social-bar.vue, side-bar.vue, side-menu.vue; old AMP components deleted)
 - Phase 04 task 3 complete (card.vue, card-cl.vue, card-img-middle.vue, card-list.vue, three-cards.vue; old AMP card components deleted)
+- Phase 04 task 4 complete (hero-title.vue, page-body.vue, quote-block.vue, quotes-carousel.vue, section-header-h2.vue, section-header-h3.vue; old AMP content components deleted)
+- Phase 04 task 5 complete (cl-icons.vue, icon.vue, popular-posts.vue, image-list.vue; old components/CLIcons.vue, components/Icon.vue, components/README.md deleted; components/ directory now gone)
+- Phase 04 fully complete — all components migrated to Vue 3 + TypeScript, no AMP, no duplication, old components/ directory deleted
 - `pnpm test` passes — 178 tests across 22 test files
-- Committed on branch `p04-03-card-components`
+- Committed on branch `p04-05-utility-components`
 
 ## Notes
 
@@ -78,3 +81,15 @@
 - `app/components/card-list.vue` — `{ articles: Article[] }` prop; `Card` auto-imported (no manual import); keyed by `article.identifier`
 - `app/components/three-cards.vue` — three named slots (`#first`, `#second`, `#third`); Vue 3 `<script setup>`; no props
 - `components/amp/Card.vue`, `components/amp/CardCL.vue`, `components/amp/CardImgMiddle.vue`, `components/amp/CardList.vue`, `components/amp/ThreeCards.vue` deleted
+- `app/components/hero-title.vue` — `{ article: Article }` prop; `useImageAttrs()` for responsive hero image; `formatDate()` for publication date display; scoped SCSS
+- `app/components/page-body.vue` — `{ article: Article }` prop; renders `article.body` via `v-html`; scoped SCSS
+- `app/components/quote-block.vue` — `{ quote: string, author?: string }` props; `<blockquote>` with optional `<cite>`; scoped SCSS
+- `app/components/quotes-carousel.vue` — `{ quotes: Array<{ quote: string, author?: string }> }` prop; cycling carousel with prev/next controls and auto-advance; uses `<QuoteBlock>`; scoped SCSS
+- `app/components/section-header-h2.vue` — `{ title: string, subtitle?: string }` props; `<h2>` + optional `<p>`; scoped SCSS
+- `app/components/section-header-h3.vue` — `{ title: string, subtitle?: string }` props; `<h3>` + optional `<p>`; scoped SCSS
+- `components/amp/AmpQuote.vue`, `components/amp/AmpQuotes.vue`, `components/amp/AmpSectionHeaderH2.vue`, `components/amp/AmpSectionHeaderH3.vue`, `components/amp/HeroTitle.vue`, `components/amp/ImageList.vue`, `components/amp/PageBody.vue`, `components/amp/PopularPosts.vue` deleted
+- `app/components/cl-icons.vue` — hidden SVG sprite container; `aria-hidden="true"` positioned off-screen; all 6 brand icon symbols (youtube, google-plus, facebook, instagram, twitter, pinterest); `<script setup lang="ts">` with no props; `.icon` CSS removed (single source now in icon.vue)
+- `app/components/icon.vue` — `defineProps<{ name: string; size?: number }>()`; uses SVG 2 `href` (not deprecated `xlink:href`); scoped `.icon` base styles; `:global(.icon-youtube)` for non-square viewBox override; replaces `components/Icon.vue`
+- `app/components/popular-posts.vue` — `useArticleStore()` replaces Vuex mapGetters; `formatDate()` replaces Vue 2 `filters.dateFormat`; dead `src()` function removed; `v-bind:key` bug fixed → `:key="article.identifier"`; `<NuxtLink>` replaces `<nuxt-link>`; `<img loading="lazy">` replaces `<amp-img>`; `articleStore.fetchLatest()` called non-blocking in setup body; `imgAttrs()` helper builds src/srcset/alt per article
+- `app/components/image-list.vue` — `{ items: Article[] }` prop; responsive CSS grid (`auto-fill minmax(280px)`); `<img loading="lazy" width="100% height: auto>`; fly-in animation via IntersectionObserver + CSS `opacity/translateY` transition (replaces `amp-fx="fly-in-bottom"`); `<NuxtLink>` replaces `<nuxt-link>`; graceful fallback when IntersectionObserver unavailable
+- `components/CLIcons.vue`, `components/Icon.vue`, `components/README.md` deleted; `components/amp/` directory already empty and removed; `components/` directory no longer exists
