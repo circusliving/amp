@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useImageAttrs } from '../use-image-attrs';
 import { DEFAULT_WIDTHS } from '../../utils/image-service';
 

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('404 / Error Page', () => {
   test('shows error page for nonexistent route', async ({ page }) => {
-    const response = await page.goto('/this-page-does-not-exist-xyz-404');
+    await page.goto('/this-page-does-not-exist-xyz-404');
     // Nuxt SSR may return 404 status or render the error page with 200 + error component
     // Either is valid; check the error page renders
     await page.waitForLoadState('networkidle');
@@ -43,7 +43,7 @@ test.describe('404 / Error Page', () => {
 
   test('misspelled galleries URL redirects to correct path', async ({ page }) => {
     // Test the 301 redirect from /gallaries/:id → /galleries/:id
-    const response = await page.goto('/gallaries/some-gallery-id');
+    await page.goto('/gallaries/some-gallery-id');
     await page.waitForLoadState('networkidle');
     // After redirect the URL should be /galleries/...
     expect(page.url()).toContain('/galleries/some-gallery-id');

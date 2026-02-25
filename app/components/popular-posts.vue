@@ -54,7 +54,7 @@ function imgAttrs(article: Article): { src: string; srcset: string; alt: string 
             width="80"
             height="60"
             class="popular-posts__img"
-          />
+          >
           <div class="popular-posts__meta">
             <span class="popular-posts__title">{{ article.name }}</span>
             <time

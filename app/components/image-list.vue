@@ -72,7 +72,7 @@ onMounted(() => {
             class="image-list__img"
             width="640"
             height="427"
-          />
+          >
           <figcaption v-if="item.name" class="image-list__caption">
             {{ item.name }}
           </figcaption>

@@ -33,7 +33,7 @@ const { src, srcSet, alt } = useImageAttrs({
         loading="eager"
         fetchpriority="high"
         sizes="100vw"
-      />
+      >
     </div>
 
     <div class="hero__content">

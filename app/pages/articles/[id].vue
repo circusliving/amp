@@ -59,7 +59,7 @@ useSeoHead(
                 :alt="articleImgAlt"
                 loading="lazy"
                 sizes="(min-width: 576px) 65vw, 100vw"
-              />
+              >
             </figure>
 
             <!-- eslint-disable-next-line vue/no-v-html -->

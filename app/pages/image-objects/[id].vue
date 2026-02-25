@@ -50,7 +50,7 @@ useSeoHead(
             :alt="imgAlt"
             loading="lazy"
             sizes="(min-width: 576px) 75vw, 100vw"
-          />
+          >
           <figcaption v-if="imageObject?.caption" class="image-object-body__caption">
             {{ imageObject.caption }}
           </figcaption>

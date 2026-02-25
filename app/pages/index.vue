@@ -52,11 +52,11 @@ const sideshowCards: [Article, Article, Article] = [
 
     <div class="text-section">
       <h1>Greetings Friend</h1>
-      We&rsquo;ve been eagerly awaiting your arrival.<br />
-      Fate has delivered you to us at our entreat.<br />
-      Rest assured your visit has not come unnoticed.<br />
-      There is no need to tread lightly.<br />
-      We welcome your kind.<br />
+      We&rsquo;ve been eagerly awaiting your arrival.<br >
+      Fate has delivered you to us at our entreat.<br >
+      Rest assured your visit has not come unnoticed.<br >
+      There is no need to tread lightly.<br >
+      We welcome your kind.<br >
       Banal normalcy is far from the norm here.
 
       <h2>&hellip;welcome to Circus Living.</h2>
@@ -76,7 +76,7 @@ const sideshowCards: [Article, Article, Article] = [
       </template>
     </ThreeCards>
 
-    <br />
+    <br >
 
     <QuotesCarousel>
       <template #quoteOne>
@@ -99,7 +99,7 @@ const sideshowCards: [Article, Article, Article] = [
       </template>
     </QuotesCarousel>
 
-    <br />
+    <br >
 
     <div class="wagon">
       <CardList v-if="!webPage?.widget" :articles="latestArticles ?? []" />

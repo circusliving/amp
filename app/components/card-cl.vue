@@ -10,7 +10,7 @@
             loading="lazy"
             width="640"
             height="427"
-          />
+          >
         </NuxtLink>
       </figure>
       <h3>{{ article.name }}</h3>

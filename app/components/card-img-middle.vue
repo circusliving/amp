@@ -14,7 +14,7 @@
             loading="lazy"
             width="640"
             height="427"
-          />
+          >
         </NuxtLink>
       </figure>
       <p>{{ truncatedDescription }}</p>

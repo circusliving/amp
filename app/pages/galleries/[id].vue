@@ -52,7 +52,7 @@ useSeoHead(
                 :alt="imgAlt"
                 loading="lazy"
                 sizes="(min-width: 576px) 65vw, 100vw"
-              />
+              >
             </figure>
 
             <p v-if="imageObject?.caption" class="gallery-body__caption">

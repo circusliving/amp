@@ -1,15 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import type { WebPage } from '~~/shared/types/web-page';
 import { useWebPage } from '../use-web-page';
+import type { SeoHeadOptions } from '../use-seo-head';
+
+import { useSeoHead } from '../use-seo-head';
 
 // ─── Mock useSeoHead to isolate unit under test ───────────────────────────────
 
 vi.mock('../use-seo-head', () => ({
   useSeoHead: vi.fn(),
 }));
-
-import { useSeoHead } from '../use-seo-head';
 const mockUseSeoHead = vi.mocked(useSeoHead);
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -109,9 +110,9 @@ describe('useWebPage', () => {
       useWebPage();
 
       const seoArg = mockUseSeoHead.mock.calls[0]![0];
-      const resolved = typeof seoArg === 'function' ? seoArg() : (seoArg as { value: typeof MOCK_PAGE }).value ?? seoArg;
+      const resolved = typeof seoArg === 'function' ? seoArg() : (seoArg as unknown as { value: SeoHeadOptions }).value ?? seoArg;
       // unwrap computed
-      const options = 'value' in (resolved as object) ? (resolved as { value: unknown }).value : resolved;
+      const options = 'value' in (resolved as object) ? (resolved as unknown as { value: SeoHeadOptions }).value : resolved as SeoHeadOptions;
       expect((options as { title: string }).title).toBe('About');
     });
 
@@ -122,7 +123,7 @@ describe('useWebPage', () => {
       useWebPage();
 
       const seoArg = mockUseSeoHead.mock.calls[0]![0];
-      const options = (seoArg as { value: { title: string } }).value;
+      const options = (seoArg as unknown as { value: { title: string } }).value;
       expect(options.title).toBe('Blog');
     });
 

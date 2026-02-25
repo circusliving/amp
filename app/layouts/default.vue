@@ -12,6 +12,7 @@ useSeoHead({
   title: 'Circus Living',
   description: 'Circus Living — discover unique acrobatic arts, performances, and community.',
   type: 'website',
+  canonicalPath: '/',
 });
 </script>
 

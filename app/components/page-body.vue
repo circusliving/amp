@@ -35,7 +35,7 @@ const altName = computed<string>(() => {
               :alt="alt"
               loading="lazy"
               sizes="(min-width: 576px) 40vw, 100vw"
-            />
+            >
           </figure>
         </div>
         <!-- eslint-disable-next-line vue/no-v-html -->
