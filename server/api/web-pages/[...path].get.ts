@@ -10,7 +10,14 @@ export default defineEventHandler(async (event) => {
   const raw = getRouterParam(event, 'path') ?? '';
   const path = '/' + raw;
 
-  const page = await fetchWebPageByPath(path);
+  let page;
+  try {
+    page = await fetchWebPageByPath(path);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'statusCode' in error) throw error;
+    throw createError({ statusCode: 503, message: 'Content service unavailable', cause: error as Error });
+  }
+
   if (!page) {
     throw createError({ statusCode: 404, message: `Web page not found: ${path}` });
   }

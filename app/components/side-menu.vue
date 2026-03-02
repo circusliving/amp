@@ -5,7 +5,7 @@ const navigationStore = useNavigationStore();
 const menuStore = useMenuStore();
 
 function displayName(item: MenuItem): string {
-  return item.menuName ?? item.name;
+  return item.menuName || item.name;
 }
 </script>
 

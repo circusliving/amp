@@ -204,7 +204,17 @@ describe('useWebPage', () => {
       const mockCreateError = vi.fn(() => thrownError);
       vi.stubGlobal('createError', mockCreateError);
 
-      stubFetch(null, true);
+      // Stub useFetch to return an error with statusCode 404
+      const fetchError = new Error('Not Found') as Error & { statusCode: number };
+      fetchError.statusCode = 404;
+      vi.stubGlobal(
+        'useFetch',
+        vi.fn().mockReturnValue({
+          data: ref(null),
+          error: ref(fetchError),
+          status: ref('error'),
+        }),
+      );
 
       expect(() => useWebPage()).toThrow();
       expect(mockCreateError).toHaveBeenCalledWith({

@@ -6,7 +6,14 @@ import { fetchArticles } from '../../utils/dato-fetch';
  */
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const articles = await fetchArticles();
+
+  let articles;
+  try {
+    articles = await fetchArticles();
+  } catch (error) {
+    if (error && typeof error === 'object' && 'statusCode' in error) throw error;
+    throw createError({ statusCode: 503, message: 'Content service unavailable', cause: error as Error });
+  }
 
   const tag = typeof query.tag === 'string' ? query.tag.trim() : undefined;
   if (tag) {

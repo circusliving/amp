@@ -1,6 +1,7 @@
 /**
  * Google Analytics 4 client-only plugin.
  * Injects the gtag.js script when NUXT_PUBLIC_GA_TAG_ID is set.
+ * Only loads in production to avoid polluting analytics with dev traffic.
  * Client-only: the `.client.ts` suffix ensures this never runs on the server.
  */
 export default defineNuxtPlugin(() => {
@@ -8,6 +9,9 @@ export default defineNuxtPlugin(() => {
   const tagId = config.public.gaTagId;
 
   if (!tagId) return;
+
+  // Only load GA in production — prevent dev/staging traffic pollution
+  if (import.meta.dev) return;
 
   useHead({
     script: [

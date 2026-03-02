@@ -9,7 +9,7 @@ defineProps<{
   <blockquote class="quote-block">
     <SectionHeaderH3 class="quote-block__header" title="HERALD" :light="true" />
     <p class="quote-block__text">{{ quote }}</p>
-    <footer v-if="author" class="quote-block__author" rel="author">{{ author }}</footer>
+    <footer v-if="author" class="quote-block__author">{{ author }}</footer>
   </blockquote>
 </template>
 

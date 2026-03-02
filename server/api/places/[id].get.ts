@@ -11,7 +11,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Place identifier is required' });
   }
 
-  const place = await fetchPlaceByIdentifier(id);
+  let place;
+  try {
+    place = await fetchPlaceByIdentifier(id);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'statusCode' in error) throw error;
+    throw createError({ statusCode: 503, message: 'Content service unavailable', cause: error as Error });
+  }
+
   if (!place) {
     throw createError({ statusCode: 404, message: `Place not found: ${id}` });
   }

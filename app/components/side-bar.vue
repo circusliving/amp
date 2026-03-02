@@ -40,6 +40,9 @@ onBeforeUnmount(() => {
       class="side-bar"
       :class="{ 'side-bar--open': menuStore.isOpen }"
       :aria-hidden="!menuStore.isOpen"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Navigation menu"
     >
       <div class="side-bar__header">
         <NuxtLink to="/" class="side-bar__logo-link" @click="menuStore.close()">

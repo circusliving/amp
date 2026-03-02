@@ -10,10 +10,17 @@ let _client: GraphQLClient | null = null;
 export function useDatoClient(): GraphQLClient {
   if (!_client) {
     const config = useRuntimeConfig();
+
+    if (!config.datoApiToken) {
+      throw createError({
+        statusCode: 503,
+        message: 'DatoCMS API token is not configured. Set NUXT_DATO_API_TOKEN in your .env file.',
+      });
+    }
+
     _client = new GraphQLClient('https://graphql.datocms.com', {
       headers: {
         Authorization: `Bearer ${config.datoApiToken}`,
-        'X-Environment': 'main',
       },
     });
   }

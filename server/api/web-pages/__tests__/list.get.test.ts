@@ -9,7 +9,7 @@ vi.mock('../../../utils/dato-fetch', () => ({
   fetchAllWebPages: (...args: unknown[]) => mockFetchAllWebPages(...args),
 }));
 
-const { default: handler } = await import('../index.get');
+const { default: handler } = await import('../list.get');
 
 // ─── Fixtures ────────────────────────────────────────────────────────────────
 
@@ -21,7 +21,7 @@ beforeEach(() => {
   mockFetchAllWebPages.mockReset();
 });
 
-describe('GET /api/web-pages', () => {
+describe('GET /api/web-pages/list', () => {
   it('returns all web pages from fetchAllWebPages', async () => {
     mockFetchAllWebPages.mockResolvedValue([pageFixture]);
 

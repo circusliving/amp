@@ -1,5 +1,4 @@
 import { createPinia, setActivePinia } from 'pinia';
-import { ref } from 'vue';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { MenuItem } from '~~/shared/types/menu';
 import { useNavigationStore } from '../navigation';
@@ -33,15 +32,7 @@ describe('useNavigationStore', () => {
   });
 
   it('fetchMenu populates menuItems on success', async () => {
-    vi.stubGlobal(
-      'useFetch',
-      vi.fn().mockResolvedValue({
-        data: ref(MOCK_MENU),
-        error: ref(null),
-        pending: ref(false),
-        refresh: vi.fn(),
-      }),
-    );
+    vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(MOCK_MENU));
 
     const store = useNavigationStore();
     await store.fetchMenu();
@@ -50,13 +41,8 @@ describe('useNavigationStore', () => {
   });
 
   it('fetchMenu calls the correct API endpoint', async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
-      data: ref([]),
-      error: ref(null),
-      pending: ref(false),
-      refresh: vi.fn(),
-    });
-    vi.stubGlobal('useFetch', mockFetch);
+    const mockFetch = vi.fn().mockResolvedValue([]);
+    vi.stubGlobal('$fetch', mockFetch);
 
     const store = useNavigationStore();
     await store.fetchMenu();
@@ -65,15 +51,7 @@ describe('useNavigationStore', () => {
   });
 
   it('fetchMenu does not overwrite menuItems when data is null', async () => {
-    vi.stubGlobal(
-      'useFetch',
-      vi.fn().mockResolvedValue({
-        data: ref(null),
-        error: ref(null),
-        pending: ref(false),
-        refresh: vi.fn(),
-      }),
-    );
+    vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(null));
 
     const store = useNavigationStore();
     store.menuItems = [...MOCK_MENU];
@@ -83,15 +61,7 @@ describe('useNavigationStore', () => {
   });
 
   it('menuItems preserves nested nodes structure', async () => {
-    vi.stubGlobal(
-      'useFetch',
-      vi.fn().mockResolvedValue({
-        data: ref(MOCK_MENU),
-        error: ref(null),
-        pending: ref(false),
-        refresh: vi.fn(),
-      }),
-    );
+    vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(MOCK_MENU));
 
     const store = useNavigationStore();
     await store.fetchMenu();

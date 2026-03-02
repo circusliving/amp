@@ -14,7 +14,6 @@
 -->
 <script setup lang="ts">
 import type { Article } from '~~/shared/types/article';
-import { formatDate } from '../utils/date-format';
 import { getPath } from '../utils/helpers';
 import { buildSrcSet, DEFAULT_WIDTHS } from '../utils/image-service';
 
@@ -57,13 +56,14 @@ function imgAttrs(article: Article): { src: string; srcset: string; alt: string 
           >
           <div class="popular-posts__meta">
             <span class="popular-posts__title">{{ article.name }}</span>
-            <time
+            <NuxtTime
               v-if="article._updatedAt"
               :datetime="article._updatedAt"
               class="popular-posts__date"
-            >
-              {{ formatDate(article._updatedAt) }}
-            </time>
+              year="numeric"
+              month="long"
+              day="numeric"
+            />
           </div>
         </NuxtLink>
       </li>

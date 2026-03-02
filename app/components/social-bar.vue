@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const links = [
   { href: 'https://www.facebook.com/CircusLiving', label: 'Facebook', icon: 'facebook', cssClass: 'icon-facebook' },
-  { href: 'https://twitter.com/cathoulahan', label: 'Twitter', icon: 'twitter', cssClass: 'icon-twitter' },
-  { href: 'https://plus.google.com/+CircusLiving', label: 'Google Plus', icon: 'google-plus', cssClass: 'icon-gplus' },
+  { href: 'https://x.com/cathoulahan', label: 'X (formerly Twitter)', icon: 'twitter', cssClass: 'icon-twitter' },
   { href: 'https://www.pinterest.com/catvelasco/pins/', label: 'Pinterest', icon: 'pinterest', cssClass: 'icon-pinterest' },
   { href: 'https://www.instagram.com/circus_living_blog/', label: 'Instagram', icon: 'instagram', cssClass: 'icon-instagram' },
   { href: 'https://www.youtube.com/channel/UCVNe4ithtIPgIFjDmfugS7A', label: 'Youtube', icon: 'youtube', cssClass: 'icon-youtube' },
@@ -45,7 +44,6 @@ const links = [
 
   &__item {
     display: inline-block;
-    font-family: 'fontello-social';
     margin: 0 5px 5px 0;
 
     .text-center & {
@@ -96,11 +94,10 @@ const links = [
     }
   }
 
-  &__link:hover > .icon-pinterest { background-color: #d8545d; }
-  &__link:hover > .icon-facebook  { background-color: #677fb5; }
-  &__link:hover > .icon-twitter   { background-color: #70c2e9; }
-  &__link:hover > .icon-youtube   { background-color: #d5615c; }
-  &__link:hover > .icon-gplus     { background-color: #bc7067; }
-  &__link:hover > .icon-instagram { background-color: #926d53; }
+  &__link:hover > .icon-pinterest { background-color: #d8545d; color: #fff; }
+  &__link:hover > .icon-facebook  { background-color: #677fb5; color: #fff; }
+  &__link:hover > .icon-twitter   { background-color: #70c2e9; color: #fff; }
+  &__link:hover > .icon-youtube   { background-color: #d5615c; color: #fff; }
+  &__link:hover > .icon-instagram { background-color: #926d53; color: #fff; }
 }
 </style>

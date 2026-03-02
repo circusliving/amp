@@ -22,7 +22,11 @@ export function useSeoHead(options: MaybeRefOrGetter<SeoHeadOptions>): void {
   const resolved = computed((): SeoHeadOptions => toValue(options));
 
   const canonicalUrl = computed((): string => {
-    const base = (config.public.canonicalBaseUrl as string) || '';
+    let base = (config.public.canonicalBaseUrl as string) || '';
+    // Ensure the base URL includes protocol
+    if (base && !base.startsWith('http')) {
+      base = `https://${base}`;
+    }
     const rawPath = resolved.value.canonicalPath || '/';
     const path = rawPath.startsWith('/') ? rawPath : `/${rawPath}`;
     return `${base.replace(/\/$/, '')}${path}`;

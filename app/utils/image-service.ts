@@ -49,10 +49,12 @@ export function parseImageUrl(url: string): ParsedImageUrl {
 }
 
 /**
- * Build a responsive `srcset` string for an image using DatoCMS image API
- * width parameters (`?w=<width>`).
+ * Build a responsive `srcset` string for an image.
  *
- * If the URL already contains a query string, width is appended as `&w=`.
+ * For DatoCMS-hosted images (`datocms-assets.com`), uses width query parameters
+ * (`?w=<width>`). For custom-hosted images (e.g. `images.circusliving.com`)
+ * that use path-based sizing, returns the original URL as-is since width
+ * parameters are not supported.
  *
  * @param url    - Absolute or relative image URL.
  * @param widths - Array of widths (px) to include in the srcset.
@@ -64,6 +66,10 @@ export function parseImageUrl(url: string): ParsedImageUrl {
  */
 export function buildSrcSet(url: string, widths: number[] = [...DEFAULT_WIDTHS]): string {
   if (!url) return '';
+
+  // Custom image hosts that use path-based sizing don't support ?w= params
+  const isDatoCmsImage = url.includes('datocms-assets.com');
+  if (!isDatoCmsImage) return '';
 
   return widths
     .map((w) => {

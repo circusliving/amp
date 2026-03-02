@@ -12,12 +12,12 @@ export const useNavigationStore = defineStore('navigation', () => {
 
   /**
    * Fetch the complete menu tree from the server API.
-   * Uses `useFetch` (Nuxt auto-import) so SSR hydration is handled automatically.
+   * Uses `$fetch` for direct server calls within store actions.
    */
   async function fetchMenu(): Promise<void> {
-    const { data } = await useFetch<MenuItem[]>('/api/menu');
-    if (data.value) {
-      menuItems.value = data.value;
+    const data = await $fetch<MenuItem[]>('/api/menu');
+    if (data) {
+      menuItems.value = data;
     }
   }
 

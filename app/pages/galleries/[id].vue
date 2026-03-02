@@ -40,9 +40,6 @@ useSeoHead(
       <div class="row">
         <div class="col-sm-8">
           <div class="gallery-body">
-            <h2 v-if="imageObject?.name" class="text-center">
-              {{ imageObject.name }}
-            </h2>
 
             <figure v-if="imgSrc" class="gallery-body__figure">
               <img

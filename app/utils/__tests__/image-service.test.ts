@@ -87,7 +87,7 @@ describe('buildSrcSet', () => {
 
   // ── Output format ────────────────────────────────────────────────────────────
 
-  it('generates a srcset string with one width', () => {
+  it('generates a srcset string with one width for DatoCMS URLs', () => {
     const result = buildSrcSet(url, [640]);
     expect(result).toBe(`${url}?w=640 640w`);
   });
@@ -120,6 +120,16 @@ describe('buildSrcSet', () => {
     expect(parts[0]).toContain('w=1280');
     expect(parts[1]).toContain('w=320');
     expect(parts[2]).toContain('w=640');
+  });
+
+  // ── Non-DatoCMS URLs ─────────────────────────────────────────────────────────
+
+  it('returns an empty string for non-DatoCMS image URLs', () => {
+    expect(buildSrcSet('https://images.circusliving.com/375x222/hero.jpg', [320, 640])).toBe('');
+  });
+
+  it('returns an empty string for a generic external image URL', () => {
+    expect(buildSrcSet('https://example.com/photo.jpg', [320, 640])).toBe('');
   });
 
   // ── Edge cases ───────────────────────────────────────────────────────────────

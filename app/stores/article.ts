@@ -11,14 +11,14 @@ export const useArticleStore = defineStore('article', () => {
 
   /**
    * Fetch the latest N articles and populate `latestArticles`.
-   * Uses `useFetch` (Nuxt auto-import) so SSR hydration is handled automatically.
+   * Uses `$fetch` for direct server calls within store actions.
    */
   async function fetchLatest(limit = 6): Promise<void> {
-    const { data } = await useFetch<Article[]>('/api/articles/latest', {
+    const data = await $fetch<Article[]>('/api/articles/latest', {
       query: { limit },
     });
-    if (data.value) {
-      latestArticles.value = data.value;
+    if (data) {
+      latestArticles.value = data;
     }
   }
 

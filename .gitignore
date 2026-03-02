@@ -16,3 +16,12 @@ dist
 *sw.js
 circus.code-workspace
 *.local
+# Audit screenshots
+live-*.png
+local-*.png
+
+# Playwright
+.playwright-mcp/
+playwright-report/
+test-results/
+.env

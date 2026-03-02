@@ -27,7 +27,9 @@ export function useWebPage() {
     })),
   );
 
-  if (error.value) {
+  // Only throw 404 when the CMS confirms the page doesn't exist.
+  // Service errors (503) or network failures should not surface as 404s.
+  if (error.value?.statusCode === 404) {
     throw createError({ statusCode: 404, statusMessage: 'Page not found' });
   }
 

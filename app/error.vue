@@ -7,13 +7,15 @@ const handleClearError = () => clearError({ redirect: '/' });
 </script>
 
 <template>
-  <div class="error-page">
-    <div class="container text-center py-5">
-      <h1 class="error-page__code">{{ error.statusCode }}</h1>
-      <p class="error-page__message">{{ error.statusMessage || 'An error occurred' }}</p>
-      <button class="btn btn-primary" @click="handleClearError">Go Home</button>
+  <NuxtLayout>
+    <div class="error-page">
+      <div class="container text-center py-5">
+        <h1 class="error-page__code">{{ error.statusCode }}</h1>
+        <p class="error-page__message">{{ error.statusMessage || 'An error occurred' }}</p>
+        <button class="btn btn-primary" @click="handleClearError">Go Home</button>
+      </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <style scoped lang="scss">

@@ -13,6 +13,7 @@ import {
   ALL_ARTICLES_QUERY,
   ARTICLE_BY_IDENTIFIER_QUERY,
   LATEST_ARTICLES_WITH_LIMIT_QUERY,
+  LATEST_ARTICLES_BY_TAGS_QUERY,
   ALL_WEB_PAGES_QUERY,
   WEB_PAGE_BY_PATH_QUERY,
   IMAGE_OBJECT_BY_IDENTIFIER_QUERY,
@@ -47,6 +48,19 @@ export async function fetchLatestArticles(limit = 2): Promise<Article[]> {
   const data = await useDatoClient().request<AllArticlesResponse>(
     LATEST_ARTICLES_WITH_LIMIT_QUERY,
     { limit },
+  );
+  return data.allArticles;
+}
+
+/**
+ * Fetches the most recently published articles filtered by tag IDs.
+ * @param limit - Maximum number of articles to return
+ * @param tagIds - Array of DatoCMS tag IDs to filter by
+ */
+export async function fetchLatestArticlesByTags(limit: number, tagIds: string[]): Promise<Article[]> {
+  const data = await useDatoClient().request<AllArticlesResponse>(
+    LATEST_ARTICLES_BY_TAGS_QUERY,
+    { limit, tagIds },
   );
   return data.allArticles;
 }

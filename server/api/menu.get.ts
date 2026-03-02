@@ -7,6 +7,11 @@ import { buildMenuTree } from '../utils/menu-builder';
  * The first item from DatoCMS is treated as the home page and appended last.
  */
 export default defineEventHandler(async () => {
-  const items = await fetchMenuItems();
-  return buildMenuTree(items);
+  try {
+    const items = await fetchMenuItems();
+    return buildMenuTree(items);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'statusCode' in error) throw error;
+    throw createError({ statusCode: 503, message: 'Content service unavailable', cause: error as Error });
+  }
 });

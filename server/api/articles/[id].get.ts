@@ -13,7 +13,14 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Article identifier is required' });
   }
 
-  const article = await fetchArticleByIdentifier(id);
+  let article;
+  try {
+    article = await fetchArticleByIdentifier(id);
+  } catch (error) {
+    if (error && typeof error === 'object' && 'statusCode' in error) throw error;
+    throw createError({ statusCode: 503, message: 'Content service unavailable', cause: error as Error });
+  }
+
   if (!article) {
     throw createError({ statusCode: 404, message: `Article not found: ${id}` });
   }

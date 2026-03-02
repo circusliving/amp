@@ -59,7 +59,6 @@ const altName = computed<string>(() => {
 .page-body__text :deep(img) {
   width: 100%;
   height: auto;
-  loading: lazy;
 }
 
 .page-body__text :deep(p) {

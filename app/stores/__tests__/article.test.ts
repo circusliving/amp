@@ -1,5 +1,4 @@
 import { createPinia, setActivePinia } from 'pinia';
-import { ref } from 'vue';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Article } from '~~/shared/types/article';
 import { useArticleStore } from '../article';
@@ -29,15 +28,7 @@ describe('useArticleStore', () => {
   });
 
   it('fetchLatest populates latestArticles on success', async () => {
-    vi.stubGlobal(
-      'useFetch',
-      vi.fn().mockResolvedValue({
-        data: ref(MOCK_ARTICLES),
-        error: ref(null),
-        pending: ref(false),
-        refresh: vi.fn(),
-      }),
-    );
+    vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(MOCK_ARTICLES));
 
     const store = useArticleStore();
     await store.fetchLatest();
@@ -46,13 +37,8 @@ describe('useArticleStore', () => {
   });
 
   it('fetchLatest passes limit query param', async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
-      data: ref([]),
-      error: ref(null),
-      pending: ref(false),
-      refresh: vi.fn(),
-    });
-    vi.stubGlobal('useFetch', mockFetch);
+    const mockFetch = vi.fn().mockResolvedValue([]);
+    vi.stubGlobal('$fetch', mockFetch);
 
     const store = useArticleStore();
     await store.fetchLatest(3);
@@ -61,13 +47,8 @@ describe('useArticleStore', () => {
   });
 
   it('fetchLatest uses default limit of 6', async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
-      data: ref([]),
-      error: ref(null),
-      pending: ref(false),
-      refresh: vi.fn(),
-    });
-    vi.stubGlobal('useFetch', mockFetch);
+    const mockFetch = vi.fn().mockResolvedValue([]);
+    vi.stubGlobal('$fetch', mockFetch);
 
     const store = useArticleStore();
     await store.fetchLatest();
@@ -76,15 +57,7 @@ describe('useArticleStore', () => {
   });
 
   it('fetchLatest does not overwrite latestArticles when data is null', async () => {
-    vi.stubGlobal(
-      'useFetch',
-      vi.fn().mockResolvedValue({
-        data: ref(null),
-        error: ref(null),
-        pending: ref(false),
-        refresh: vi.fn(),
-      }),
-    );
+    vi.stubGlobal('$fetch', vi.fn().mockResolvedValue(null));
 
     const store = useArticleStore();
     store.latestArticles = [...MOCK_ARTICLES];
