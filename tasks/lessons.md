@@ -63,3 +63,25 @@
 - **Problem:** `server/api/web-pages/index.get.ts` catches `/api/web-pages/` (root), conflicting with `[...path].get.ts` for the homepage path `/`.
 - **Fix:** Renamed to `list.get.ts` so it only matches `/api/web-pages/list`.
 - **Rule:** Don't use `index.get.ts` in an API directory that also has a catch-all route. Use a descriptive name like `list.get.ts`.
+
+## 2026-03-03 — E2E Test Verification Phase
+
+### Dev server HMR doesn't always reload Nitro server utils
+- **Problem:** After modifying `getPath()` in `app/utils/helpers.ts`, the SSR output still showed old behavior (empty hrefs). HMR didn't pick up the change.
+- **Fix:** Kill the dev server and restart it. After restart, the fix was applied correctly.
+- **Rule:** When SSR output doesn't reflect a utility function change, restart the dev server. HMR for SSR-critical code paths may not always trigger.
+
+### `new URL()` fails on relative paths
+- **Problem:** `getPath()` used `new URL(raw)` which throws on relative paths like `/side-shows/monsters`. This caused the function to fall through to the wrong fallback.
+- **Fix:** Check if the URL starts with `/` first and return it directly before attempting `new URL()`.
+- **Rule:** Always handle relative paths (`/foo/bar`) separately from absolute URLs before calling `new URL()`.
+
+### axe `link-in-text-block` requires underline or 3:1 contrast
+- **Problem:** Article body links had `color: inherit` with no underline, making them visually indistinguishable from surrounding text.
+- **Fix:** Added `text-decoration: underline` to `.article-body__text :deep(a)`.
+- **Rule:** Links within text blocks must either be underlined or have ≥3:1 contrast with surrounding text per WCAG 1.4.1.
+
+### axe `color-contrast` — date text needs ≥4.5:1 ratio
+- **Problem:** `popular-posts__date` used `#999` on `#f9f9f9` background (2.7:1 ratio).
+- **Fix:** Changed to `#595959` (6.67:1 ratio).
+- **Rule:** For text smaller than 18px/14px bold, ensure ≥4.5:1 contrast ratio with background.
