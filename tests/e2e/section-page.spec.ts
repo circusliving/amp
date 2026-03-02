@@ -12,9 +12,16 @@ test.describe('Dynamic Section Pages', () => {
     const toggle = page.locator('button[aria-label="Toggle navigation menu"]');
     await toggle.click();
 
-    // Find first link that is not /articles/ and not the homepage
-    const nav = page.locator('aside#sidebar nav a[href]:not([href="/"])');
-    const link = nav.first();
+    const sidebar = page.locator('aside#sidebar');
+    await expect(sidebar).toBeVisible();
+
+    // Open the first accordion section to reveal child links
+    const firstSummary = sidebar.locator('nav details summary').first();
+    await expect(firstSummary).toBeVisible({ timeout: 5_000 });
+    await firstSummary.click();
+
+    // Find first child link inside the expanded accordion
+    const link = sidebar.locator('nav details[open] a[href]').first();
     await expect(link).toBeVisible({ timeout: 5_000 });
     const href = await link.getAttribute('href');
     if (!href || href.startsWith('/articles/')) {

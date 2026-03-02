@@ -118,6 +118,11 @@ useSeoHead(
 
   :deep(a) {
     color: inherit;
+    text-decoration: underline;
+
+    &:hover {
+      color: #28b8d8;
+    }
   }
 }
 

@@ -36,7 +36,7 @@ const menuStore = useMenuStore();
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 1001;
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   max-height: 65px;

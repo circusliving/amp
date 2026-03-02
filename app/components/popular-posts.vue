@@ -139,7 +139,7 @@ function imgAttrs(article: Article): { src: string; srcset: string; alt: string 
 
   &__date {
     font-size: 12px;
-    color: #999;
+    color: #595959;
   }
 
   &__empty {

@@ -61,6 +61,32 @@ describe('getPath', () => {
     expect(getPath({})).toBe('');
   });
 
+  // ── Identifier fallback ───────────────────────────────────────────────────
+
+  it('falls back to /articles/:identifier when url is empty', () => {
+    expect(getPath({ url: '', identifier: 'my-article' })).toBe('/articles/my-article');
+  });
+
+  it('falls back to /articles/:identifier when url is undefined', () => {
+    expect(getPath({ identifier: 'my-article' })).toBe('/articles/my-article');
+  });
+
+  it('prefers url over identifier when url is valid', () => {
+    expect(
+      getPath({ url: 'https://example.com/custom-path', identifier: 'my-article' }),
+    ).toBe('/custom-path');
+  });
+
+  // ── Relative path input ───────────────────────────────────────────────────
+
+  it('returns relative path as-is from object', () => {
+    expect(getPath({ url: '/side-shows/monsters' })).toBe('/side-shows/monsters');
+  });
+
+  it('returns relative path as-is from string', () => {
+    expect(getPath('/side-shows/monsters')).toBe('/side-shows/monsters');
+  });
+
   // ── String input ──────────────────────────────────────────────────────────
 
   it('extracts the pathname from a plain URL string', () => {

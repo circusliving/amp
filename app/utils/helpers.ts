@@ -37,12 +37,20 @@ export function truncateText(text: string, maxLength = 150): string {
  * getPath({ url: 'https://www.circusliving.com/blog/post-1' })
  * // '/blog/post-1'
  */
-export function getPath(item: { url?: string } | string): string {
+export function getPath(item: { url?: string; identifier?: string } | string): string {
   const raw = typeof item === 'string' ? item : item?.url;
-  if (!raw) return '';
-  try {
-    return new URL(raw).pathname;
-  } catch {
-    return '';
+  if (raw) {
+    // Already a relative path — return as-is
+    if (raw.startsWith('/')) return raw;
+    try {
+      return new URL(raw).pathname;
+    } catch {
+      // fall through to identifier fallback
+    }
   }
+  // When `url` is missing or unparseable, fall back to /articles/:identifier
+  if (typeof item === 'object' && item?.identifier) {
+    return `/articles/${item.identifier}`;
+  }
+  return '';
 }

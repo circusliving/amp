@@ -73,7 +73,12 @@ test.describe('Navigation', () => {
     const toggle = page.locator('button[aria-label="Toggle navigation menu"]');
     await toggle.click();
 
-    const sideMenu = page.locator('nav.side-menu, aside#sidebar nav');
-    await expect(sideMenu.locator('a').first()).toBeVisible();
+    const sidebar = page.locator('aside#sidebar');
+    await expect(sidebar).toBeVisible();
+
+    // The menu uses details/summary accordion groups.
+    // Check that at least one summary (section label) or direct link is visible.
+    const navItem = sidebar.locator('nav summary, nav > ul > li > a').first();
+    await expect(navItem).toBeVisible({ timeout: 5_000 });
   });
 });
