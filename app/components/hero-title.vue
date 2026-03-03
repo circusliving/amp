@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useImageAttrs } from '../composables/use-image-attrs';
 
 interface HeroImage {
@@ -19,11 +20,31 @@ const { src, srcSet, alt } = useImageAttrs({
   url: () => props.image?.url ?? '',
   alt: () => props.image?.alt ?? '',
 });
+
+// Scroll-based parallax — mirrors what amp-fx="parallax" does.
+// The bg image is translated up at half the scroll speed of the page.
+const bgRef = ref<HTMLElement | null>(null);
+const PARALLAX_FACTOR = 0.35;
+
+function onScroll(): void {
+  if (!bgRef.value) return;
+  const offset = window.scrollY * PARALLAX_FACTOR;
+  bgRef.value.style.transform = `translateY(${offset}px)`;
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll);
+});
 </script>
 
 <template>
   <header class="hero" :class="{ 'hero--tint': tint }">
-    <div class="hero__bg" aria-hidden="true">
+    <div ref="bgRef" class="hero__bg" aria-hidden="true">
       <img
         v-if="src"
         class="hero__img"
@@ -57,9 +78,14 @@ const { src, srcSet, alt } = useImageAttrs({
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Oversized so the parallax shift never reveals a gap at top/bottom */
 .hero__bg {
   position: absolute;
-  inset: 0;
+  top: -20%;
+  left: 0;
+  right: 0;
+  bottom: -20%;
+  will-change: transform;
 }
 
 .hero__img {
