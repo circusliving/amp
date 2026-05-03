@@ -29,7 +29,7 @@ git clone https://github.com/circusliving/amp.git
 cd amp
 pnpm install
 ```
-
+   
 ### Environment Variables
 
 Copy `.env.example` to `.env` and populate:

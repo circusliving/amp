@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useImageAttrs } from '../composables/use-image-attrs';
 
+
 interface HeroImage {
   url: string;
   alt?: string;

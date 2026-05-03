@@ -38,7 +38,7 @@ const props = defineProps<{ article: Article }>();
 const path = computed(() => getPath(props.article));
 
 const { src, srcSet, alt } = useImageAttrs({
-  url: () => props.article.coverImage ?? props.article.image ?? '',
+  url: () => props.article.image ?? props.article.coverImage ?? '',
   alt: () => props.article.name,
 });
 </script>
