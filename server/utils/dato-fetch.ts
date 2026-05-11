@@ -11,6 +11,7 @@ import type {
 import { useDatoClient } from './dato-client';
 import {
   ALL_ARTICLES_QUERY,
+  ARTICLES_BY_TAGS_QUERY,
   ARTICLE_BY_IDENTIFIER_QUERY,
   LATEST_ARTICLES_WITH_LIMIT_QUERY,
   LATEST_ARTICLES_BY_TAGS_QUERY,
@@ -26,6 +27,17 @@ import {
  */
 export async function fetchArticles(): Promise<Article[]> {
   const data = await useDatoClient().request<AllArticlesResponse>(ALL_ARTICLES_QUERY);
+  return data.allArticles;
+}
+
+/**
+ * Fetches articles filtered by tag IDs, preserving DatoCMS item order.
+ */
+export async function fetchArticlesByTags(limit: number, tagIds: string[]): Promise<Article[]> {
+  const data = await useDatoClient().request<AllArticlesResponse>(
+    ARTICLES_BY_TAGS_QUERY,
+    { limit, tagIds },
+  );
   return data.allArticles;
 }
 

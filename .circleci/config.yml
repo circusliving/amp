@@ -1,55 +1,70 @@
-version: 2
+version: 2.1
 
 _defaults: &defaults
   working_directory: ~/circus/amp
   parallelism: 1
 
 jobs:
-  build:
+  build_and_push:
     <<: *defaults
     docker:
-      - image: cimg/node:16.20
+      - image: cimg/node:24.11
+    environment:
+      DOCKER_BUILDKIT: '1'
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: aws cli
+          name: Enable pnpm
           command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+            corepack enable
+            corepack prepare pnpm@10.29.3 --activate
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            - pnpm-cache-v1-{{ checksum "pnpm-lock.yaml" }}
+            - pnpm-cache-v1-
       - run:
-          name: install deps
-          command: yarn install
+          name: Install dependencies
+          command: pnpm install --frozen-lockfile
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: pnpm-cache-v1-{{ checksum "pnpm-lock.yaml" }}
           paths:
-            - ./node_modules   
+            - ~/.local/share/pnpm/store
       - run:
-          name: gen
+          name: Build app
+          command: pnpm build
+      - run:
+          name: Build and push Docker image
           command: |
-            if [ $CIRCLE_BRANCH == 'dev' ] || [ $CIRCLE_BRANCH == 'stg' ]
-            then
-              yarn gen:$CIRCLE_BRANCH
-            else
-              yarn gen
+            if [ -z "$DOCKERHUB_USERNAME" ] || [ -z "$DOCKERHUB_PASSWORD" ]; then
+              echo "DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD must be set in CircleCI."
+              exit 1
             fi
-      - run:
-          name: deploy
-          command: |
-            if [ $CIRCLE_BRANCH == 'dev' ] || [ $CIRCLE_BRANCH == 'stg' ]
-            then
-              yarn deploy:$CIRCLE_BRANCH
-            else
-              yarn deploy
-            fi 
+
+            IMAGE="${DOCKERHUB_IMAGE:-circusliving/amp}"
+            BRANCH_TAG="$(echo "$CIRCLE_BRANCH" | tr '/_' '--' | tr '[:upper:]' '[:lower:]')"
+            SHORT_SHA="$(echo "$CIRCLE_SHA1" | cut -c1-7)"
+
+            TAGS="-t ${IMAGE}:${BRANCH_TAG} -t ${IMAGE}:${BRANCH_TAG}-${SHORT_SHA}"
+            if [ "$CIRCLE_BRANCH" = "master" ]; then
+              TAGS="${TAGS} -t ${IMAGE}:latest"
+            fi
+
+            echo "$DOCKERHUB_PASSWORD" | docker login \
+              --username "$DOCKERHUB_USERNAME" \
+              --password-stdin
+
+            docker build ${TAGS} .
+            docker push "${IMAGE}:${BRANCH_TAG}"
+            docker push "${IMAGE}:${BRANCH_TAG}-${SHORT_SHA}"
+            if [ "$CIRCLE_BRANCH" = "master" ]; then
+              docker push "${IMAGE}:latest"
+            fi
 
 workflows:
-  version: 2
-  build_and_deploy:
+  build_and_push:
     jobs:
-      - build:
+      - build_and_push:
           filters:
             branches:
-              only: /^(master|dev|stg)$/
+              only: /^(master|dev|stg|releaser)$/

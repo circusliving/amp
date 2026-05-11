@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    datoApiToken: '', // NUXT_DATO_API_TOKEN
+    datoApiToken: process.env.NUXT_DATO_API_TOKEN || process.env.DATO_READ_ONLY || '',
     public: {
       baseUrl: '', // NUXT_PUBLIC_BASE_URL
       canonicalBaseUrl: '', // NUXT_PUBLIC_CANONICAL_BASE_URL

@@ -14,7 +14,7 @@ export function useDatoClient(): GraphQLClient {
     if (!config.datoApiToken) {
       throw createError({
         statusCode: 503,
-        message: 'DatoCMS API token is not configured. Set NUXT_DATO_API_TOKEN in your .env file.',
+        message: 'DatoCMS API token is not configured. Set NUXT_DATO_API_TOKEN or DATO_READ_ONLY in your .env file.',
       });
     }
 

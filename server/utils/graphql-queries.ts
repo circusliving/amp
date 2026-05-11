@@ -7,6 +7,7 @@ import type { PlaceResponse, IdentifierByValueResponse } from '../../shared/type
 
 export type QueryResponseMap = {
   ALL_ARTICLES_QUERY: AllArticlesResponse;
+  ARTICLES_BY_TAGS_QUERY: AllArticlesResponse;
   ARTICLE_BY_IDENTIFIER_QUERY: ArticleResponse;
   LATEST_ARTICLES_WITH_LIMIT_QUERY: AllArticlesResponse;
   LATEST_ARTICLES_BY_TAGS_QUERY: AllArticlesResponse;
@@ -30,6 +31,27 @@ export const ALL_ARTICLES_QUERY = /* GraphQL */ `
       image
       coverImage
       url
+    }
+  }
+`;
+
+/** Fetch articles filtered by tag IDs, preserving DatoCMS item order. */
+export const ARTICLES_BY_TAGS_QUERY = /* GraphQL */ `
+  query articlesByTags($limit: IntType!, $tagIds: [ItemId!]!) {
+    allArticles(
+      first: $limit
+      filter: { tags: { anyIn: $tagIds } }
+    ) {
+      identifier
+      name
+      alternateName
+      description
+      image
+      coverImage
+      url
+      _updatedAt
+      _firstPublishedAt
+      jsonLd(markdown: false)
     }
   }
 `;

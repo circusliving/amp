@@ -1,20 +1,43 @@
 <script setup lang="ts">
 import type { Article } from '~~/shared/types/article';
+import type { WebPage } from '~~/shared/types/web-page';
 
-const { webPage } = useWebPage();
+const route = useRoute();
+
+const { data: webPage, error } = await useFetch<WebPage>(
+  () => `/api/web-pages${route.path}`,
+);
+
+useSeoHead(
+  computed(() => ({
+    title: webPage.value?.alternateName || webPage.value?.name || '',
+    description: webPage.value?.description ?? '',
+    canonicalPath: route.path,
+    image: webPage.value?.image
+      ? { url: webPage.value.image }
+      : undefined,
+  })),
+);
+
+if (error.value?.statusCode === 404) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' });
+}
 
 // Build query params for article fetch — filter by widget tags when available
 const articleQuery = computed(() => {
-  const params: Record<string, string | number> = { limit: 12 };
+  const params: Record<string, string | number> = {
+    limit: webPage.value?.widget ? 50 : 12,
+  };
   const tagIds = webPage.value?.widgetTags?.map(t => t.id).join(',');
   if (tagIds) params.tags = tagIds;
   return params;
 });
 
 // Fetch articles for widget content (card list or image list)
-const { data: articles } = await useFetch<Article[]>('/api/articles/latest', {
+const articlesEndpoint = computed(() => webPage.value?.widget ? '/api/articles' : '/api/articles/latest');
+
+const { data: articles } = await useFetch<Article[]>(articlesEndpoint, {
   query: articleQuery,
-  watch: [articleQuery],
 });
 
 const heroImage = computed(() =>

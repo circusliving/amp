@@ -56,6 +56,7 @@ function displayName(item: MenuItem): string {
 <style scoped lang="scss">
 $link-color: #fff;
 $link-active-color: rgb(40, 184, 216);
+$link-current-color: rgba(255, 255, 255, 0.55);
 
 .side-menu {
   &__list,
@@ -73,6 +74,10 @@ $link-active-color: rgb(40, 184, 216);
     > summary {
       list-style: none;
 
+      &::marker {
+        content: '';
+      }
+
       &::-webkit-details-marker {
         display: none;
       }
@@ -80,13 +85,12 @@ $link-active-color: rgb(40, 184, 216);
   }
 
   &__summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: block;
     cursor: pointer;
-    padding: 0.6em 0;
-    color: $link-active-color;
+    padding: 0.45em 0;
+    color: $link-color;
     font-size: 1em;
+    line-height: 1.25;
     border: none;
     background: none;
     text-decoration: none;
@@ -96,16 +100,6 @@ $link-active-color: rgb(40, 184, 216);
       outline-offset: 2px;
     }
 
-    &::after {
-      content: '▼';
-      font-size: 0.7em;
-      transition: transform 0.2s ease;
-    }
-
-    details[open] > &::after {
-      transform: rotate(-180deg);
-    }
-
     &:hover {
       color: $link-active-color;
       transition: all 200ms ease-in;
@@ -113,20 +107,32 @@ $link-active-color: rgb(40, 184, 216);
   }
 
   &__sub-list {
-    padding-left: 1em;
+    padding-left: 0.75em;
   }
 
   &__link {
     display: block;
-    padding: 0.6em 0;
+    padding: 0.45em 0;
     color: $link-color;
     text-decoration: none;
     white-space: nowrap;
     font-size: 1em;
+    line-height: 1.25;
 
     &:hover {
       color: $link-active-color;
       transition: all 200ms ease-in;
+    }
+
+    &.router-link-active,
+    &.router-link-exact-active {
+      color: $link-current-color;
+      background: transparent;
+    }
+
+    &.router-link-active:hover,
+    &.router-link-exact-active:hover {
+      color: $link-current-color;
     }
 
     &--child {
