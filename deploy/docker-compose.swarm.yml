@@ -1,0 +1,67 @@
+# Circus Living — Swarm stack (dev / stg / prod, parameterized).
+#
+# One compose file deployed three times under three different stack names so
+# dev, stg, and prod can co-exist on the same single-node swarm manager
+# (personal-infra ec2). Per-env values are driven by the variables below; see
+# .env.deploy.example for the full set.
+#
+# Deploy (run on the swarm manager):
+#   STACK_ENV=dev \
+#   STACK_HOSTNAME=dev.circusliving.com \
+#   IMAGE_TAG=dev-abc1234 \
+#   docker stack deploy -c deploy/docker-compose.swarm.yml circusliving-dev
+#
+# Required external resources on the manager:
+#   - overlay network: traefik-public (created by swarm/traefik stack)
+#   - secret: ${DATO_SECRET_NAME:-dato_api_token} (DatoCMS API token)
+#
+# Image registry: AWS ECR. The default IMAGE points at the personal-infra
+# account; override with IMAGE if you need to deploy a fork or a mirror.
+
+services:
+  web:
+    image: ${IMAGE:-231549978717.dkr.ecr.us-east-1.amazonaws.com/circusliving/amp}:${IMAGE_TAG:-latest}
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+      NUXT_DATO_API_TOKEN_FILE: /run/secrets/dato_api_token
+      NUXT_PUBLIC_BASE_URL: https://${STACK_HOSTNAME}
+      NUXT_PUBLIC_CANONICAL_BASE_URL: ${NUXT_PUBLIC_CANONICAL_BASE_URL:-https://www.circusliving.com}
+      NUXT_PUBLIC_GA_TAG_ID: ${NUXT_PUBLIC_GA_TAG_ID:-}
+    networks:
+      - traefik-public
+    secrets:
+      - dato_api_token
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://localhost:8000/ >/dev/null || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    deploy:
+      replicas: ${REPLICAS:-1}
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+      update_config:
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        order: stop-first
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.circusliving-${STACK_ENV}.rule=Host(`${STACK_HOSTNAME}`)
+        - traefik.http.routers.circusliving-${STACK_ENV}.entrypoints=websecure
+        - traefik.http.routers.circusliving-${STACK_ENV}.tls=true
+        - traefik.http.routers.circusliving-${STACK_ENV}.tls.certresolver=letsencrypt
+        - traefik.http.services.circusliving-${STACK_ENV}.loadbalancer.server.port=8000
+
+networks:
+  traefik-public:
+    external: true
+
+secrets:
+  dato_api_token:
+    external: true
+    name: ${DATO_SECRET_NAME:-dato_api_token}

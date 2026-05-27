@@ -1,0 +1,108 @@
+name: build-and-push
+
+on:
+  push:
+    branches: [master, stg, dev]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch or sha to build'
+        required: false
+        default: ''
+
+permissions:
+  id-token: write       # OIDC: assume the AWS role
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 231549978717.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REPOSITORY: circusliving/amp
+  # Provisioned by personal-infra/cdk/lib/ecr-stack.ts (GitHub OIDC trust
+  # narrowed to the circusliving/amp repo).
+  AWS_ROLE_TO_ASSUME: arn:aws:iam::231549978717:role/circusliving-amp-ghactions-push
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Resolve image tags
+        id: tags
+        run: |
+          set -euo pipefail
+          BRANCH="${GITHUB_REF_NAME}"
+          SHORT_SHA="$(echo "$GITHUB_SHA" | cut -c1-7)"
+          IMAGE="${ECR_REGISTRY}/${ECR_REPOSITORY}"
+
+          case "$BRANCH" in
+            master) ENV_TAG=prod ;;
+            stg)    ENV_TAG=stg ;;
+            dev)    ENV_TAG=dev ;;
+            *)      ENV_TAG="$(echo "$BRANCH" | tr '/_' '--' | tr '[:upper:]' '[:lower:]')" ;;
+          esac
+
+          TAGS="${IMAGE}:${ENV_TAG},${IMAGE}:${ENV_TAG}-${SHORT_SHA}"
+          if [ "$BRANCH" = "master" ]; then
+            TAGS="${TAGS},${IMAGE}:latest"
+          fi
+
+          {
+            echo "tags=${TAGS}"
+            echo "env_tag=${ENV_TAG}"
+            echo "short_sha=${SHORT_SHA}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU (arm64 emulation)
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push (linux/arm64)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          # The personal-infra swarm manager is t4g.large (Graviton/arm64),
+          # so we only build arm64. Add linux/amd64 later if a non-Graviton
+          # node ever joins the swarm.
+          platforms: linux/arm64
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: false
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.ref.name=${{ github.ref_name }}
+
+      - name: Summary
+        run: |
+          {
+            echo "### Pushed to ECR"
+            echo ""
+            echo "- env: \`${{ steps.tags.outputs.env_tag }}\`"
+            echo "- sha: \`${{ steps.tags.outputs.short_sha }}\`"
+            echo "- tags:"
+            echo '```'
+            echo "${{ steps.tags.outputs.tags }}" | tr ',' '\n'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
