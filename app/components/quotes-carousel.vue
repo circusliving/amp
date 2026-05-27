@@ -21,7 +21,7 @@ function goTo(index: number): void {
 
 <template>
   <section class="quotes-carousel">
-    <!-- Parallax background (CSS, no AMP) -->
+    <!-- Parallax background -->
     <div class="quotes-carousel__bg" aria-hidden="true" />
 
     <!-- Carousel region -->
@@ -89,7 +89,6 @@ function goTo(index: number): void {
   min-height: 350px;
 }
 
-/* CSS parallax background — replaces amp-img amp-fx="parallax" */
 .quotes-carousel__bg {
   position: absolute;
   inset: 0;

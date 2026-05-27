@@ -1,6 +1,5 @@
 /**
- * Processes HTML content from DatoCMS article bodies.
- * Since AMP has been dropped, article body HTML passes through as-is,
+ * Processes HTML content from DatoCMS article bodies — passes through as-is
  * with the addition of `loading="lazy"` on any img tags that lack it.
  */
 

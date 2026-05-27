@@ -1,15 +1,5 @@
 <!--
   ImageList — Responsive image grid for gallery-style pages.
-
-  Migrated from `components/amp/ImageList.vue` (AMP → standard HTML/Vue 3).
-
-  Changes vs old component:
-  - Replaced `<amp-img layout="responsive" amp-fx="fly-in-bottom">` with
-    `<img loading="lazy">` + CSS `width: 100%; height: auto;`
-  - Fly-in animation re-implemented with CSS transitions + IntersectionObserver
-    (no AMP dependency)
-  - Replaced `<nuxt-link>` with `<NuxtLink>`
-  - Replaced helpers.js imports with `getPath()` utility function
 -->
 <script setup lang="ts">
 import type { Article } from '~~/shared/types/article';
@@ -71,8 +61,6 @@ function createObserver(): void {
   );
 }
 
-// Fly-in animation via IntersectionObserver — replaces `amp-fx="fly-in-bottom"`.
-// Items can arrive after mount, so re-observe whenever the list changes.
 onMounted(() => {
   if ('IntersectionObserver' in window) createObserver();
   void observeItems();

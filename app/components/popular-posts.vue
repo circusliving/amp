@@ -1,16 +1,5 @@
 <!--
   PopularPosts — Sidebar widget displaying the latest articles.
-
-  Migrated from `components/amp/PopularPosts.vue` (Vuex → Pinia, Vue 2 → Vue 3).
-
-  Changes vs old component:
-  - Replaced `import { mapGetters } from 'vuex'` with `useArticleStore()` (Pinia)
-  - Replaced Vue 2 `filters: { dateFormat }` with `formatDate()` function call
-  - Replaced `created()` hook with `<script setup>` body call
-  - Removed dead `src()` function that was never called
-  - Fixed `v-bind:key` bug (old: `:key` with no value → new: `:key="article.identifier"`)
-  - Replaced `<nuxt-link>` with `<NuxtLink>`
-  - Replaced `<amp-img>` with `<img loading="lazy">`
 -->
 <script setup lang="ts">
 import type { Article } from '~~/shared/types/article';

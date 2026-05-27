@@ -22,8 +22,6 @@ const { src, srcSet, alt } = useImageAttrs({
   alt: () => props.image?.alt ?? '',
 });
 
-// Scroll-based parallax — mirrors what amp-fx="parallax" does.
-// The bg image is translated up at half the scroll speed of the page.
 const bgRef = ref<HTMLElement | null>(null);
 const PARALLAX_FACTOR = 0.35;
 

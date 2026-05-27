@@ -26,11 +26,6 @@ export interface UseImageAttrsReturn {
  * Composable that converts a raw image URL into reactive `src`, `srcset`, and
  * `alt` attributes suitable for use on an `<img>` element.
  *
- * Replaces the duplicated width/height/alt computed properties in:
- *   - `components/amp/PageBody.vue`
- *   - `components/amp/HeroTitle.vue`
- *   - `pages/articles/_id.vue`
- *
  * @example
  * ```vue
  * <script setup lang="ts">
