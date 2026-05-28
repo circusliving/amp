@@ -1,21 +1,9 @@
-import { readFileSync } from 'node:fs';
-
-// Resolves the DatoCMS API token from (in order): NUXT_DATO_API_TOKEN env,
-// DATO_READ_ONLY env, or NUXT_DATO_API_TOKEN_FILE (Docker secret pattern —
-// the swarm stack mounts /run/secrets/dato_api_token and points this var
-// at it). Reading the file at build/boot time keeps useRuntimeConfig()
-// synchronous everywhere downstream.
-const resolveDatoToken = (): string => {
-  const inline = process.env.NUXT_DATO_API_TOKEN || process.env.DATO_READ_ONLY;
-  if (inline) return inline;
-  const file = process.env.NUXT_DATO_API_TOKEN_FILE;
-  if (!file) return '';
-  try {
-    return readFileSync(file, 'utf8').trim();
-  } catch {
-    return '';
-  }
-};
+// Resolves the DatoCMS API token from NUXT_DATO_API_TOKEN / DATO_READ_ONLY.
+// NOTE: this runs at BUILD time only, so in the deployed container the secret
+// (mounted at runtime via NUXT_DATO_API_TOKEN_FILE) is NOT available here —
+// the build-time value is empty. server/utils/dato-client.ts reads the
+// secret file at first use as a runtime fallback.
+const resolveDatoToken = (): string => process.env.NUXT_DATO_API_TOKEN || process.env.DATO_READ_ONLY || '';
 
 export default defineNuxtConfig({
   compatibilityDate: '2026-02-23',

@@ -1,25 +1,33 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { GraphQLClient } from 'graphql-request';
 
 // Always reset the module-level singleton before each test so tests are isolated.
 let resetDatoClient: () => void;
 let useDatoClient: () => GraphQLClient;
 
+const loadModule = async () => {
+  vi.resetModules();
+  const mod = await import('../dato-client');
+  useDatoClient = mod.useDatoClient;
+  resetDatoClient = mod._resetDatoClient;
+};
+
 beforeEach(async () => {
   // Stub the Nitro auto-import `useRuntimeConfig` before importing the module.
   vi.stubGlobal('useRuntimeConfig', () => ({
     datoApiToken: 'test-token-abc',
   }));
+  vi.stubGlobal('createError', (e: { statusCode: number; message: string }) => Object.assign(new Error(e.message), e));
 
-  // Reset module registry so the singleton starts null for each test.
-  vi.resetModules();
-  const mod = await import('../dato-client');
-  useDatoClient = mod.useDatoClient;
-  resetDatoClient = mod._resetDatoClient;
+  await loadModule();
 });
 
 afterEach(() => {
   resetDatoClient?.();
+  delete process.env.NUXT_DATO_API_TOKEN_FILE;
   vi.unstubAllGlobals();
 });
 
@@ -51,5 +59,28 @@ describe('useDatoClient', () => {
     resetDatoClient();
     const second = useDatoClient();
     expect(first).not.toBe(second);
+  });
+
+  it('falls back to NUXT_DATO_API_TOKEN_FILE when runtimeConfig token is empty', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'dato-'));
+    const file = join(dir, 'token');
+    writeFileSync(file, '  secret-from-file\n');
+    process.env.NUXT_DATO_API_TOKEN_FILE = file;
+
+    vi.stubGlobal('useRuntimeConfig', () => ({ datoApiToken: '' }));
+    vi.stubGlobal('createError', (e: { statusCode: number; message: string }) => Object.assign(new Error(e.message), e));
+    await loadModule();
+
+    // Should not throw — token resolved from the secret file.
+    expect(() => useDatoClient()).not.toThrow();
+    rmSync(dir, { recursive: true, force: true });
+  });
+
+  it('throws 503 when neither runtimeConfig token nor secret file is available', async () => {
+    vi.stubGlobal('useRuntimeConfig', () => ({ datoApiToken: '' }));
+    vi.stubGlobal('createError', (e: { statusCode: number; message: string }) => Object.assign(new Error(e.message), e));
+    await loadModule();
+
+    expect(() => useDatoClient()).toThrow(/not configured/);
   });
 });
