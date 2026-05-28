@@ -25,6 +25,11 @@ RUN pnpm build
 FROM node:24-bookworm-slim AS runner
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
+# wget is used by the swarm healthcheck in deploy/docker-compose.swarm.yml.
+# Without it the healthcheck exits 127 and Swarm rolls back the deploy.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends wget && \
+    rm -rf /var/lib/apt/lists/*
 RUN groupadd --system nodejs && useradd --system --gid nodejs nuxt
 COPY --from=base /usr/bin/dumb-init /usr/bin/dumb-init
 COPY --from=deps /usr/src/app/node_modules ./node_modules
